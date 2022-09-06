@@ -58,6 +58,9 @@ namespace Unity.FPS.Game
         [Tooltip("Angle for the cone in which the bullets will be shot randomly (0 means no spread at all)")]
         public float BulletSpreadAngle = 0f;
 
+        [Tooltip("Angle for the cone in which the bullets will be shot randomly, when aiming(0 means no spread at all)")]
+        public float AimingBulletSpreadAngle = 0f;
+
         [Tooltip("Amount of bullets per shot")]
         public int BulletsPerShot = 1;
 
@@ -136,6 +139,7 @@ namespace Unity.FPS.Game
         int m_CarriedPhysicalBullets;
         float m_CurrentAmmo;
         float m_LastTimeShot = Mathf.NegativeInfinity;
+        bool m_IsAiming;
         public float LastChargeTriggerTimestamp { get; private set; }
         Vector3 m_LastMuzzlePosition;
 
@@ -162,6 +166,7 @@ namespace Unity.FPS.Game
         const string k_AnimAttackParameter = "Attack";
 
         private Queue<Rigidbody> m_PhysicalAmmoPool;
+        //private PlayerWeaponsManager  m_PlayerWeaponManager;
 
         void Awake()
         {
@@ -202,8 +207,8 @@ namespace Unity.FPS.Game
         {
             Rigidbody nextShell = m_PhysicalAmmoPool.Dequeue();
 
-            nextShell.transform.position = EjectionPort.transform.position;
-            nextShell.transform.rotation = EjectionPort.transform.rotation;
+            nextShell.transform.SetPositionAndRotation(EjectionPort.transform.position, 
+                EjectionPort.transform.rotation);
             nextShell.gameObject.SetActive(true);
             nextShell.transform.SetParent(null);
             nextShell.collisionDetectionMode = CollisionDetectionMode.Continuous;
@@ -219,7 +224,7 @@ namespace Unity.FPS.Game
         {
             if (m_CarriedPhysicalBullets > 0)
             {
-                m_CurrentAmmo = Mathf.Min(m_CarriedPhysicalBullets, ClipSize);
+                m_CurrentAmmo = Mathf.Min(MaxAmmo, m_CarriedPhysicalBullets);
             }
 
             IsReloading = false;
@@ -350,8 +355,9 @@ namespace Unity.FPS.Game
             m_LastTimeShot = Time.time;
         }
 
-        public bool HandleShootInputs(bool inputDown, bool inputHeld, bool inputUp)
+        public bool HandleShootInputs(bool inputDown, bool inputHeld, bool inputUp, bool isAiming = false)
         {
+            m_IsAiming = isAiming;
             m_WantsToShoot = inputDown || inputHeld;
             switch (ShootType)
             {
@@ -492,7 +498,11 @@ namespace Unity.FPS.Game
 
         public Vector3 GetShotDirectionWithinSpread(Transform shootTransform)
         {
-            float spreadAngleRatio = BulletSpreadAngle / 180f;
+            float spread = m_IsAiming ? AimingBulletSpreadAngle : 
+                BulletSpreadAngle;
+
+            float spreadAngleRatio = spread / 180f;
+
             Vector3 spreadWorldDirection = Vector3.Slerp(shootTransform.forward, UnityEngine.Random.insideUnitSphere,
                 spreadAngleRatio);
 

@@ -142,7 +142,8 @@ namespace Unity.FPS.Gameplay
                 bool hasFired = activeWeapon.HandleShootInputs(
                     m_InputHandler.GetFireInputDown(),
                     m_InputHandler.GetFireInputHeld(),
-                    m_InputHandler.GetFireInputReleased());
+                    m_InputHandler.GetFireInputReleased(),
+                    IsAiming);
 
                 // Handle accumulating recoil
                 if (hasFired)
