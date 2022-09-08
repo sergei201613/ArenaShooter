@@ -1951,7 +1951,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28388
+  m_Name: pb_Mesh28394
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2332,12 +2332,12 @@ GameObject:
   - component: {fileID: 1017740751}
   - component: {fileID: 1017740750}
   m_Layer: 0
-  m_Name: DungeonGenerator
+  m_Name: RWDungeonGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1017740750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2350,13 +2350,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66284ab8b701e9740ae3097dce074e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _floorPrefab: {fileID: 7526535212117748116, guid: bcff287f32601f54c9a8e52aaa136e3b,
+  playerPrefab: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
     type: 3}
-  _positionsMultiplier: 1
-  _startPosition: {x: 0, y: 0}
-  _iterations: 10
-  _walkLength: 10
-  _startRandomlyEachIteration: 1
+  floorPrefab: {fileID: 7526535212117748116, guid: bcff287f32601f54c9a8e52aaa136e3b,
+    type: 3}
+  basicWallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
+    type: 3}
+  startPosition: {x: 0, y: 0}
+  scale: 1
+  height: 15
+  _generateOnAwake: 1
+  parameters: {fileID: 11400000, guid: 6d5c6c56e2eef0f4c9022f209c4395b5, type: 2}
 --- !u!4 &1017740751
 Transform:
   m_ObjectHideFlags: 0
@@ -3082,6 +3086,65 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d66715b581ba6c64196475b9b11a2e8c, type: 3}
+--- !u!1 &1527825091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1527825093}
+  - component: {fileID: 1527825092}
+  m_Layer: 0
+  m_Name: CFDungeonGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1527825092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527825091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603bb84667f2b08498fc022dd3880473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
+    type: 3}
+  floorPrefab: {fileID: 7526535212117748116, guid: bcff287f32601f54c9a8e52aaa136e3b,
+    type: 3}
+  basicWallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
+    type: 3}
+  startPosition: {x: 0, y: 0}
+  scale: 2
+  height: 15
+  _generateOnAwake: 1
+  parameters: {fileID: 11400000, guid: 6d5c6c56e2eef0f4c9022f209c4395b5, type: 2}
+  _corridorLength: 8
+  _corridorCount: 128
+  _roomPercent: 0.8
+  _wideCorridors: 0
+--- !u!4 &1527825093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527825091}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 34
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1538020868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2141676431450117668, guid: cd17687759887a0438ee021e51abc9d9,
@@ -3324,7 +3387,7 @@ PrefabInstance:
     - target: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a130616c5cba9b9468f8b8178e07af43, type: 3}

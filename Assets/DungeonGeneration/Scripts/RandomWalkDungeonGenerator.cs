@@ -5,55 +5,41 @@ using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
 {
-    public class RandomWalkDungeonGenerator : MonoBehaviour
+    public class RandomWalkDungeonGenerator : DungeonGenerator
     {
         [SerializeField]
-        private GameObject _floorPrefab;
-        [SerializeField]
-        private int _positionsMultiplier = 1;
-        [SerializeField]
-        private Vector2Int _startPosition;
-        [SerializeField]
-        private int _iterations = 10;
-        [SerializeField]
-        private int _walkLength = 10;
-        [SerializeField]
-        private bool _startRandomlyEachIteration = true;
+        protected RandomWalkParameters parameters;
 
-        private void Awake()
+        private int _iterations;
+        private int _walkLength;
+        private bool _startIterationFromRandomPosition;
+
+        public override void Generate()
         {
-            Generate();
+            InitializeParameters();
+            base.Generate();
         }
 
-        // TODO: To base class
-        public void Generate()
+        private void InitializeParameters()
         {
-            var floorPositions = RunRandomWalk();
-
-            foreach (var rawPosition in floorPositions)
-            {
-                int x = rawPosition.x * _positionsMultiplier;
-                int z = rawPosition.y * _positionsMultiplier;
-
-                var position = new Vector3(x, 15, z);
-
-                Instantiate(_floorPrefab, position, Quaternion.identity, transform);
-            }
+            _iterations = parameters.Iterations;
+            _walkLength = parameters.WalkLength;
+            _startIterationFromRandomPosition =
+                parameters.StartIterationFromRandomPosition;
         }
 
-        private HashSet<Vector2Int> RunRandomWalk()
+        public override HashSet<Vector2Int> GenerateFloorPositions()
         {
-            var currentPos = _startPosition;
+            var currentPos = startPosition;
             var floorPositions = new HashSet<Vector2Int>();
 
             for (int i = 0; i < _iterations; i++)
             {
-                var path = ProceduralGenerationAlgorithms
-                    .RandomWalk(currentPos, _walkLength);
+                var path = PGAlgorithms.RandomWalk(currentPos, _walkLength);
 
                 floorPositions.UnionWith(path);
 
-                if (_startRandomlyEachIteration)
+                if (_startIterationFromRandomPosition)
                 {
                     int index = Random.Range(0, floorPositions.Count);
                     currentPos = floorPositions.ElementAt(index);

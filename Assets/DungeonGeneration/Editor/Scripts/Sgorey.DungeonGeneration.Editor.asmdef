@@ -1,0 +1,16 @@
+{
+    "name": "Sgorey.DungeonGeneration.Editor",
+    "rootNamespace": "Sgorey.DungeonGeneration.Editor",
+    "references": [
+        "GUID:70c98084bec0db8479a30b4318126756"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
