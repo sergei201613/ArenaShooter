@@ -31,12 +31,12 @@ namespace Sgorey.DungeonGeneration
             }
         }
 
-        public abstract HashSet<Vector2Int> GenerateFloorPositions(Vector2Int 
+        public abstract HashSet<Vector2Int> GenerateFloor(Vector2Int 
             startPosition);
 
         public virtual void Generate()
         {
-            var floorPositions = GenerateFloorPositions(startPosition);
+            var floorPositions = GenerateFloor(startPosition);
             SpawnElements(floorPositions, floorPrefab);
 
             var wallPositions = GenerateWallPositions(floorPositions);

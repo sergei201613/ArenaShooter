@@ -3127,9 +3127,9 @@ MonoBehaviour:
   _generateOnAwake: 1
   parameters: {fileID: 11400000, guid: 80bc13b250e38e2478b8f8d6d3074065, type: 2}
   _corridorLength: 40
-  _corridorCount: 5
-  _roomPercent: 1
-  _wideCorridors: 1
+  _corridorCount: 10
+  _roomPercent: 0.8
+  _wideCorridors: 0
 --- !u!4 &1527825093
 Transform:
   m_ObjectHideFlags: 0

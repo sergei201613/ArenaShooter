@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
 {
@@ -17,44 +17,77 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         private bool _wideCorridors;
 
-        public override HashSet<Vector2Int> GenerateFloorPositions(Vector2Int
+        public override HashSet<Vector2Int> GenerateFloor(Vector2Int
             startPosition)
         {
-            var floorPositions = new HashSet<Vector2Int>();
-            var potentialRoomPositions = new HashSet<Vector2Int>();
+            var floor = new HashSet<Vector2Int>();
 
-            GenerateCorridorPositions(floorPositions, potentialRoomPositions);
-            var roomPositions = GenerateRoomPositions(potentialRoomPositions);
+            var corridors = GenerateCorridors(out var potentialRooms);
+            var rooms = GenerateRooms(potentialRooms);
 
-            floorPositions.UnionWith(roomPositions);
-            return floorPositions;
+            floor.UnionWith(corridors);
+            floor.UnionWith(rooms);
+
+            List<Vector2Int> deadEnds = FindDeadEnds(floor);
+            var deadEndRooms = GenerateDeadEndRooms(deadEnds, rooms);
+
+            floor.UnionWith(deadEndRooms);
+            return floor;
         }
 
-        private HashSet<Vector2Int> GenerateRoomPositions(HashSet<Vector2Int> 
-            potentialRoomPositions)
+        private HashSet<Vector2Int> GenerateDeadEndRooms(
+            in List<Vector2Int> deadEnds, in HashSet<Vector2Int> rooms)
         {
-            var roomPositions = new HashSet<Vector2Int>();
-            int roomCount = Mathf.RoundToInt(potentialRoomPositions.Count * 
-                _roomPercent);
-
-            List<Vector2Int> roomsToCreate = potentialRoomPositions
-                .OrderBy(x => Guid.NewGuid())
-                .Take(roomCount)
-                .ToList();
-
-            foreach (var roomPosition in roomsToCreate)
+            foreach (var deadEnd in deadEnds)
             {
-                var roomFloor = base.GenerateFloorPositions(roomPosition);
-                roomPositions.UnionWith(roomFloor);
+                if (!rooms.Contains(deadEnd))
+                {
+                    var roomFloor = base.GenerateFloor(deadEnd);
+                    rooms.UnionWith(roomFloor);
+                }
             }
-
-            return roomPositions;
+            return rooms;
         }
 
-        private void GenerateCorridorPositions(HashSet<Vector2Int> floorPositions, HashSet<Vector2Int> potentialRoomPositions)
+        private List<Vector2Int> FindDeadEnds(in HashSet<Vector2Int> positions)
+        {
+            var deadEnds = new List<Vector2Int>();
+            foreach (var position in positions)
+            {
+                int neighborCount = 0;
+                foreach (var dir in Vector2IntHelper.CardinalDirections)
+                {
+                    if (positions.Contains(position + dir))
+                        neighborCount++;
+                }
+                if (neighborCount == 1)
+                    deadEnds.Add(position);
+            }
+            return deadEnds;
+        }
+
+        private HashSet<Vector2Int> GenerateRooms(in IEnumerable<Vector2Int> 
+            potentialRooms)
+        {
+            var rooms = new HashSet<Vector2Int>();
+            foreach (var roomPosition in potentialRooms)
+            {
+                if (Random.Range(0f, 1) <= _roomPercent)
+                {
+                    var roomFloor = base.GenerateFloor(roomPosition);
+                    rooms.UnionWith(roomFloor);
+                }
+            }
+            return rooms;
+        }
+
+        private IEnumerable<Vector2Int> GenerateCorridors(out HashSet<Vector2Int> 
+            potentialRooms)
         {
             var currentPos = startPosition;
-            potentialRoomPositions.Add(currentPos);
+            var floorPositions = new HashSet<Vector2Int>();
+
+            potentialRooms = new HashSet<Vector2Int> { currentPos };
 
             for (int i = 0; i < _corridorCount; i++)
             {
@@ -62,9 +95,10 @@ namespace Sgorey.DungeonGeneration
                     _corridorLength, _wideCorridors);
 
                 currentPos = corridor[^1];
-                potentialRoomPositions.Add(currentPos);
+                potentialRooms.Add(currentPos);
                 floorPositions.UnionWith(corridor);
             }
+            return floorPositions;
         }
     }
 }
