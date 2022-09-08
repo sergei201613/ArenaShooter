@@ -3125,11 +3125,11 @@ MonoBehaviour:
   scale: 2
   height: 15
   _generateOnAwake: 1
-  parameters: {fileID: 11400000, guid: 6d5c6c56e2eef0f4c9022f209c4395b5, type: 2}
-  _corridorLength: 8
-  _corridorCount: 128
-  _roomPercent: 0.8
-  _wideCorridors: 0
+  parameters: {fileID: 11400000, guid: 80bc13b250e38e2478b8f8d6d3074065, type: 2}
+  _corridorLength: 40
+  _corridorCount: 5
+  _roomPercent: 1
+  _wideCorridors: 1
 --- !u!4 &1527825093
 Transform:
   m_ObjectHideFlags: 0
