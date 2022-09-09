@@ -45,6 +45,80 @@ namespace Sgorey.DungeonGeneration
             }
             return corridor;
         }
+
+        public static List<BoundsInt> BinarySpacePartitioning(
+            BoundsInt spaceToSplit, int minWidth, int minHeight)
+        {
+            var roomsToSplit = new Queue<BoundsInt>();
+            var splittedRooms = new List<BoundsInt>();
+            roomsToSplit.Enqueue(spaceToSplit);
+            while (roomsToSplit.Count > 0)
+            {
+                var room = roomsToSplit.Dequeue();
+                if (room.size.y >= minHeight && room.size.x >= minWidth)
+                {
+                    if (Random.value < .5f)
+                    {
+                        if (room.size.y >= minHeight * 2)
+                            SplitHorizontally(minHeight, roomsToSplit, room);
+                        else if (room.size.x >= minWidth * 2)
+                            SplitVertically(minWidth, roomsToSplit, room);
+                        else
+                            splittedRooms.Add(room);
+                    }
+                    else
+                    {
+                        if (room.size.x >= minWidth * 2)
+                            SplitVertically(minWidth, roomsToSplit, room);
+                        else if (room.size.y >= minHeight * 2)
+                            SplitHorizontally(minHeight, roomsToSplit, room);
+                        else
+                            splittedRooms.Add(room);
+                    }
+                }
+            }
+            return splittedRooms;
+        }
+
+        private static void SplitVertically(int minWidth, 
+            Queue<BoundsInt> roomsQueue, BoundsInt room)
+        {
+            var sizeX = room.size.x;
+            var sizeY = room.size.y;
+            var sizeZ = room.size.z;
+
+            var xSplit = Random.Range(1, sizeX);
+            var room1Size = new Vector3Int(xSplit, sizeY, sizeZ);
+            BoundsInt room1 = new(room.min, room1Size);
+
+            var room2Pos = new Vector3Int(room.min.x + xSplit, room.min.y, 
+                room.min.z);
+            var room2Size = new Vector3Int(sizeX - xSplit, sizeY, sizeZ);
+            BoundsInt room2 = new(room2Pos, room2Size);
+
+            roomsQueue.Enqueue(room1);
+            roomsQueue.Enqueue(room2);
+        }
+
+        private static void SplitHorizontally(int minHeight, 
+            Queue<BoundsInt> roomsQueue, BoundsInt room)
+        {
+            var sizeX = room.size.x;
+            var sizeY = room.size.y;
+            var sizeZ = room.size.z;
+
+            var ySplit = Random.Range(1, sizeY);
+            var room1Size = new Vector3Int(sizeX, ySplit, sizeZ);
+            BoundsInt room1 = new(room.min, room1Size);
+
+            var room2Pos = new Vector3Int(room.min.x, room.min.y + ySplit, 
+                room.min.z);
+            var room2Size = new Vector3Int(sizeX, sizeY - ySplit, sizeZ);
+            BoundsInt room2 = new(room2Pos, room2Size);
+
+            roomsQueue.Enqueue(room1);
+            roomsQueue.Enqueue(room2);
+        }
     }
 
     public static class Vector2IntHelper

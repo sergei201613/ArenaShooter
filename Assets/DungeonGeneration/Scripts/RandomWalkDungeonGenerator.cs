@@ -28,10 +28,9 @@ namespace Sgorey.DungeonGeneration
                 parameters.StartIterationFromRandomPosition;
         }
 
-        public override HashSet<Vector2Int> GenerateFloor(Vector2Int 
-            startPosition)
+        public override HashSet<Vector2Int> GenerateFloor(Vector2Int start)
         {
-            var currentPos = startPosition;
+            var currentPos = start;
             var floorPositions = new HashSet<Vector2Int>();
 
             for (int i = 0; i < _iterations; i++)

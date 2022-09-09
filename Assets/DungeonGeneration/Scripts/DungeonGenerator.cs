@@ -31,8 +31,7 @@ namespace Sgorey.DungeonGeneration
             }
         }
 
-        public abstract HashSet<Vector2Int> GenerateFloor(Vector2Int 
-            startPosition);
+        public abstract HashSet<Vector2Int> GenerateFloor(Vector2Int start);
 
         public virtual void Generate()
         {
