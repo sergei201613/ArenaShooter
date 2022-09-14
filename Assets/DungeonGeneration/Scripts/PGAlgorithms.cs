@@ -46,8 +46,11 @@ namespace Sgorey.DungeonGeneration
             return corridor;
         }
 
-        public static List<BoundsInt> BinarySpacePartitioning(
-            BoundsInt spaceToSplit, int minWidth, int minHeight)
+        /// <summary>
+        /// Binary space partitioning.
+        /// </summary>
+        public static List<BoundsInt> Bsp(BoundsInt spaceToSplit, 
+            int minWidth, int minHeight)
         {
             var roomsToSplit = new Queue<BoundsInt>();
             var splittedRooms = new List<BoundsInt>();

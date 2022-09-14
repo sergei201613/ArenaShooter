@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ namespace Sgorey.DungeonGeneration
             if (_generateOnAwake)
             {
                 Generate();
+                SpawnEnemies();
                 SpawnPlayer();
             }
         }
@@ -63,9 +65,16 @@ namespace Sgorey.DungeonGeneration
 
         protected virtual void SpawnPlayer()
         {
-            var playerPos = new Vector3(startPosition.x, height, 
-                startPosition.y);
+            Vector3 playerPos = GetPlayerSpawnPosition();
             Instantiate(playerPrefab, playerPos, Quaternion.identity);
+        }
+
+        protected virtual void SpawnEnemies() { }
+
+        protected virtual Vector3 GetPlayerSpawnPosition()
+        {
+            return new Vector3(startPosition.x, height,
+                startPosition.y);
         }
 
         private void SpawnElements(HashSet<Vector2Int> positions, 

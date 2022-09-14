@@ -1577,10 +1577,17 @@ MonoBehaviour:
   parameters: {fileID: 11400000, guid: 80bc13b250e38e2478b8f8d6d3074065, type: 2}
   _minRoomWidth: 15
   _minRoomHeight: 15
-  _dungeonWidth: 100
-  _dungeonHeight: 100
-  _offset: 2
+  _dungeonWidth: 75
+  _dungeonHeight: 75
+  _offset: 3
   _randomWalkRooms: 0
+  _enemyPrefabs:
+  - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
+  - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
+  - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
+  - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
+  - {fileID: 2015434656898269652, guid: e29d43f43cc5d82499dd9926e01847d3, type: 3}
+  _navMeshSurface: {fileID: 2123522985}
 --- !u!4 &250670099
 Transform:
   m_ObjectHideFlags: 0
