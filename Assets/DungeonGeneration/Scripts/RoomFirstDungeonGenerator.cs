@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
@@ -17,6 +18,10 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         private int _dungeonHeight = 20;
         [SerializeField]
+        private int _minBossRoomCount = 1;
+        [SerializeField]
+        private int _maxBossRoomCount = 3;
+        [SerializeField]
         [Range(0, 10)]
         private int _offset = 1;
         [SerializeField]
@@ -24,9 +29,11 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         private GameObject[] _enemyPrefabs;
         [SerializeField]
+        private GameObject[] _bossPrefabs;
+        [SerializeField]
         private NavMeshSurface _navMeshSurface;
 
-        private Vector3 _playerSpawnPos;
+        private Room _initialRoom;
         private List<Room> _rooms = new(16);
         private List<Corridor> _corridors = new(16);
 
@@ -37,31 +44,68 @@ namespace Sgorey.DungeonGeneration
             Vector3Int size = new(_dungeonWidth, _dungeonHeight, 0);
             BoundsInt bounds = new((Vector3Int)startPosition, size);
 
-            var boundsList = PGAlgorithms.Bsp(bounds, _minRoomWidth, 
+            var boundsList = PGAlgorithms.Bsp(bounds, _minRoomWidth,
                 _minRoomHeight);
 
             _rooms = CreateRooms(boundsList);
             foreach (var room in _rooms)
-            {
                 floorPositions.UnionWith(room.FloorPositions);
-            }
 
-            _playerSpawnPos.x = _rooms[0].Position.x * scale;
-            _playerSpawnPos.y = height;
-            _playerSpawnPos.z = _rooms[0].Position.y * scale;
+            SetRoomTypes();
 
             _corridors = GenerateCorridors(_rooms);
             foreach (var corridor in _corridors)
-            {
                 floorPositions.UnionWith(corridor.FloorPositions);
-            }
 
             return floorPositions;
         }
 
+        private void SetRoomTypes()
+        {
+            List<Room> candidates = new(_rooms);
+            candidates.RemoveAt(SetInitialRoom(candidates));
+
+            List<int> bossRoomIndexes = SetBossRooms(candidates);
+            print("Boss rooms: " + bossRoomIndexes.Count);
+            for (int i = 0; i < bossRoomIndexes.Count; i++)
+                candidates.RemoveAt(bossRoomIndexes[i]);
+        }
+
+        private List<int> SetBossRooms(IReadOnlyList<Room> candidates)
+        {
+            int count = Random.Range(_minBossRoomCount, _maxBossRoomCount + 1);
+            print("Boss room count " + count);
+
+            List<int> candidateIndexes = new(candidates.Count);
+            for (int i = 0; i < candidates.Count; i++)
+                candidateIndexes.Add(i);
+
+            List<int> bossRoomIndexes = new(count);
+
+            for (int i = 0; i < Mathf.Min(count, candidateIndexes.Count); i++)
+            {
+                int idx = Random.Range(0, candidateIndexes.Count);
+                bossRoomIndexes.Add(candidateIndexes[idx]);
+                candidates[candidateIndexes[idx]].Type = RoomType.Boss;
+                candidateIndexes.RemoveAt(idx);
+            }
+
+            return bossRoomIndexes;
+        }
+
+        private int SetInitialRoom(IReadOnlyList<Room> candidates)
+        {
+            _initialRoom = candidates[0];
+            _initialRoom.Type = RoomType.Initial;
+            return 0;
+        }
+
         protected override Vector3 GetPlayerSpawnPosition()
         {
-            return _playerSpawnPos;
+            return new Vector3(
+                _initialRoom.Position.x * scale,
+                height,
+                _initialRoom.Position.y * scale);
         }
 
         protected override void SpawnEnemies()
@@ -70,13 +114,28 @@ namespace Sgorey.DungeonGeneration
 
             foreach (var room in _rooms)
             {
+                if (room.Type == RoomType.Initial)
+                    continue;
+
                 Vector3 pos = new(
                     room.Position.x * scale, 
                     height, 
                     room.Position.y * scale);
 
-                int index = Random.Range(0, _enemyPrefabs.Length);
-                var prefab = _enemyPrefabs[index];
+                int index;
+                GameObject prefab;
+
+                if (room.Type == RoomType.Boss)
+                {
+                    index = Random.Range(0, _bossPrefabs.Length);
+                    prefab = _bossPrefabs[index];
+                }
+                else
+                {
+                    index = Random.Range(0, _enemyPrefabs.Length);
+                    prefab = _enemyPrefabs[index];
+                }
+
                 Instantiate(prefab, pos, Quaternion.identity, transform);
             }
         }
