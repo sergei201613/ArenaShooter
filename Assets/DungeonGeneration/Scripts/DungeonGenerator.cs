@@ -28,6 +28,7 @@ namespace Sgorey.DungeonGeneration
             {
                 Generate();
                 SpawnEnemies();
+                SpawnLoot();
                 SpawnPlayer();
             }
         }
@@ -69,6 +70,8 @@ namespace Sgorey.DungeonGeneration
         }
 
         protected virtual void SpawnEnemies() { }
+
+        protected virtual void SpawnLoot() { }
 
         protected virtual Vector3 GetPlayerSpawnPosition()
         {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
@@ -30,6 +29,8 @@ namespace Sgorey.DungeonGeneration
         private GameObject[] _enemyPrefabs;
         [SerializeField]
         private GameObject[] _bossPrefabs;
+        [SerializeField]
+        private GameObject _finishThingPrefab;
         [SerializeField]
         private NavMeshSurface _navMeshSurface;
 
@@ -63,18 +64,25 @@ namespace Sgorey.DungeonGeneration
         private void SetRoomTypes()
         {
             List<Room> candidates = new(_rooms);
+
             candidates.RemoveAt(SetInitialRoom(candidates));
+            candidates.RemoveAt(SetFinishRoom(candidates));
 
             List<int> bossRoomIndexes = SetBossRooms(candidates);
-            print("Boss rooms: " + bossRoomIndexes.Count);
             for (int i = 0; i < bossRoomIndexes.Count; i++)
                 candidates.RemoveAt(bossRoomIndexes[i]);
+        }
+
+        private int SetFinishRoom(IReadOnlyList<Room> candidates)
+        {
+            int idx = FindFarthestRoomTo(_initialRoom, candidates);
+            candidates[idx].Type = RoomType.Finish;
+            return idx;
         }
 
         private List<int> SetBossRooms(IReadOnlyList<Room> candidates)
         {
             int count = Random.Range(_minBossRoomCount, _maxBossRoomCount + 1);
-            print("Boss room count " + count);
 
             List<int> candidateIndexes = new(candidates.Count);
             for (int i = 0; i < candidates.Count; i++)
@@ -117,10 +125,7 @@ namespace Sgorey.DungeonGeneration
                 if (room.Type == RoomType.Initial)
                     continue;
 
-                Vector3 pos = new(
-                    room.Position.x * scale, 
-                    height, 
-                    room.Position.y * scale);
+                Vector3 pos = DungeonToWorldPosition(room.Position);
 
                 int index;
                 GameObject prefab;
@@ -138,6 +143,27 @@ namespace Sgorey.DungeonGeneration
 
                 Instantiate(prefab, pos, Quaternion.identity, transform);
             }
+        }
+
+        protected override void SpawnLoot()
+        {
+            foreach (var room in _rooms)
+            {
+                if (room.Type == RoomType.Finish)
+                {
+                    Vector3 pos = DungeonToWorldPosition(room.Position);
+                    Instantiate(_finishThingPrefab, pos, Quaternion.identity, 
+                        transform);
+                }
+            }
+        }
+
+        private Vector3 DungeonToWorldPosition(Vector2 position)
+        {
+            return new(
+                position.x * scale,
+                height,
+                position.y * scale);
         }
 
         private List<Corridor> GenerateCorridors(in List<Room> rooms)
@@ -193,7 +219,7 @@ namespace Sgorey.DungeonGeneration
         }
 
         private Room FindClosestRoomTo(Room room, 
-            in List<Room> rooms)
+            IReadOnlyList<Room> rooms)
         {
             Room closestRoom = rooms[0];
             float minDist = float.MaxValue;
@@ -210,6 +236,27 @@ namespace Sgorey.DungeonGeneration
                 }
             }
             return closestRoom;
+        }
+
+        private int FindFarthestRoomTo(Room room, 
+            IReadOnlyList<Room> rooms)
+        {
+            int farthestRoomIdx = 0;
+            float maxDist = float.MinValue;
+
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                Room currRoom = rooms[i];
+                var pos = currRoom.Position;
+                float currDist = Vector2.Distance(pos, room.Position);
+
+                if (currDist > maxDist)
+                {
+                    maxDist = currDist;
+                    farthestRoomIdx = i;
+                }
+            }
+            return farthestRoomIdx;
         }
 
         private List<Room> CreateRooms(List<BoundsInt> boundsList)
