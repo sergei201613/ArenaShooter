@@ -17,37 +17,39 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         private bool _wideCorridors;
 
-        public override HashSet<Vector2Int> GenerateFloor(Vector2Int
-            startPosition)
-        {
-            var floor = new HashSet<Vector2Int>();
+        // TODO:
+        //public override HashSet<Vector2Int> GenerateFloor(Vector2Int
+        //    startPosition)
+        //{
+        //    var floor = new HashSet<Vector2Int>();
 
-            var corridors = GenerateCorridors(out var potentialRooms);
-            var rooms = GenerateRooms(potentialRooms);
+        //    var corridors = GenerateCorridors(out var potentialRooms);
+        //    var rooms = GenerateRooms(potentialRooms);
 
-            floor.UnionWith(corridors);
-            floor.UnionWith(rooms);
+        //    floor.UnionWith(corridors);
+        //    floor.UnionWith(rooms);
 
-            List<Vector2Int> deadEnds = FindDeadEnds(floor);
-            var deadEndRooms = GenerateDeadEndRooms(deadEnds, rooms);
+        //    List<Vector2Int> deadEnds = FindDeadEnds(floor);
+        //    var deadEndRooms = GenerateDeadEndRooms(deadEnds, rooms);
 
-            floor.UnionWith(deadEndRooms);
-            return floor;
-        }
+        //    floor.UnionWith(deadEndRooms);
+        //    return floor;
+        //}
 
-        private HashSet<Vector2Int> GenerateDeadEndRooms(
-            in List<Vector2Int> deadEnds, in HashSet<Vector2Int> rooms)
-        {
-            foreach (var deadEnd in deadEnds)
-            {
-                if (!rooms.Contains(deadEnd))
-                {
-                    var roomFloor = base.GenerateFloor(deadEnd);
-                    rooms.UnionWith(roomFloor);
-                }
-            }
-            return rooms;
-        }
+        // TODO:
+        //private HashSet<Vector2Int> GenerateDeadEndRooms(
+        //    in List<Vector2Int> deadEnds, in HashSet<Vector2Int> rooms)
+        //{
+        //    foreach (var deadEnd in deadEnds)
+        //    {
+        //        if (!rooms.Contains(deadEnd))
+        //        {
+        //            var roomFloor = base.GenerateFloor(deadEnd);
+        //            rooms.UnionWith(roomFloor);
+        //        }
+        //    }
+        //    return rooms;
+        //}
 
         private List<Vector2Int> FindDeadEnds(in HashSet<Vector2Int> positions)
         {
@@ -66,20 +68,21 @@ namespace Sgorey.DungeonGeneration
             return deadEnds;
         }
 
-        private HashSet<Vector2Int> GenerateRooms(in IEnumerable<Vector2Int> 
-            potentialRooms)
-        {
-            var rooms = new HashSet<Vector2Int>();
-            foreach (var roomPosition in potentialRooms)
-            {
-                if (Random.Range(0f, 1) <= _roomPercent)
-                {
-                    var roomFloor = base.GenerateFloor(roomPosition);
-                    rooms.UnionWith(roomFloor);
-                }
-            }
-            return rooms;
-        }
+        // TODO:
+        //private HashSet<Vector2Int> GenerateRooms(in IEnumerable<Vector2Int> 
+        //    potentialRooms)
+        //{
+        //    var rooms = new HashSet<Vector2Int>();
+        //    foreach (var roomPosition in potentialRooms)
+        //    {
+        //        if (Random.Range(0f, 1) <= _roomPercent)
+        //        {
+        //            var roomFloor = base.GenerateFloor(roomPosition);
+        //            rooms.UnionWith(roomFloor);
+        //        }
+        //    }
+        //    return rooms;
+        //}
 
         private IEnumerable<Vector2Int> GenerateCorridors(out HashSet<Vector2Int> 
             potentialRooms)

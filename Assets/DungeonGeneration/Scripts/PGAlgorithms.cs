@@ -124,11 +124,27 @@ namespace Sgorey.DungeonGeneration
         }
     }
 
+    // TODO: Write custom Vector2 int class
     public static class Vector2IntHelper
     {
-        public static IEnumerable<Vector2Int> CardinalDirections
+        public static IReadOnlyCollection<Vector2Int> CardinalDirections
         {
             get => _cardinalDirections;
+        }
+
+        public static Vector3 DungeonToWorldPosition(Vector2Int position, 
+            float height, float scale = 1)
+        {
+            return new(
+                position.x * scale,
+                height,
+                position.y * scale);
+        }
+
+        public static Vector2Int RandomCardinalDirection()
+        {
+            int rand = Random.Range(0, 4);
+            return _cardinalDirections[rand];
         }
 
         private static readonly Vector2Int[] _cardinalDirections = 
@@ -138,11 +154,5 @@ namespace Sgorey.DungeonGeneration
             Vector2Int.down,
             Vector2Int.left
         };
-
-        public static Vector2Int RandomCardinalDirection()
-        {
-            int rand = Random.Range(0, 4);
-            return _cardinalDirections[rand];
-        }
     }
 }

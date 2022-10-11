@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
 {
+    // TODO: need refactoring
     public class RandomWalkDungeonGenerator : DungeonGenerator
     {
         [SerializeField]
@@ -14,10 +15,10 @@ namespace Sgorey.DungeonGeneration
         private int _walkLength;
         private bool _startIterationFromRandomPosition;
 
-        public override void Generate()
+        public override Dungeon Generate()
         {
             InitializeParameters();
-            base.Generate();
+            return base.Generate();
         }
 
         private void InitializeParameters()
@@ -28,7 +29,7 @@ namespace Sgorey.DungeonGeneration
                 parameters.StartIterationFromRandomPosition;
         }
 
-        public override HashSet<Vector2Int> GenerateFloor(Vector2Int start)
+        public override HashSet<Room> GenerateRooms(Vector2Int start)
         {
             var currentPos = start;
             var floorPositions = new HashSet<Vector2Int>();
@@ -45,7 +46,14 @@ namespace Sgorey.DungeonGeneration
                     currentPos = floorPositions.ElementAt(index);
                 }
             }
-            return floorPositions;
+            Room room = new(start, floorPositions);
+            HashSet<Room> rooms = new() { room };
+            return rooms;
+        }
+
+        public override HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

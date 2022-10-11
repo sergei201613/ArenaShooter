@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
 {
-    public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
+    public class RoomFirstDungeonGenerator : DungeonGenerator
     {
         [SerializeField]
         private int _minRoomWidth = 4;
@@ -24,8 +24,6 @@ namespace Sgorey.DungeonGeneration
         [Range(0, 10)]
         private int _offset = 1;
         [SerializeField]
-        private bool _randomWalkRooms = false;
-        [SerializeField]
         private GameObject[] _enemyPrefabs;
         [SerializeField]
         private GameObject[] _bossPrefabs;
@@ -35,35 +33,24 @@ namespace Sgorey.DungeonGeneration
         private NavMeshSurface _navMeshSurface;
 
         private Room _initialRoom;
-        private List<Room> _rooms = new(16);
-        private List<Corridor> _corridors = new(16);
 
-        public override HashSet<Vector2Int> GenerateFloor(Vector2Int start)
+        public override HashSet<Room> GenerateRooms(Vector2Int start)
         {
-            HashSet<Vector2Int> floorPositions = new();
-
             Vector3Int size = new(_dungeonWidth, _dungeonHeight, 0);
             BoundsInt bounds = new((Vector3Int)startPosition, size);
 
             var boundsList = PGAlgorithms.Bsp(bounds, _minRoomWidth,
                 _minRoomHeight);
 
-            _rooms = CreateRooms(boundsList);
-            foreach (var room in _rooms)
-                floorPositions.UnionWith(room.FloorPositions);
+            HashSet<Room> rooms = CreateRooms(boundsList);
+            SetRoomTypes(rooms);
 
-            SetRoomTypes();
-
-            _corridors = GenerateCorridors(_rooms);
-            foreach (var corridor in _corridors)
-                floorPositions.UnionWith(corridor.FloorPositions);
-
-            return floorPositions;
+            return rooms;
         }
 
-        private void SetRoomTypes()
+        private void SetRoomTypes(IReadOnlyCollection<Room> rooms)
         {
-            List<Room> candidates = new(_rooms);
+            List<Room> candidates = new(rooms);
 
             candidates.RemoveAt(SetInitialRoom(candidates));
             candidates.RemoveAt(SetFinishRoom(candidates));
@@ -116,11 +103,11 @@ namespace Sgorey.DungeonGeneration
                 _initialRoom.Position.y * scale);
         }
 
-        protected override void SpawnEnemies()
+        protected override void SpawnEnemies(IReadOnlyCollection<Room> rooms)
         {
             _navMeshSurface.BuildNavMesh();
 
-            foreach (var room in _rooms)
+            foreach (var room in rooms)
             {
                 if (room.Type == RoomType.Initial)
                     continue;
@@ -145,9 +132,9 @@ namespace Sgorey.DungeonGeneration
             }
         }
 
-        protected override void SpawnLoot()
+        protected override void SpawnLoot(IReadOnlyCollection<Room> rooms)
         {
-            foreach (var room in _rooms)
+            foreach (var room in rooms)
             {
                 if (room.Type == RoomType.Finish)
                 {
@@ -158,37 +145,9 @@ namespace Sgorey.DungeonGeneration
             }
         }
 
-        private Vector3 DungeonToWorldPosition(Vector2 position)
+        private Vector3 DungeonToWorldPosition(Vector2Int position)
         {
-            return new(
-                position.x * scale,
-                height,
-                position.y * scale);
-        }
-
-        private List<Corridor> GenerateCorridors(in List<Room> rooms)
-        {
-            List<Corridor> corridors = new();
-            List<Room> roomsTmp = new(rooms);
-
-            var index = Random.Range(0, roomsTmp.Count);
-            var currRoom = roomsTmp[index];
-
-            roomsTmp.RemoveAt(index);
-
-            while (roomsTmp.Count > 0)
-            {
-                var closestRoom = FindClosestRoomTo(currRoom, roomsTmp);
-                roomsTmp.Remove(closestRoom);
-
-                var corridorFloor = GenerateCorridorFloor(currRoom, 
-                    closestRoom);
-
-                currRoom = closestRoom;
-                Corridor corridor = new(currRoom.Position, corridorFloor);
-                corridors.Add(corridor);
-            }
-            return corridors;
+            return Vector2IntHelper.DungeonToWorldPosition(position, height, scale);
         }
 
         private HashSet<Vector2Int> GenerateCorridorFloor(in Room source,
@@ -259,9 +218,9 @@ namespace Sgorey.DungeonGeneration
             return farthestRoomIdx;
         }
 
-        private List<Room> CreateRooms(List<BoundsInt> boundsList)
+        private HashSet<Room> CreateRooms(IReadOnlyCollection<BoundsInt> boundsList)
         {
-            List<Room> rooms = new();
+            HashSet<Room> rooms = new();
             foreach (var bounds in boundsList)
             {
                 HashSet<Vector2Int> roomFloor = new();
@@ -274,12 +233,36 @@ namespace Sgorey.DungeonGeneration
                         roomFloor.Add(pos);
                     }
                 }
-
                 var roomPos = (Vector2Int)Vector3Int.RoundToInt(bounds.center);
                 Room room = new(roomPos, roomFloor);
                 rooms.Add(room);
             }
             return rooms;
+        }
+
+        public override HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms)
+        {
+            HashSet<Corridor> corridors = new();
+            List<Room> roomsTmp = new(rooms);
+
+            var index = Random.Range(0, roomsTmp.Count);
+            var currRoom = roomsTmp[index];
+
+            roomsTmp.RemoveAt(index);
+
+            while (roomsTmp.Count > 0)
+            {
+                var closestRoom = FindClosestRoomTo(currRoom, roomsTmp);
+                roomsTmp.Remove(closestRoom);
+
+                var corridorFloor = GenerateCorridorFloor(currRoom, 
+                    closestRoom);
+
+                currRoom = closestRoom;
+                Corridor corridor = new(currRoom.Position, corridorFloor);
+                corridors.Add(corridor);
+            }
+            return corridors;
         }
     }
 }

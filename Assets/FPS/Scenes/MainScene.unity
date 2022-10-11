@@ -1571,10 +1571,9 @@ MonoBehaviour:
   basicWallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
     type: 3}
   startPosition: {x: 0, y: 0}
+  _dungeonVisualizer: {fileID: 1688108488}
   scale: 2
   height: 15
-  _generateOnAwake: 1
-  parameters: {fileID: 11400000, guid: 80bc13b250e38e2478b8f8d6d3074065, type: 2}
   _minRoomWidth: 15
   _minRoomHeight: 15
   _dungeonWidth: 75
@@ -1582,7 +1581,6 @@ MonoBehaviour:
   _minBossRoomCount: 1
   _maxBossRoomCount: 3
   _offset: 3
-  _randomWalkRooms: 0
   _enemyPrefabs:
   - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
   _bossPrefabs:
@@ -1603,7 +1601,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &257359985 stripped
 Transform:
@@ -2391,61 +2389,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2729281212974237904}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1017740749
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1017740751}
-  - component: {fileID: 1017740750}
-  m_Layer: 0
-  m_Name: RWDungeonGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1017740750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017740749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66284ab8b701e9740ae3097dce074e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
-    type: 3}
-  floorPrefab: {fileID: 7526535212117748116, guid: bcff287f32601f54c9a8e52aaa136e3b,
-    type: 3}
-  basicWallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
-    type: 3}
-  startPosition: {x: 0, y: 0}
-  scale: 1
-  height: 15
-  _generateOnAwake: 1
-  parameters: {fileID: 11400000, guid: 6d5c6c56e2eef0f4c9022f209c4395b5, type: 2}
---- !u!4 &1017740751
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017740749}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 33
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1018469801
 GameObject:
   m_ObjectHideFlags: 1
@@ -3082,65 +3025,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2729281214911784181}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1527825091
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1527825093}
-  - component: {fileID: 1527825092}
-  m_Layer: 0
-  m_Name: CFDungeonGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1527825092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1527825091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 603bb84667f2b08498fc022dd3880473, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
-    type: 3}
-  floorPrefab: {fileID: 7526535212117748116, guid: bcff287f32601f54c9a8e52aaa136e3b,
-    type: 3}
-  basicWallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
-    type: 3}
-  startPosition: {x: 0, y: 0}
-  scale: 2
-  height: 15
-  _generateOnAwake: 1
-  parameters: {fileID: 11400000, guid: 80bc13b250e38e2478b8f8d6d3074065, type: 2}
-  _corridorLength: 40
-  _corridorCount: 10
-  _roomPercent: 0.8
-  _wideCorridors: 0
---- !u!4 &1527825093
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1527825091}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 34
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1538020868 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2141676431450117668, guid: cd17687759887a0438ee021e51abc9d9,
@@ -3393,6 +3277,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2729281214845312454}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1688108487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688108489}
+  - component: {fileID: 1688108488}
+  m_Layer: 0
+  m_Name: DungeonVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1688108488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688108487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac2727bba86ec914583a20cfca8acfea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1688108489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688108487}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 34
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1726237144
 GameObject:
   m_ObjectHideFlags: 1

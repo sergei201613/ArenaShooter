@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Sgorey.DungeonGeneration
 {
     [DefaultExecutionOrder(-100)]
     public abstract class DungeonGenerator : MonoBehaviour
     {
+        // TODO: Move dungeon prefab fields to DungeonVisualizer
         [SerializeField]
         protected GameObject playerPrefab;
         [SerializeField]
@@ -15,40 +17,42 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         protected Vector2Int startPosition;
         [SerializeField]
+        protected DungeonVisualizer _dungeonVisualizer;
+        [SerializeField]
         protected int scale = 1;
         [SerializeField]
         protected int height = 15;
 
-        [SerializeField]
-        private bool _generateOnAwake = true;
-
         protected virtual void Awake()
         {
-            if (_generateOnAwake)
-            {
-                Generate();
-                SpawnEnemies();
-                SpawnLoot();
-                SpawnPlayer();
-            }
+            Dungeon dungeon = Generate();
+            _dungeonVisualizer.Visualize(dungeon);
+
+            SpawnEnemies(dungeon.Rooms);
+            SpawnLoot(dungeon.Rooms);
+            SpawnPlayer();
         }
 
-        public abstract HashSet<Vector2Int> GenerateFloor(Vector2Int start);
+        public abstract HashSet<Room> GenerateRooms(Vector2Int start);
 
-        public virtual void Generate()
+        public abstract HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms);
+
+        public virtual Dungeon Generate()
         {
-            var floorPositions = GenerateFloor(startPosition);
-            SpawnElements(floorPositions, floorPrefab);
+            HashSet<Room> rooms = GenerateRooms(startPosition);
+            HashSet<Corridor> corridors = GenerateCorridors(rooms);
 
-            var wallPositions = GenerateWallPositions(floorPositions);
-            SpawnElements(wallPositions, basicWallPrefab);
+            Dungeon dungeon = new(rooms, corridors);
+            return dungeon;
+
+            // TODO: Move to DungeonVisualizer
+            //var wallPositions = GenerateWallPositions(floorPositions);
+            //SpawnElements(wallPositions, basicWallPrefab);
         }
 
-        public virtual HashSet<Vector2Int> GenerateWallPositions(
-            HashSet<Vector2Int> floorPositions)
+        public virtual HashSet<Vector2Int> GenerateWallPositions(IReadOnlyCollection<Vector2Int> floorPositions)
         {
-            return FindWalls(floorPositions, 
-                Vector2IntHelper.CardinalDirections);
+            return FindWalls(floorPositions, Vector2IntHelper.CardinalDirections);
         }
 
         public virtual void ClearImmediate()
@@ -69,9 +73,9 @@ namespace Sgorey.DungeonGeneration
             Instantiate(playerPrefab, playerPos, Quaternion.identity);
         }
 
-        protected virtual void SpawnEnemies() { }
+        protected virtual void SpawnEnemies(IReadOnlyCollection<Room> rooms) { }
 
-        protected virtual void SpawnLoot() { }
+        protected virtual void SpawnLoot(IReadOnlyCollection<Room> rooms) { }
 
         protected virtual Vector3 GetPlayerSpawnPosition()
         {
@@ -79,7 +83,7 @@ namespace Sgorey.DungeonGeneration
                 startPosition.y);
         }
 
-        private void SpawnElements(HashSet<Vector2Int> positions, 
+        private void SpawnElements(IReadOnlyCollection<Vector2Int> positions, 
             GameObject prefab)
         {
             foreach (var rawPos in positions)
@@ -93,8 +97,8 @@ namespace Sgorey.DungeonGeneration
         }
 
         private HashSet<Vector2Int> FindWalls(
-            HashSet<Vector2Int> floorPositions,
-            IEnumerable<Vector2Int> directions)
+            IReadOnlyCollection<Vector2Int> floorPositions,
+            IReadOnlyCollection<Vector2Int> directions)
         {
             var wallPositions = new HashSet<Vector2Int>();
 
@@ -108,7 +112,6 @@ namespace Sgorey.DungeonGeneration
                         wallPositions.Add(neighborPosition);
                 }
             }
-
             return wallPositions;
         }
     }
