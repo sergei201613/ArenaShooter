@@ -11,10 +11,6 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         protected GameObject playerPrefab;
         [SerializeField]
-        protected GameObject floorPrefab;
-        [SerializeField]
-        protected GameObject basicWallPrefab;
-        [SerializeField]
         protected Vector2Int startPosition;
         [SerializeField]
         protected DungeonVisualizer _dungeonVisualizer;
@@ -26,7 +22,7 @@ namespace Sgorey.DungeonGeneration
         protected virtual void Awake()
         {
             Dungeon dungeon = Generate();
-            _dungeonVisualizer.Visualize(dungeon);
+            _dungeonVisualizer.Visualize(dungeon, scale, height);
 
             SpawnEnemies(dungeon.Rooms);
             SpawnLoot(dungeon.Rooms);
@@ -48,11 +44,6 @@ namespace Sgorey.DungeonGeneration
             // TODO: Move to DungeonVisualizer
             //var wallPositions = GenerateWallPositions(floorPositions);
             //SpawnElements(wallPositions, basicWallPrefab);
-        }
-
-        public virtual HashSet<Vector2Int> GenerateWallPositions(IReadOnlyCollection<Vector2Int> floorPositions)
-        {
-            return FindWalls(floorPositions, Vector2IntHelper.CardinalDirections);
         }
 
         public virtual void ClearImmediate()
@@ -81,38 +72,6 @@ namespace Sgorey.DungeonGeneration
         {
             return new Vector3(startPosition.x, height,
                 startPosition.y);
-        }
-
-        private void SpawnElements(IReadOnlyCollection<Vector2Int> positions, 
-            GameObject prefab)
-        {
-            foreach (var rawPos in positions)
-            {
-                int x = rawPos.x * scale;
-                int y = rawPos.y * scale;
-
-                var position = new Vector3(x, height, y);
-                Instantiate(prefab, position, Quaternion.identity, transform);
-            }
-        }
-
-        private HashSet<Vector2Int> FindWalls(
-            IReadOnlyCollection<Vector2Int> floorPositions,
-            IReadOnlyCollection<Vector2Int> directions)
-        {
-            var wallPositions = new HashSet<Vector2Int>();
-
-            foreach (var position in floorPositions)
-            {
-                foreach (var direction in directions)
-                {
-                    var neighborPosition = position + direction;
-
-                    if (!floorPositions.Contains(neighborPosition))
-                        wallPositions.Add(neighborPosition);
-                }
-            }
-            return wallPositions;
         }
     }
 }

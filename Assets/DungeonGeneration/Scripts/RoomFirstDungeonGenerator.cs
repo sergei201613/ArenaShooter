@@ -253,10 +253,17 @@ namespace Sgorey.DungeonGeneration
             while (roomsTmp.Count > 0)
             {
                 var closestRoom = FindClosestRoomTo(currRoom, roomsTmp);
+
+                // TODO: If we remove room from list, next FindClosestRoomTo
+                // will ignore it, it can cause bugs, corridor can go through
+                // room, and door positions will not detect properly.
                 roomsTmp.Remove(closestRoom);
 
                 var corridorFloor = GenerateCorridorFloor(currRoom, 
                     closestRoom);
+
+                corridorFloor.ExceptWith(currRoom.FloorPositions);
+                corridorFloor.ExceptWith(closestRoom.FloorPositions);
 
                 currRoom = closestRoom;
                 Corridor corridor = new(currRoom.Position, corridorFloor);
