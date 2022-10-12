@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace Sgorey.DungeonGeneration
 {
     [DefaultExecutionOrder(-100)]
     public abstract class DungeonGenerator : MonoBehaviour
     {
-        // TODO: Move dungeon prefab fields to DungeonVisualizer
         [SerializeField]
         protected GameObject playerPrefab;
         [SerializeField]
@@ -21,12 +19,18 @@ namespace Sgorey.DungeonGeneration
 
         protected virtual void Awake()
         {
-            Dungeon dungeon = Generate();
-            _dungeonVisualizer.Visualize(dungeon, scale, height);
+            Dungeon dungeon = CreateDungeon();
 
             SpawnEnemies(dungeon.Rooms);
             SpawnLoot(dungeon.Rooms);
             SpawnPlayer();
+        }
+
+        public Dungeon CreateDungeon()
+        {
+            Dungeon dungeon = Generate();
+            _dungeonVisualizer.Visualize(dungeon, scale, height);
+            return dungeon;
         }
 
         public abstract HashSet<Room> GenerateRooms(Vector2Int start);
@@ -40,22 +44,13 @@ namespace Sgorey.DungeonGeneration
 
             Dungeon dungeon = new(rooms, corridors);
             return dungeon;
-
-            // TODO: Move to DungeonVisualizer
-            //var wallPositions = GenerateWallPositions(floorPositions);
-            //SpawnElements(wallPositions, basicWallPrefab);
         }
 
         public virtual void ClearImmediate()
         {
-            while (transform.childCount != 0)
-                DestroyImmediate(transform.GetChild(0).gameObject);
-        }
-
-        public virtual void Clear()
-        {
-            for (int i = 0; i < transform.childCount; i++)
-                Destroy(transform.GetChild(i).gameObject);
+            var dungTransform = _dungeonVisualizer.transform;
+            while (dungTransform.childCount != 0)
+                DestroyImmediate(dungTransform.GetChild(0).gameObject);
         }
 
         protected virtual void SpawnPlayer()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -178,13 +179,16 @@ namespace Sgorey.DungeonGeneration
         }
 
         private Room FindClosestRoomTo(Room room, 
-            IReadOnlyList<Room> rooms)
+            IReadOnlyCollection<Room> rooms)
         {
-            Room closestRoom = rooms[0];
+            Room closestRoom = rooms.First();
             float minDist = float.MaxValue;
 
             foreach (var currRoom in rooms)
             {
+                if (currRoom == room)
+                    continue;
+
                 var pos = currRoom.Position;
                 float currDist = Vector2.Distance(pos, room.Position);
 
@@ -247,8 +251,6 @@ namespace Sgorey.DungeonGeneration
 
             var index = Random.Range(0, roomsTmp.Count);
             var currRoom = roomsTmp[index];
-
-            roomsTmp.RemoveAt(index);
 
             while (roomsTmp.Count > 0)
             {

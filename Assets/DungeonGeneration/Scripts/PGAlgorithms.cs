@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Sgorey.DungeonGeneration
@@ -132,6 +133,21 @@ namespace Sgorey.DungeonGeneration
             get => _cardinalDirections;
         }
 
+        public static IReadOnlyCollection<Vector2Int> Directions
+        {
+            get => _directions;
+        }
+
+        public static IReadOnlyCollection<Vector2Int> UpDownDirections
+        {
+            get => _upDownDirections;
+        }
+
+        public static IReadOnlyCollection<Vector2Int> LeftRightDirections
+        {
+            get => _leftRightDirections;
+        }
+
         public static Vector3 DungeonToWorldPosition(Vector2Int position, 
             float height, float scale = 1)
         {
@@ -139,6 +155,21 @@ namespace Sgorey.DungeonGeneration
                 position.x * scale,
                 height,
                 position.y * scale);
+        }
+
+        public static HashSet<Vector2Int> Neighbors(Vector2Int pos, 
+            IReadOnlyCollection<Vector2Int> positions, 
+            IReadOnlyCollection<Vector2Int> directions)
+        {
+            HashSet<Vector2Int> neighbors = new();
+            foreach (var dir in directions)
+            {
+                var neighbor = pos + dir;
+
+                if (positions.Contains(neighbor))
+                    neighbors.Add(neighbor);
+            }
+            return neighbors;
         }
 
         public static Vector2Int RandomCardinalDirection()
@@ -153,6 +184,30 @@ namespace Sgorey.DungeonGeneration
             Vector2Int.right,
             Vector2Int.down,
             Vector2Int.left
+        };
+
+        private static readonly Vector2Int[] _upDownDirections = 
+        {
+            Vector2Int.up,
+            Vector2Int.down
+        };
+
+        private static readonly Vector2Int[] _leftRightDirections = 
+        {
+            Vector2Int.left,
+            Vector2Int.right
+        };
+
+        private static readonly Vector2Int[] _directions = 
+        {
+            Vector2Int.up,
+            Vector2Int.up + Vector2Int.right,
+            Vector2Int.right,
+            Vector2Int.right + Vector2Int.down,
+            Vector2Int.down,
+            Vector2Int.down + Vector2Int.left,
+            Vector2Int.left,
+            Vector2Int.left + Vector2Int.up,
         };
     }
 }

@@ -50,5 +50,7 @@ MonoBehaviour:
     type: 3}
   floorPrefabDoor: {fileID: 6615395943962630717, guid: 265c5dfd082c4004988b2b010c4a4ad7,
     type: 3}
+  doorPrefab: {fileID: 7526535212117748116, guid: 558be0c669d9a7f4c914d92a2fb38039,
+    type: 3}
   wallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
     type: 3}

@@ -50,13 +50,13 @@ MonoBehaviour:
   _dungeonVisualizer: {fileID: 0}
   scale: 2
   height: 15
-  _minRoomWidth: 15
-  _minRoomHeight: 15
-  _dungeonWidth: 75
-  _dungeonHeight: 75
+  _minRoomWidth: 20
+  _minRoomHeight: 20
+  _dungeonWidth: 100
+  _dungeonHeight: 100
   _minBossRoomCount: 1
   _maxBossRoomCount: 3
-  _offset: 3
+  _offset: 4
   _enemyPrefabs:
   - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
   _bossPrefabs:

@@ -20,7 +20,7 @@ namespace Sgorey.DungeonGeneration.Editor
             if (GUILayout.Button("Generate"))
             {
                 _generator.ClearImmediate();
-                _generator.Generate();
+                _generator.CreateDungeon();
             }
 
             if (GUILayout.Button("Clear"))
