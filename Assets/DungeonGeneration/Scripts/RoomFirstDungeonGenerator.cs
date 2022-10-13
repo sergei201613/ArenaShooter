@@ -29,6 +29,10 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         private GameObject[] _bossPrefabs;
         [SerializeField]
+        private GameObject[] _lootPrefabs;
+        [SerializeField]
+        private GameObject[] _initialRoomLootPrefabs;
+        [SerializeField]
         private GameObject _finishThingPrefab;
         [SerializeField]
         private NavMeshSurface _navMeshSurface;
@@ -139,9 +143,22 @@ namespace Sgorey.DungeonGeneration
             {
                 if (room.Type == RoomType.Finish)
                 {
-                    Vector3 pos = DungeonToWorldPosition(room.Position);
-                    Instantiate(_finishThingPrefab, pos, Quaternion.identity, 
-                        transform);
+                    if (_finishThingPrefab != null)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.Position);
+                        Instantiate(_finishThingPrefab, pos, Quaternion.identity, 
+                            transform);
+                    }
+                }
+                else if (room.Type == RoomType.Initial)
+                {
+                    if (_initialRoomLootPrefabs.Length > 0)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
+                        int idx = Random.Range(0, _initialRoomLootPrefabs.Length);
+                        var prefab = _initialRoomLootPrefabs[idx];
+                        Instantiate(prefab, pos, Quaternion.identity, transform);
+                    }
                 }
             }
         }
