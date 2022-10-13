@@ -1842,7 +1842,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh28422
+  m_Name: pb_Mesh28430
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6442,7 +6442,7 @@ PrefabInstance:
     - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}
       propertyPath: _dungeonWidth
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}
@@ -6452,7 +6452,7 @@ PrefabInstance:
     - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}
       propertyPath: _dungeonHeight
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}
@@ -6469,6 +6469,17 @@ PrefabInstance:
       propertyPath: _dungeonVisualizer
       value: 
       objectReference: {fileID: 1688108488}
+    - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
+        type: 3}
+      propertyPath: _lootPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
+        type: 3}
+      propertyPath: _lootPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 6987704255067724990, guid: e501f3ba50bd1cf468d37bd98df2dc0b,
+        type: 3}
     - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}
       propertyPath: _initialRoomLootPrefabs.Array.size

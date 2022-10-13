@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Unity.FPS.Game
 {
@@ -212,7 +213,9 @@ namespace Unity.FPS.Game
             nextShell.gameObject.SetActive(true);
             nextShell.transform.SetParent(null);
             nextShell.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            nextShell.AddForce(nextShell.transform.up * ShellCasingEjectionForce, ForceMode.Impulse);
+            nextShell.velocity = Vector3.zero;
+            float force = ShellCasingEjectionForce / 100 * Random.Range(90, 101);
+            nextShell.AddForce(nextShell.transform.up * force, ForceMode.Impulse);
 
             m_PhysicalAmmoPool.Enqueue(nextShell);
         }

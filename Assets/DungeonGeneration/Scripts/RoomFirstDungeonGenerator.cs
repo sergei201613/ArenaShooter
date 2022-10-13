@@ -160,6 +160,16 @@ namespace Sgorey.DungeonGeneration
                         Instantiate(prefab, pos, Quaternion.identity, transform);
                     }
                 }
+                else if (room.Type == RoomType.None)
+                {
+                    if (_lootPrefabs.Length > 0)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
+                        int idx = Random.Range(0, _lootPrefabs.Length);
+                        var prefab = _lootPrefabs[idx];
+                        Instantiate(prefab, pos, Quaternion.identity, transform);
+                    }
+                }
             }
         }
 
