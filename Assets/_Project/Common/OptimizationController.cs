@@ -9,8 +9,8 @@ namespace Sgorey.ArenaShooter
         private void Start()
         {
             var optimizer = gameObject.GetComp<DistanceBasedOptimizer>();
-            var playerObj = this.FindComp<PlayerCharacter>().gameObject;
-            optimizer.Init(playerObj);
+            var playerObj = this.FindComp<PlayerCharacter>();
+            optimizer.Init(playerObj.transform);
         }
     }
 }

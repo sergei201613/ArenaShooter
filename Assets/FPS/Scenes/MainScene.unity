@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 80
+  _chunkSize: 64
 --- !u!4 &861337888
 Transform:
   m_ObjectHideFlags: 0

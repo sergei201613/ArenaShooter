@@ -102,13 +102,11 @@ namespace Sgorey.DungeonGeneration
 
         private void SpawnElement(GameObject prefab, Vector2Int rawPos)
         {
-            int x = rawPos.x * scale;
-            int y = rawPos.y * scale;
+            var pos = Vector2IntHelper.DungeonToWorldPosition(rawPos, height, scale);
+            var obj = Instantiate(prefab, pos, Quaternion.identity, transform);
 
-            var position = new Vector3(x, height, y);
-            var obj = Instantiate(prefab, position, Quaternion.identity, transform);
-
-            _optimizer.AddObject(obj);
+            var opt = obj.AddComponent<Optimizable>();
+            _optimizer.Register(opt);
         }
 
         private HashSet<Vector2Int> GetWallPositions(

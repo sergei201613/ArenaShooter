@@ -116,13 +116,16 @@ namespace Sgorey.DungeonGeneration
                 GameObject prefab;
                 GameObject obj;
 
+                // TODO: Code duplication
                 if (room.Type == RoomType.Boss)
                 {
                     Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
                     index = Random.Range(0, _bossPrefabs.Length);
                     prefab = _bossPrefabs[index];
                     obj = Instantiate(prefab, pos, Quaternion.identity, transform);
-                    _optimizer.AddObject(obj);
+
+                    var opt = obj.AddComponent<Optimizable>();
+                    _optimizer.Register(opt);
                 }
                 else
                 {
@@ -133,7 +136,9 @@ namespace Sgorey.DungeonGeneration
                         index = Random.Range(0, _enemyPrefabs.Length);
                         prefab = _enemyPrefabs[index];
                         obj = Instantiate(prefab, pos, Quaternion.identity, transform);
-                        _optimizer.AddObject(obj);
+
+                        var opt = obj.AddComponent<Optimizable>();
+                        _optimizer.Register(opt);
                     }
                 }
             }
