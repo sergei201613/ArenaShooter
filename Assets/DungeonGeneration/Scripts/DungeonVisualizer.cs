@@ -1,3 +1,4 @@
+using Sgorey.Unity.Utils.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,8 +19,12 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         protected GameObject wallPrefab;
 
+        [SerializeField]
+        private DistanceBasedOptimizer _optimizer;
+
         protected int scale;
         protected float height;
+
 
         public virtual void Visualize(Dungeon dungeon, int scale, float height)
         {
@@ -101,7 +106,9 @@ namespace Sgorey.DungeonGeneration
             int y = rawPos.y * scale;
 
             var position = new Vector3(x, height, y);
-            Instantiate(prefab, position, Quaternion.identity, transform);
+            var obj = Instantiate(prefab, position, Quaternion.identity, transform);
+
+            _optimizer.AddObject(obj);
         }
 
         private HashSet<Vector2Int> GetWallPositions(

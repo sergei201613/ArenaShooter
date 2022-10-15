@@ -1,3 +1,4 @@
+using Sgorey.Unity.Utils.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,13 @@ namespace Sgorey.DungeonGeneration
         private NavMeshSurface _navMeshSurface;
 
         private Room _initialRoom;
+        private DistanceBasedOptimizer _optimizer;
+
+        protected override void Awake()
+        {
+            _optimizer = this.FindComp<DistanceBasedOptimizer>();
+            base.Awake();
+        }
 
         public override HashSet<Room> GenerateRooms(Vector2Int start)
         {
@@ -104,16 +112,17 @@ namespace Sgorey.DungeonGeneration
                 if (room.Type == RoomType.Initial)
                     continue;
 
-
                 int index;
                 GameObject prefab;
+                GameObject obj;
 
                 if (room.Type == RoomType.Boss)
                 {
                     Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
                     index = Random.Range(0, _bossPrefabs.Length);
                     prefab = _bossPrefabs[index];
-                    Instantiate(prefab, pos, Quaternion.identity, transform);
+                    obj = Instantiate(prefab, pos, Quaternion.identity, transform);
+                    _optimizer.AddObject(obj);
                 }
                 else
                 {
@@ -123,7 +132,8 @@ namespace Sgorey.DungeonGeneration
                         Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
                         index = Random.Range(0, _enemyPrefabs.Length);
                         prefab = _enemyPrefabs[index];
-                        Instantiate(prefab, pos, Quaternion.identity, transform);
+                        obj = Instantiate(prefab, pos, Quaternion.identity, transform);
+                        _optimizer.AddObject(obj);
                     }
                 }
             }

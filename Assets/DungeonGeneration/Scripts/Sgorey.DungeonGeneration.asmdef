@@ -2,7 +2,8 @@
     "name": "Sgorey.DungeonGeneration",
     "rootNamespace": "Sgorey.DungeonGeneration",
     "references": [
-        "GUID:8c4dd21966739024fbd72155091d199e"
+        "GUID:8c4dd21966739024fbd72155091d199e",
+        "GUID:e4d7fdca8fbb2bc438ad2d78299d245d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
