@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
@@ -18,9 +19,9 @@ namespace Sgorey.DungeonGeneration
         [SerializeField]
         private int _dungeonHeight = 20;
         [SerializeField]
-        private int _minBossRoomCount = 1;
+        private int _minEnemyCount = 2;
         [SerializeField]
-        private int _maxBossRoomCount = 3;
+        private int _maxEnemyCount = 4;
         [SerializeField]
         [Range(0, 10)]
         private int _offset = 1;
@@ -59,10 +60,7 @@ namespace Sgorey.DungeonGeneration
 
             candidates.RemoveAt(SetInitialRoom(candidates));
             candidates.RemoveAt(SetFinishRoom(candidates));
-
-            List<int> bossRoomIndexes = SetBossRooms(candidates);
-            for (int i = 0; i < bossRoomIndexes.Count; i++)
-                candidates.RemoveAt(bossRoomIndexes[i]);
+            candidates.RemoveAt(SetBossRoom(candidates));
         }
 
         private int SetFinishRoom(IReadOnlyList<Room> candidates)
@@ -72,25 +70,14 @@ namespace Sgorey.DungeonGeneration
             return idx;
         }
 
-        private List<int> SetBossRooms(IReadOnlyList<Room> candidates)
+        private int SetBossRoom(IReadOnlyList<Room> candidates)
         {
-            int count = Random.Range(_minBossRoomCount, _maxBossRoomCount + 1);
+            Assert.IsTrue(candidates.Count > 0);
 
-            List<int> candidateIndexes = new(candidates.Count);
-            for (int i = 0; i < candidates.Count; i++)
-                candidateIndexes.Add(i);
+            int idx = Random.Range(0, candidates.Count);
+            candidates[idx].Type = RoomType.Boss;
 
-            List<int> bossRoomIndexes = new(count);
-
-            for (int i = 0; i < Mathf.Min(count, candidateIndexes.Count); i++)
-            {
-                int idx = Random.Range(0, candidateIndexes.Count);
-                bossRoomIndexes.Add(candidateIndexes[idx]);
-                candidates[candidateIndexes[idx]].Type = RoomType.Boss;
-                candidateIndexes.RemoveAt(idx);
-            }
-
-            return bossRoomIndexes;
+            return idx;
         }
 
         private int SetInitialRoom(IReadOnlyList<Room> candidates)
@@ -117,23 +104,28 @@ namespace Sgorey.DungeonGeneration
                 if (room.Type == RoomType.Initial)
                     continue;
 
-                Vector3 pos = DungeonToWorldPosition(room.Position);
 
                 int index;
                 GameObject prefab;
 
                 if (room.Type == RoomType.Boss)
                 {
+                    Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
                     index = Random.Range(0, _bossPrefabs.Length);
                     prefab = _bossPrefabs[index];
+                    Instantiate(prefab, pos, Quaternion.identity, transform);
                 }
                 else
                 {
-                    index = Random.Range(0, _enemyPrefabs.Length);
-                    prefab = _enemyPrefabs[index];
+                    int count = Random.Range(_minEnemyCount, _maxEnemyCount);
+                    for (int i = 0; i < count; i++)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
+                        index = Random.Range(0, _enemyPrefabs.Length);
+                        prefab = _enemyPrefabs[index];
+                        Instantiate(prefab, pos, Quaternion.identity, transform);
+                    }
                 }
-
-                Instantiate(prefab, pos, Quaternion.identity, transform);
             }
         }
 

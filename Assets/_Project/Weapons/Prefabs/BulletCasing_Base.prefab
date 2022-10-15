@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2457488773371812870}
   - component: {fileID: 578339614888333172}
   m_Layer: 0
-  m_Name: BulletCasing_Pistol
+  m_Name: BulletCasing_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
