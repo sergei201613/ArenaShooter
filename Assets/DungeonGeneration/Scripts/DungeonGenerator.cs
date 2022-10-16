@@ -7,8 +7,6 @@ namespace Sgorey.DungeonGeneration
     public abstract class DungeonGenerator : MonoBehaviour
     {
         [SerializeField]
-        protected GameObject playerPrefab;
-        [SerializeField]
         protected Vector2Int startPosition;
         [SerializeField]
         protected DungeonVisualizer _dungeonVisualizer;
@@ -21,9 +19,9 @@ namespace Sgorey.DungeonGeneration
         {
             Dungeon dungeon = CreateDungeon();
 
+            // TODO: Move to DungeonFiller.cs
             SpawnEnemies(dungeon.Rooms);
             SpawnLoot(dungeon.Rooms);
-            SpawnPlayer();
         }
 
         public Dungeon CreateDungeon()
@@ -53,20 +51,8 @@ namespace Sgorey.DungeonGeneration
                 DestroyImmediate(dungTransform.GetChild(0).gameObject);
         }
 
-        protected virtual void SpawnPlayer()
-        {
-            Vector3 playerPos = GetPlayerSpawnPosition();
-            Instantiate(playerPrefab, playerPos, Quaternion.identity);
-        }
-
         protected virtual void SpawnEnemies(IReadOnlyCollection<Room> rooms) { }
 
         protected virtual void SpawnLoot(IReadOnlyCollection<Room> rooms) { }
-
-        protected virtual Vector3 GetPlayerSpawnPosition()
-        {
-            return new Vector3(startPosition.x, height,
-                startPosition.y);
-        }
     }
 }

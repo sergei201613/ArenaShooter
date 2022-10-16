@@ -247,6 +247,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55519974a5ef6a847b4a64799bd84996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TLCorner: {x: 0, y: 0}
+  BLCorner: {x: 0, y: 0}
+  TRCorner: {x: 0, y: 0}
+  BRCorner: {x: 0, y: 0}
+  connectedRooms: []
+  savedConnectedRooms: []
+  corners: []
+  midPoints: []
+  closestRooms: []
+  isPlayerInside: 0
+  maxAmountOfConnections: 0
 --- !u!4 &618695580
 Transform:
   m_ObjectHideFlags: 1
@@ -381,6 +392,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55519974a5ef6a847b4a64799bd84996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TLCorner: {x: 0, y: 0}
+  BLCorner: {x: 0, y: 0}
+  TRCorner: {x: 0, y: 0}
+  BRCorner: {x: 0, y: 0}
+  connectedRooms: []
+  savedConnectedRooms: []
+  corners: []
+  midPoints: []
+  closestRooms: []
+  isPlayerInside: 0
+  maxAmountOfConnections: 0
 --- !u!4 &1144768107
 Transform:
   m_ObjectHideFlags: 1
@@ -456,8 +478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603bb84667f2b08498fc022dd3880473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
-    type: 3}
   startPosition: {x: 0, y: 0}
   _dungeonVisualizer: {fileID: 1688108488}
   scale: 1
@@ -480,7 +500,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1603278495
 GameObject:
@@ -542,6 +562,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55519974a5ef6a847b4a64799bd84996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TLCorner: {x: 0, y: 0}
+  BLCorner: {x: 0, y: 0}
+  TRCorner: {x: 0, y: 0}
+  BRCorner: {x: 0, y: 0}
+  connectedRooms: []
+  savedConnectedRooms: []
+  corners: []
+  midPoints: []
+  closestRooms: []
+  isPlayerInside: 0
+  maxAmountOfConnections: 0
 --- !u!4 &1622168548
 Transform:
   m_ObjectHideFlags: 1
@@ -598,6 +629,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55519974a5ef6a847b4a64799bd84996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TLCorner: {x: 0, y: 0}
+  BLCorner: {x: 0, y: 0}
+  TRCorner: {x: 0, y: 0}
+  BRCorner: {x: 0, y: 0}
+  connectedRooms: []
+  savedConnectedRooms: []
+  corners: []
+  midPoints: []
+  closestRooms: []
+  isPlayerInside: 0
+  maxAmountOfConnections: 0
 --- !u!4 &1726237146
 Transform:
   m_ObjectHideFlags: 1
@@ -642,6 +684,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55519974a5ef6a847b4a64799bd84996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TLCorner: {x: 0, y: 0}
+  BLCorner: {x: 0, y: 0}
+  TRCorner: {x: 0, y: 0}
+  BRCorner: {x: 0, y: 0}
+  connectedRooms: []
+  savedConnectedRooms: []
+  corners: []
+  midPoints: []
+  closestRooms: []
+  isPlayerInside: 0
+  maxAmountOfConnections: 0
 --- !u!4 &1906959797
 Transform:
   m_ObjectHideFlags: 1
@@ -1027,7 +1080,7 @@ PrefabInstance:
     - target: {fileID: 3661715823651985282, guid: eaba618a749f31145aae8596d0611755,
         type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 3661715823651985282, guid: eaba618a749f31145aae8596d0611755,
         type: 3}
@@ -1331,7 +1384,7 @@ PrefabInstance:
     - target: {fileID: 4596315381786459385, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4596315381786459385, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}

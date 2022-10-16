@@ -44,13 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac2727bba86ec914583a20cfca8acfea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
+    type: 3}
   floorPrefabRoom: {fileID: 6615395943962630717, guid: 232fbb621228ba74c8dc0906220a831a,
     type: 3}
   floorPrefabCorridor: {fileID: 6615395943962630717, guid: 58df9a6f3532daf41bd19b44a2f2887c,
-    type: 3}
-  floorPrefabDoor: {fileID: 6615395943962630717, guid: 265c5dfd082c4004988b2b010c4a4ad7,
     type: 3}
   doorPrefab: {fileID: 7526535212117748116, guid: 558be0c669d9a7f4c914d92a2fb38039,
     type: 3}
   wallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
     type: 3}
+  _optimizer: {fileID: 0}

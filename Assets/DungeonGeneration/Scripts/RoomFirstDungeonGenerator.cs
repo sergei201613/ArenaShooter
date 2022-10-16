@@ -44,21 +44,37 @@ namespace Sgorey.DungeonGeneration
 
         protected override void Awake()
         {
+            // TODO: Dungeon generator shouldn't know anything about optimizations,
+            // it work for dungeon visualizer.
             _optimizer = this.FindComp<DistanceBasedOptimizer>();
             base.Awake();
         }
 
         public override HashSet<Room> GenerateRooms(Vector2Int start)
         {
-            Vector3Int size = new(_dungeonWidth, _dungeonHeight, 0);
-            BoundsInt bounds = new((Vector3Int)startPosition, size);
+            Vector3Int dungeonSize = new(_dungeonWidth, _dungeonHeight, 0);
+            BoundsInt dungeonBounds = new((Vector3Int)startPosition, dungeonSize);
 
-            var boundsList = PGAlgorithms.Bsp(bounds, _minRoomWidth,
-                _minRoomHeight);
+            var boundsList = PGAlgorithms.Bsp(dungeonBounds, _minRoomWidth, _minRoomHeight);
 
-            HashSet<Room> rooms = CreateRooms(boundsList);
+            HashSet<Room> rooms = new();
+            foreach (var bounds in boundsList)
+            {
+                HashSet<Vector2Int> roomFloor = new();
+                for (int col = _offset; col < bounds.size.x - _offset; col++)
+                {
+                    for (int raw = _offset; raw < bounds.size.y - _offset; raw++)
+                    {
+                        var offset = new Vector2Int(col, raw);
+                        var pos = (Vector2Int)bounds.min + offset;
+                        roomFloor.Add(pos);
+                    }
+                }
+                var roomPos = (Vector2Int)Vector3Int.RoundToInt(bounds.center);
+                Room room = new(roomPos, roomFloor);
+                rooms.Add(room);
+            }
             SetRoomTypes(rooms);
-
             return rooms;
         }
 
@@ -93,14 +109,6 @@ namespace Sgorey.DungeonGeneration
             _initialRoom = candidates[0];
             _initialRoom.Type = RoomType.Initial;
             return 0;
-        }
-
-        protected override Vector3 GetPlayerSpawnPosition()
-        {
-            return new Vector3(
-                _initialRoom.Position.x * scale,
-                height,
-                _initialRoom.Position.y * scale);
         }
 
         protected override void SpawnEnemies(IReadOnlyCollection<Room> rooms)
@@ -254,28 +262,6 @@ namespace Sgorey.DungeonGeneration
                 }
             }
             return farthestRoomIdx;
-        }
-
-        private HashSet<Room> CreateRooms(IReadOnlyCollection<BoundsInt> boundsList)
-        {
-            HashSet<Room> rooms = new();
-            foreach (var bounds in boundsList)
-            {
-                HashSet<Vector2Int> roomFloor = new();
-                for (int col = _offset; col < bounds.size.x - _offset; col++)
-                {
-                    for (int raw = _offset; raw < bounds.size.y - _offset; raw++)
-                    {
-                        var offset = new Vector2Int(col, raw);
-                        var pos = (Vector2Int)bounds.min + offset;
-                        roomFloor.Add(pos);
-                    }
-                }
-                var roomPos = (Vector2Int)Vector3Int.RoundToInt(bounds.center);
-                Room room = new(roomPos, roomFloor);
-                rooms.Add(room);
-            }
-            return rooms;
         }
 
         public override HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms)
