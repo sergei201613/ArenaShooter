@@ -10,8 +10,6 @@ namespace Sgorey.ArenaShooter
     [DefaultExecutionOrder(-100)]
     public class GameController : MonoBehaviour
     {
-        public const string LevelKey = "Level";
-
         [SerializeField] Boot _boot;
 
         public int Level { get; private set; } = 1;
