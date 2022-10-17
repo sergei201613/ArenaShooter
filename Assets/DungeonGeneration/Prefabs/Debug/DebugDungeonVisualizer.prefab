@@ -54,4 +54,21 @@ MonoBehaviour:
     type: 3}
   wallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
     type: 3}
+  _enemyPrefabs:
+  - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
+  _bossPrefabs:
+  - {fileID: 2015434656898269652, guid: e29d43f43cc5d82499dd9926e01847d3, type: 3}
+  _minEnemyCount: 2
+  _maxEnemyCount: 4
+  _lootPrefabs:
+  - {fileID: 6987704255067724990, guid: e501f3ba50bd1cf468d37bd98df2dc0b, type: 3}
+  - {fileID: 6987704255067724990, guid: 3f480333fd9467348b3b55611ca4059c, type: 3}
+  - {fileID: 6987704255067724990, guid: 3f480333fd9467348b3b55611ca4059c, type: 3}
+  - {fileID: 6987704255067724990, guid: 3f480333fd9467348b3b55611ca4059c, type: 3}
+  - {fileID: 6987704255067724990, guid: 3f480333fd9467348b3b55611ca4059c, type: 3}
+  _initialRoomLootPrefabs:
+  - {fileID: 6987704255067724990, guid: 243b9330c23c0cf4f8b498002a6d269a, type: 3}
+  _finishThingPrefab: {fileID: 5440238916142094677, guid: 2d0cc883942cfa64d9bb3f0e989ee214,
+    type: 3}
   _optimizer: {fileID: 0}
+  _navMeshSurface: {fileID: 0}

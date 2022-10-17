@@ -218,18 +218,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &590849873 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
-    type: 3}
-  m_PrefabInstance: {fileID: 4596315381835714794}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b3cd08f1f3a6546a6932021a20ff48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &618695578
 GameObject:
   m_ObjectHideFlags: 1
@@ -319,7 +307,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &861337889
 MonoBehaviour:
@@ -483,18 +471,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1688108488 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3661715823651985283, guid: eaba618a749f31145aae8596d0611755,
-    type: 3}
-  m_PrefabInstance: {fileID: 3661715825337461323}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac2727bba86ec914583a20cfca8acfea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1726237144
 GameObject:
   m_ObjectHideFlags: 1
@@ -538,52 +514,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1777747552
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1777747554}
-  - component: {fileID: 1777747553}
-  m_Layer: 0
-  m_Name: GameController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1777747553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1777747552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a4f891175dd8f41ba88efa48b6e791, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _generator: {fileID: 590849873}
-  _visualizer: {fileID: 1688108488}
---- !u!4 &1777747554
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1777747552}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1906959795
 GameObject:
@@ -1005,7 +935,7 @@ PrefabInstance:
     - target: {fileID: 1315839542190839936, guid: c996b53e9f849234393d1e90f68d1679,
         type: 3}
       propertyPath: WinSceneName
-      value: MainScene
+      value: Game
       objectReference: {fileID: 0}
     - target: {fileID: 1315839542190839937, guid: c996b53e9f849234393d1e90f68d1679,
         type: 3}
@@ -1131,26 +1061,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
-        type: 3}
-      propertyPath: _dungeonWidth
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
-        type: 3}
-      propertyPath: _dungeonHeight
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
-        type: 3}
-      propertyPath: _navMeshSurface
-      value: 
-      objectReference: {fileID: 2123522985}
-    - target: {fileID: 4596315381786459384, guid: b071fa82ebcea944383c4b9a8a92ba66,
-        type: 3}
-      propertyPath: _dungeonVisualizer
-      value: 
-      objectReference: {fileID: 1688108488}
     - target: {fileID: 4596315381786459385, guid: b071fa82ebcea944383c4b9a8a92ba66,
         type: 3}
       propertyPath: m_RootOrder

@@ -29,7 +29,7 @@ namespace Sgorey.DungeonGeneration
                 parameters.StartIterationFromRandomPosition;
         }
 
-        public override HashSet<Room> GenerateRooms(Vector2Int start)
+        protected override HashSet<Room> GenerateRooms(Vector2Int start)
         {
             var currentPos = start;
             var floorPositions = new HashSet<Vector2Int>();
@@ -51,7 +51,7 @@ namespace Sgorey.DungeonGeneration
             return rooms;
         }
 
-        public override HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms)
+        protected override HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms)
         {
             throw new System.NotImplementedException();
         }

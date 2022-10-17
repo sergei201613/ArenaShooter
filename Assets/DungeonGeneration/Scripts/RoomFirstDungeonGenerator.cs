@@ -1,56 +1,40 @@
-using Sgorey.Unity.Utils.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace Sgorey.DungeonGeneration
 {
     public class RoomFirstDungeonGenerator : DungeonGenerator
     {
+        public Vector2Int DungeonSize
+        {
+            get
+            {
+                return new Vector2Int(_dungeonWidth, _dungeonHeight);
+            }
+            set
+            {
+                _dungeonWidth = value.x;
+                _dungeonHeight = value.y;
+            }
+        }
         [SerializeField]
         private int _minRoomWidth = 4;
         [SerializeField]
         private int _minRoomHeight = 4;
         [SerializeField]
-        private int _dungeonWidth = 20;
+        private int _dungeonWidth = 50;
         [SerializeField]
-        private int _dungeonHeight = 20;
-        [SerializeField]
-        private int _minEnemyCount = 2;
-        [SerializeField]
-        private int _maxEnemyCount = 4;
+        private int _dungeonHeight = 50;
         [SerializeField]
         [Range(0, 10)]
         private int _offset = 1;
-        [SerializeField]
-        private GameObject[] _enemyPrefabs;
-        [SerializeField]
-        private GameObject[] _bossPrefabs;
-        [SerializeField]
-        private GameObject[] _lootPrefabs;
-        [SerializeField]
-        private GameObject[] _initialRoomLootPrefabs;
-        [SerializeField]
-        private GameObject _finishThingPrefab;
-        [SerializeField]
-        private NavMeshSurface _navMeshSurface;
 
         private Room _initialRoom;
-        private DistanceBasedOptimizer _optimizer;
 
-        protected override void Awake()
-        {
-            // TODO: Dungeon generator shouldn't know anything about optimizations,
-            // it work for dungeon visualizer.
-            _optimizer = this.FindComp<DistanceBasedOptimizer>();
-            base.Awake();
-        }
-
-        public override HashSet<Room> GenerateRooms(Vector2Int start)
+        protected override HashSet<Room> GenerateRooms(Vector2Int start)
         {
             Vector3Int dungeonSize = new(_dungeonWidth, _dungeonHeight, 0);
             BoundsInt dungeonBounds = new((Vector3Int)startPosition, dungeonSize);
@@ -82,9 +66,14 @@ namespace Sgorey.DungeonGeneration
         {
             List<Room> candidates = new(rooms);
 
-            candidates.RemoveAt(SetInitialRoom(candidates));
-            candidates.RemoveAt(SetFinishRoom(candidates));
-            candidates.RemoveAt(SetBossRoom(candidates));
+            if (candidates.Count > 0)
+                candidates.RemoveAt(SetInitialRoom(candidates));
+
+            if (candidates.Count > 0)
+                candidates.RemoveAt(SetFinishRoom(candidates));
+
+            if (candidates.Count > 0)
+                candidates.RemoveAt(SetBossRoom(candidates));
         }
 
         private int SetFinishRoom(IReadOnlyList<Room> candidates)
@@ -96,8 +85,6 @@ namespace Sgorey.DungeonGeneration
 
         private int SetBossRoom(IReadOnlyList<Room> candidates)
         {
-            Assert.IsTrue(candidates.Count > 0);
-
             int idx = Random.Range(0, candidates.Count);
             candidates[idx].Type = RoomType.Boss;
 
@@ -109,88 +96,6 @@ namespace Sgorey.DungeonGeneration
             _initialRoom = candidates[0];
             _initialRoom.Type = RoomType.Initial;
             return 0;
-        }
-
-        protected override void SpawnEnemies(IReadOnlyCollection<Room> rooms)
-        {
-            _navMeshSurface.BuildNavMesh();
-
-            foreach (var room in rooms)
-            {
-                if (room.Type == RoomType.Initial)
-                    continue;
-
-                int index;
-                GameObject prefab;
-                GameObject obj;
-
-                // TODO: Code duplication
-                if (room.Type == RoomType.Boss)
-                {
-                    Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
-                    index = Random.Range(0, _bossPrefabs.Length);
-                    prefab = _bossPrefabs[index];
-                    obj = Instantiate(prefab, pos, Quaternion.identity, transform);
-
-                    var opt = obj.AddComponent<Optimizable>();
-                    _optimizer.Register(opt);
-                }
-                else
-                {
-                    int count = Random.Range(_minEnemyCount, _maxEnemyCount);
-                    for (int i = 0; i < count; i++)
-                    {
-                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
-                        index = Random.Range(0, _enemyPrefabs.Length);
-                        prefab = _enemyPrefabs[index];
-                        obj = Instantiate(prefab, pos, Quaternion.identity, transform);
-
-                        var opt = obj.AddComponent<Optimizable>();
-                        _optimizer.Register(opt);
-                    }
-                }
-            }
-        }
-
-        protected override void SpawnLoot(IReadOnlyCollection<Room> rooms)
-        {
-            foreach (var room in rooms)
-            {
-                if (room.Type == RoomType.Finish)
-                {
-                    if (_finishThingPrefab != null)
-                    {
-                        Vector3 pos = DungeonToWorldPosition(room.Position);
-                        Instantiate(_finishThingPrefab, pos, Quaternion.identity, 
-                            transform);
-                    }
-                }
-                else if (room.Type == RoomType.Initial)
-                {
-                    if (_initialRoomLootPrefabs.Length > 0)
-                    {
-                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
-                        int idx = Random.Range(0, _initialRoomLootPrefabs.Length);
-                        var prefab = _initialRoomLootPrefabs[idx];
-                        Instantiate(prefab, pos, Quaternion.identity, transform);
-                    }
-                }
-                else if (room.Type == RoomType.None)
-                {
-                    if (_lootPrefabs.Length > 0)
-                    {
-                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
-                        int idx = Random.Range(0, _lootPrefabs.Length);
-                        var prefab = _lootPrefabs[idx];
-                        Instantiate(prefab, pos, Quaternion.identity, transform);
-                    }
-                }
-            }
-        }
-
-        private Vector3 DungeonToWorldPosition(Vector2Int position)
-        {
-            return Vector2IntHelper.DungeonToWorldPosition(position, height, scale);
         }
 
         private HashSet<Vector2Int> GenerateCorridorFloor(in Room source,
@@ -264,7 +169,7 @@ namespace Sgorey.DungeonGeneration
             return farthestRoomIdx;
         }
 
-        public override HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms)
+        protected override HashSet<Corridor> GenerateCorridors(IReadOnlyCollection<Room> rooms)
         {
             HashSet<Corridor> corridors = new();
             List<Room> roomsTmp = new(rooms);

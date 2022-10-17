@@ -22,7 +22,7 @@ namespace Unity.FPS.UI
         float m_WidthMultiplier;
         float m_HeightOffset;
 
-        void Awake()
+        void Start()
         {
             PlayerCharacterController playerCharacterController = FindObjectOfType<PlayerCharacterController>();
             DebugUtility.HandleErrorIfNullFindObject<PlayerCharacterController, Compass>(playerCharacterController,

@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using Sgorey.Unity.Utils.Runtime;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Unity.FPS.Game
 {
     public class GameFlowManager : MonoBehaviour
     {
+        public event System.Action LevelPassed;
+        public event System.Action PlayerDied;
+        public event System.Action LevelChanged;
+
         [Header("Parameters")] [Tooltip("Duration of the fade-to-black at the end of the game")]
         public float EndSceneLoadDelay = 3f;
 
@@ -56,7 +61,17 @@ namespace Unity.FPS.Game
                 // See if it's time to load the end scene (after the delay)
                 if (Time.time >= m_TimeLoadEndGameScene)
                 {
-                    SceneManager.LoadScene(m_SceneToLoad);
+                    if (m_SceneToLoad == WinSceneName)
+                    {
+                        SceneHelper.ChangeSceneAsync(m_SceneToLoad, () =>
+                        {
+                            LevelChanged?.Invoke();
+                        });
+                    }
+                    else if (m_SceneToLoad == LoseSceneName)
+                    {
+                        SceneManager.LoadScene(LoseSceneName);
+                    }
                     GameIsEnding = false;
                 }
             }
@@ -98,11 +113,13 @@ namespace Unity.FPS.Game
                 displayMessage.Message = WinGameMessage;
                 displayMessage.DelayBeforeDisplay = DelayBeforeWinMessage;
                 EventManager.Broadcast(displayMessage);
+                LevelPassed?.Invoke();
             }
             else
             {
                 m_SceneToLoad = LoseSceneName;
                 m_TimeLoadEndGameScene = Time.time + EndSceneLoadDelay;
+                PlayerDied?.Invoke();
             }
         }
 

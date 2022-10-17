@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/FPS/Scenes/IntroMenu.unity
-    guid: 56e3faabc5bb30f49a68bb8f1292f988
+    path: Assets/_Project/Common/Scenes/IntroMenu.unity
+    guid: 57caf0dcf28e63b4d9c3bdc25ba457f8
   - enabled: 1
-    path: Assets/FPS/Scenes/WinScene.unity
-    guid: 037d06fbede2b4041a843d9ee6fe750c
+    path: Assets/_Project/Common/Scenes/GameBoot.unity
+    guid: 40c29e4eebdde7349aa4de2a91b3627d
   - enabled: 1
-    path: Assets/FPS/Scenes/LoseScene.unity
-    guid: 72e5c65a45893714484002914e3fd521
+    path: Assets/_Project/Common/Scenes/Game.unity
+    guid: 25a64023f6e36f24f94a0dc5e73224f4
   - enabled: 1
-    path: Assets/FPS/Scenes/MainScene.unity
-    guid: d794a2ef8ba31d847ad3c19d03e2ddb9
+    path: Assets/_Project/Common/Scenes/LoseScene.unity
+    guid: 5f6927aa82d03134eb65bce3f3771bf8
   m_configObjects: {}

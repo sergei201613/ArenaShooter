@@ -44,23 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b3cd08f1f3a6546a6932021a20ff48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5806543708855327391, guid: a130616c5cba9b9468f8b8178e07af43,
-    type: 3}
   startPosition: {x: 0, y: 0}
-  _dungeonVisualizer: {fileID: 0}
-  scale: 2
-  height: 15
-  _minRoomWidth: 20
-  _minRoomHeight: 20
-  _dungeonWidth: 100
-  _dungeonHeight: 100
-  _minBossRoomCount: 1
-  _maxBossRoomCount: 3
-  _offset: 4
-  _enemyPrefabs:
-  - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
-  _bossPrefabs:
-  - {fileID: 2015434656898269652, guid: e29d43f43cc5d82499dd9926e01847d3, type: 3}
-  _finishThingPrefab: {fileID: 5440238916142094677, guid: 2d0cc883942cfa64d9bb3f0e989ee214,
-    type: 3}
-  _navMeshSurface: {fileID: 0}
+  _minRoomWidth: 15
+  _minRoomHeight: 15
+  _dungeonWidth: 50
+  _dungeonHeight: 50
+  _offset: 3

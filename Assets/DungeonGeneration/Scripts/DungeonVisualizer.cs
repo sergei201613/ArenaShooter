@@ -2,28 +2,31 @@ using Sgorey.Unity.Utils.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Sgorey.DungeonGeneration
 {
     public class DungeonVisualizer : MonoBehaviour
     {
-        [SerializeField]
-        protected GameObject playerPrefab;
-
-        [SerializeField]
-        protected GameObject floorPrefabRoom;
-
-        [SerializeField]
-        protected GameObject floorPrefabCorridor;
-
-        [SerializeField]
-        protected GameObject doorPrefab;
-
-        [SerializeField]
-        protected GameObject wallPrefab;
-
-        [SerializeField]
-        private DistanceBasedOptimizer _optimizer;
+        [Tooltip("Player")]
+        [SerializeField] protected GameObject playerPrefab;
+        [Tooltip("Dungeon Elements")]
+        [SerializeField] protected GameObject floorPrefabRoom;
+        [SerializeField] protected GameObject floorPrefabCorridor;
+        [SerializeField] protected GameObject doorPrefab;
+        [SerializeField] protected GameObject wallPrefab;
+        [Tooltip("Dungeon Enemies")]
+        [SerializeField] private GameObject[] _enemyPrefabs;
+        [SerializeField] private GameObject[] _bossPrefabs;
+        [SerializeField] private int _minEnemyCount = 2;
+        [SerializeField] private int _maxEnemyCount = 4;
+        [Tooltip("Dungeon Loot")]
+        [SerializeField] private GameObject[] _lootPrefabs;
+        [SerializeField] private GameObject[] _initialRoomLootPrefabs;
+        [Tooltip("Other")]
+        [SerializeField] private GameObject _finishThingPrefab;
+        [SerializeField] private DistanceBasedOptimizer _optimizer;
+        [SerializeField] private NavMeshSurface _navMeshSurface;
 
         protected int scale;
         protected float height;
@@ -40,6 +43,85 @@ namespace Sgorey.DungeonGeneration
             SpawnDoors(dungeon, wallPositions);
 
             SpawnPlayer(dungeon);
+            SpawnEnemies(dungeon.Rooms);
+            SpawnLoot(dungeon.Rooms);
+        }
+
+        protected virtual void SpawnEnemies(IReadOnlyCollection<Room> rooms)
+        {
+            _navMeshSurface.BuildNavMesh();
+
+            foreach (var room in rooms)
+            {
+                if (room.Type == RoomType.Initial)
+                    continue;
+
+                int index;
+                GameObject prefab;
+                GameObject obj;
+
+                // TODO: Code duplication
+                if (room.Type == RoomType.Boss)
+                {
+                    Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
+                    index = Random.Range(0, _bossPrefabs.Length);
+                    prefab = _bossPrefabs[index];
+                    obj = Instantiate(prefab, pos, Quaternion.identity, transform);
+
+                    var opt = obj.AddComponent<Optimizable>();
+                    _optimizer.Register(opt);
+                }
+                else
+                {
+                    int count = Random.Range(_minEnemyCount, _maxEnemyCount);
+                    for (int i = 0; i < count; i++)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
+                        index = Random.Range(0, _enemyPrefabs.Length);
+                        prefab = _enemyPrefabs[index];
+                        obj = Instantiate(prefab, pos, Quaternion.identity, transform);
+
+                        var opt = obj.AddComponent<Optimizable>();
+                        _optimizer.Register(opt);
+                    }
+                }
+            }
+        }
+
+        protected virtual void SpawnLoot(IReadOnlyCollection<Room> rooms)
+        {
+            foreach (var room in rooms)
+            {
+                if (room.Type == RoomType.Finish)
+                {
+                    if (_finishThingPrefab != null)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.Position);
+                        Instantiate(_finishThingPrefab, pos, Quaternion.identity, 
+                            transform);
+                    }
+                }
+                else if (room.Type == RoomType.Initial)
+                {
+                    if (_initialRoomLootPrefabs.Length > 0)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
+                        int idx = Random.Range(0, _initialRoomLootPrefabs.Length);
+                        var prefab = _initialRoomLootPrefabs[idx];
+                        Instantiate(prefab, pos, Quaternion.identity, transform);
+                    }
+                }
+                else if (room.Type == RoomType.None)
+                {
+                    if (_lootPrefabs.Length > 0)
+                    {
+                        Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
+                        int idx = Random.Range(0, _lootPrefabs.Length);
+                        var prefab = _lootPrefabs[idx];
+                        Instantiate(prefab, pos, Quaternion.identity, transform);
+                    }
+                }
+            }
         }
 
         private void SpawnPlayer(Dungeon dungeon)
@@ -163,6 +245,11 @@ namespace Sgorey.DungeonGeneration
                 }
             }
             return wallPositions;
+        }
+
+        private Vector3 DungeonToWorldPosition(Vector2Int position)
+        {
+            return Vector2IntHelper.DungeonToWorldPosition(position, height, scale);
         }
     }
 }
