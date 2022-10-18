@@ -23,7 +23,7 @@ namespace Sgorey.ArenaShooter
 
         private void Awake()
         {
-            _boot.BootComplete += Initialize;
+            _boot.SceneLoaded += Initialize;
         }
 
         private void Initialize()
@@ -50,6 +50,10 @@ namespace Sgorey.ArenaShooter
                 // TODO: shit code, i love this FPS template!
                 yield return new WaitForEndOfFrame();
                 _player.transform.position = pos;
+                yield return new WaitForEndOfFrame();
+                _player.transform.position = pos;
+                yield return new WaitForEndOfFrame();
+                _player.transform.position = pos;
             }
         }
 
@@ -57,6 +61,7 @@ namespace Sgorey.ArenaShooter
         {
             _gameFlow.LevelPassed -= ToNextLevel;
             _gameFlow.PlayerDied -= ResetLevel;
+            _gameFlow.LevelChanged -= Initialize;
             _visualizer.EnemySpawned -= ProcessEnemy;
         }
 

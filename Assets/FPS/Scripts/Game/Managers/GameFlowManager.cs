@@ -8,6 +8,7 @@ namespace Unity.FPS.Game
     {
         public event System.Action LevelPassed;
         public event System.Action PlayerDied;
+        public event System.Action LevelChanging;
         public event System.Action LevelChanged;
 
         [Header("Parameters")] [Tooltip("Duration of the fade-to-black at the end of the game")]
@@ -63,6 +64,7 @@ namespace Unity.FPS.Game
                 {
                     if (m_SceneToLoad == WinSceneName)
                     {
+                        LevelChanging?.Invoke();
                         SceneHelper.ChangeSceneAsync(m_SceneToLoad, () =>
                         {
                             LevelChanged?.Invoke();
