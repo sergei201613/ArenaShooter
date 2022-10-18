@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4562106113206725360}
   - component: {fileID: 5238743306111936719}
   - component: {fileID: 8213572132758995109}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon_Base
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 1205334954648117742}
   - component: {fileID: 1350421119074332132}
   - component: {fileID: 5493784307247262867}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5113,7 +5113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3713343277183638186}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GunRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5144,7 +5144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8990538098262727909}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AimPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5175,7 +5175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5427612936501105980}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GunMuzzle
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}

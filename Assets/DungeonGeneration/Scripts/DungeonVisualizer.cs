@@ -8,8 +8,8 @@ namespace Sgorey.DungeonGeneration
 {
     public class DungeonVisualizer : MonoBehaviour
     {
-        [Tooltip("Player")]
-        [SerializeField] protected GameObject playerPrefab;
+        public event System.Action<GameObject> EnemySpawned;
+
         [Tooltip("Dungeon Elements")]
         [SerializeField] protected GameObject floorPrefabRoom;
         [SerializeField] protected GameObject floorPrefabCorridor;
@@ -30,11 +30,14 @@ namespace Sgorey.DungeonGeneration
 
         protected int scale;
         protected float height;
+        private Dungeon _dungeon;
 
         public virtual void Visualize(Dungeon dungeon, int scale, float height)
         {
             this.scale = scale;
             this.height = height;
+
+            _dungeon = dungeon;
 
             SpawnRoomFloor(dungeon);
             SpawnCorridorFloor(dungeon);
@@ -42,9 +45,20 @@ namespace Sgorey.DungeonGeneration
             HashSet<Vector2Int> wallPositions = SpawnWalls(dungeon);
             SpawnDoors(dungeon, wallPositions);
 
-            SpawnPlayer(dungeon);
             SpawnEnemies(dungeon.Rooms);
             SpawnLoot(dungeon.Rooms);
+        }
+
+        public Vector3 GetPlayerSpawnPoint()
+        {
+            foreach (var room in _dungeon.Rooms)
+            {
+                if (room.Type == RoomType.Initial)
+                {
+                    return DungeonToWorldPosition(room.Position);
+                }
+            }
+            throw new System.Exception("There is no initial room in the dungeon!");
         }
 
         protected virtual void SpawnEnemies(IReadOnlyCollection<Room> rooms)
@@ -70,6 +84,8 @@ namespace Sgorey.DungeonGeneration
 
                     var opt = obj.AddComponent<Optimizable>();
                     _optimizer.Register(opt);
+
+                    EnemySpawned?.Invoke(obj);
                 }
                 else
                 {
@@ -83,6 +99,8 @@ namespace Sgorey.DungeonGeneration
 
                         var opt = obj.AddComponent<Optimizable>();
                         _optimizer.Register(opt);
+
+                        EnemySpawned?.Invoke(obj);
                     }
                 }
             }
@@ -120,17 +138,6 @@ namespace Sgorey.DungeonGeneration
                         var prefab = _lootPrefabs[idx];
                         Instantiate(prefab, pos, Quaternion.identity, transform);
                     }
-                }
-            }
-        }
-
-        private void SpawnPlayer(Dungeon dungeon)
-        {
-            foreach (var room in dungeon.Rooms)
-            {
-                if (room.Type == RoomType.Initial)
-                {
-                    SpawnElement(playerPrefab, room.Position, false);
                 }
             }
         }

@@ -5,6 +5,7 @@ using UnityEngine.Events;
 namespace Unity.FPS.Gameplay
 {
     [RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler), typeof(AudioSource))]
+    [DefaultExecutionOrder(-10)]
     public class PlayerCharacterController : MonoBehaviour
     {
         [Header("References")] [Tooltip("Reference to the main camera used for the player")]
@@ -132,13 +133,6 @@ namespace Unity.FPS.Gameplay
 
         const float k_JumpGroundingPreventionTime = 0.2f;
         const float k_GroundCheckDistanceInAir = 0.07f;
-
-        void Awake()
-        {
-            ActorsManager actorsManager = FindObjectOfType<ActorsManager>();
-            if (actorsManager != null)
-                actorsManager.SetPlayer(gameObject);
-        }
 
         void Start()
         {

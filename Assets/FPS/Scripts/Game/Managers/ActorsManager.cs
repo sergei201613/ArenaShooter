@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Unity.FPS.Game
 {
@@ -13,6 +14,17 @@ namespace Unity.FPS.Game
         void Awake()
         {
             Actors = new List<Actor>();
+
+            // TODO: Bad
+            var player = GameObject.FindWithTag("Player");
+            Assert.IsNotNull(player);
+
+            SetPlayer(player);
+
+            var playerActor = player.GetComponent<Actor>();
+            Assert.IsNotNull(playerActor);
+
+            Actors.Add(playerActor);
         }
     }
 }

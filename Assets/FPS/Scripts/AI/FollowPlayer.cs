@@ -1,5 +1,5 @@
-﻿using Unity.FPS.Game;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Unity.FPS.AI
 {
@@ -10,15 +10,9 @@ namespace Unity.FPS.AI
 
         void Start()
         {
-            ActorsManager actorsManager = FindObjectOfType<ActorsManager>();
-            if (actorsManager != null)
-                m_PlayerTransform = actorsManager.Player.transform;
-            else
-            {
-                enabled = false;
-                return;
-            }
-
+            // TODO: Bad
+            m_PlayerTransform = GameObject.FindWithTag("Player").transform;
+            Assert.IsNotNull(m_PlayerTransform);
             m_OriginalOffset = transform.position - m_PlayerTransform.position;
         }
 

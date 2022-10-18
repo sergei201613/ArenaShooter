@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8974616355614226650}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EjectionPort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Arm (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4029416274052035478, guid: 93c4e280d5c0aca49b4f289f3eb1374c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93c4e280d5c0aca49b4f289f3eb1374c, type: 3}
@@ -349,6 +354,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arm
       objectReference: {fileID: 0}
+    - target: {fileID: 4029416274052035478, guid: 93c4e280d5c0aca49b4f289f3eb1374c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93c4e280d5c0aca49b4f289f3eb1374c, type: 3}
 --- !u!1001 &7377401094661036082
@@ -417,6 +427,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Shotgun_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4005fefb67c67aa44bae55e268b3684e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 4005fefb67c67aa44bae55e268b3684e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4005fefb67c67aa44bae55e268b3684e, type: 3}
