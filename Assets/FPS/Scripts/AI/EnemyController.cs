@@ -307,6 +307,15 @@ namespace Unity.FPS.AI
             }
         }
 
+        public void SetNavDestination(Vector3 destination, float stoppingDist)
+        {
+            if (NavMeshAgent)
+            {
+                NavMeshAgent.stoppingDistance = stoppingDist;
+                NavMeshAgent.SetDestination(destination);
+            }
+        }
+
         public void SetNavDestination(Vector3 destination)
         {
             if (NavMeshAgent)

@@ -15,6 +15,8 @@ namespace Unity.FPS.AI
 
         public Animator Animator;
 
+        public float HuntingStoppingDist = 2f;
+
         [Tooltip("Fraction of the enemy's attack range at which it will stop moving towards target while attacking")]
         [Range(0f, 1f)]
         public float AttackStopDistanceRatio = 0.5f;
@@ -31,7 +33,6 @@ namespace Unity.FPS.AI
         public AIState AiState { get; private set; }
         EnemyController m_EnemyController;
         AudioSource m_AudioSource;
-
         const string k_AnimMoveSpeedParameter = "MoveSpeed";
         const string k_AnimAttackParameter = "Attack";
         const string k_AnimAlertedParameter = "Alerted";
@@ -109,7 +110,7 @@ namespace Unity.FPS.AI
                     m_EnemyController.SetNavDestination(m_EnemyController.GetDestinationOnPath());
                     break;
                 case AIState.Follow:
-                    m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position);
+                    m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
                     m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
                     m_EnemyController.OrientWeaponsTowards(m_EnemyController.KnownDetectedTarget.transform.position);
                     break;
@@ -118,7 +119,7 @@ namespace Unity.FPS.AI
                             m_EnemyController.DetectionModule.DetectionSourcePoint.position)
                         >= (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange))
                     {
-                        m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position);
+                        m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
                     }
                     else
                     {
