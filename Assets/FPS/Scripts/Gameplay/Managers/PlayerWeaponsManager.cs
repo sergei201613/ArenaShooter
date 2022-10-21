@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Sgorey.Unity.Utils.Runtime;
+using System.Collections.Generic;
 using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
@@ -92,9 +93,14 @@ namespace Unity.FPS.Gameplay
         float m_TimeStartedWeaponSwitch;
         WeaponSwitchState m_WeaponSwitchState;
         int m_WeaponSwitchNewWeaponIndex;
+        PlayerCameraManager _playerCamera;
+        Float _fovMlt;
 
         void Start()
         {
+            _playerCamera = this.FindComp<PlayerCameraManager>();
+            _fovMlt = _playerCamera.AddFovMultiplier();
+
             ActiveWeaponIndex = -1;
             m_WeaponSwitchState = WeaponSwitchState.Down;
 
@@ -207,8 +213,9 @@ namespace Unity.FPS.Gameplay
         // Sets the FOV of the main camera and the weapon camera simultaneously
         public void SetFov(float fov)
         {
-            m_PlayerCharacterController.PlayerCamera.fieldOfView = fov;
-            WeaponCamera.fieldOfView = fov * WeaponFovMultiplier;
+            float fovMlt = _playerCamera.FovBase / fov;
+            _fovMlt.Value = fovMlt;
+            //WeaponCamera.fieldOfView = fov * WeaponFovMultiplier;
         }
 
         // Iterate on all weapon slots to find the next valid weapon to switch to
@@ -292,15 +299,20 @@ namespace Unity.FPS.Gameplay
                     m_WeaponMainLocalPosition = Vector3.Lerp(m_WeaponMainLocalPosition,
                         AimingWeaponPosition.localPosition + activeWeapon.AimOffset,
                         AimingAnimationSpeed * Time.deltaTime);
-                    SetFov(Mathf.Lerp(m_PlayerCharacterController.PlayerCamera.fieldOfView,
-                        activeWeapon.AimZoomRatio * DefaultFov, AimingAnimationSpeed * Time.deltaTime));
+
+                    _fovMlt.Value = activeWeapon.AimZoomRatio;
+                    //SetFov(Mathf.Lerp(m_PlayerCharacterController.PlayerCamera.fieldOfView,
+                    //    activeWeapon.AimZoomRatio * DefaultFov, AimingAnimationSpeed * Time.deltaTime));
                 }
                 else
                 {
                     m_WeaponMainLocalPosition = Vector3.Lerp(m_WeaponMainLocalPosition,
                         DefaultWeaponPosition.localPosition, AimingAnimationSpeed * Time.deltaTime);
-                    SetFov(Mathf.Lerp(m_PlayerCharacterController.PlayerCamera.fieldOfView, DefaultFov,
-                        AimingAnimationSpeed * Time.deltaTime));
+
+                    _fovMlt.Value = 1;
+
+                    //SetFov(Mathf.Lerp(m_PlayerCharacterController.PlayerCamera.fieldOfView, DefaultFov,
+                    //    AimingAnimationSpeed * Time.deltaTime));
                 }
             }
         }

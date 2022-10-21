@@ -1,6 +1,7 @@
 ﻿using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
+using Sgorey.Unity.Utils.Runtime;
 
 namespace Unity.FPS.Gameplay
 {
@@ -97,6 +98,9 @@ namespace Unity.FPS.Gameplay
         [Tooltip("Damage recieved when falling at the maximum speed")]
         public float FallDamageAtMaxSpeed = 50f;
 
+        [Tooltip("Spring field of view multiplier")]
+        [SerializeField] private float _sprintFovMlt = 1.2f;
+
         public UnityAction<bool> OnStanceChanged;
 
         public Vector3 CharacterVelocity { get; set; }
@@ -130,12 +134,16 @@ namespace Unity.FPS.Gameplay
         float m_CameraVerticalAngle = 0f;
         float m_FootstepDistanceCounter;
         float m_TargetCharacterHeight;
-
         const float k_JumpGroundingPreventionTime = 0.2f;
         const float k_GroundCheckDistanceInAir = 0.07f;
+        private PlayerCameraManager _playerCameraManager;
+        private Float _fovMlt;
 
         void Start()
         {
+            _playerCameraManager = this.FindComp<PlayerCameraManager>();
+            _fovMlt = _playerCameraManager.AddFovMultiplier();
+
             // fetch components on the same gameObject
             m_Controller = GetComponent<CharacterController>();
             DebugUtility.HandleErrorIfNullGetComponent<CharacterController, PlayerCharacterController>(m_Controller,
@@ -288,7 +296,17 @@ namespace Unity.FPS.Gameplay
                     isSprinting = SetCrouchingState(false, false);
                 }
 
-                float speedModifier = isSprinting ? SprintSpeedModifier : 1f;
+                float speedModifier = 1;
+
+                if (isSprinting)
+                {
+                    speedModifier = SprintSpeedModifier;
+                    _fovMlt.Value = _sprintFovMlt;
+                }
+                else
+                {
+                    _fovMlt.Value = 1;
+                }
 
                 // converts move input to a worldspace vector based on our character's transform orientation
                 Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());

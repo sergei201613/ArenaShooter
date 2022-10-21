@@ -1,10 +1,10 @@
 {
-    "name": "fps.Gameplay",
-    "rootNamespace": "",
+    "name": "Sgorey.ArenaShooter",
+    "rootNamespace": "Sgorey.ArenaShooter",
     "references": [
-        "GUID:9c5543eabb73a6249ac07b2c065ee8b4",
-        "GUID:dbca95c7c16ec9f4c8cb505c226dd2b6",
-        "GUID:e4d7fdca8fbb2bc438ad2d78299d245d"
+        "GUID:e4d7fdca8fbb2bc438ad2d78299d245d",
+        "GUID:70c98084bec0db8479a30b4318126756",
+        "GUID:9c5543eabb73a6249ac07b2c065ee8b4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
