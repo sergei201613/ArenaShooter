@@ -128,7 +128,6 @@ namespace Unity.FPS.Gameplay
         PlayerWeaponsManager m_WeaponsManager;
         Actor m_Actor;
         Vector3 m_GroundNormal;
-        Vector3 m_CharacterVelocity;
         Vector3 m_LatestImpactSpeed;
         float m_LastTimeJumped = 0f;
         float m_CameraVerticalAngle = 0f;
@@ -289,24 +288,17 @@ namespace Unity.FPS.Gameplay
             }
 
             // character movement handling
-            bool isSprinting = m_InputHandler.GetSprintInputHeld();
+            bool shouldSprint = m_InputHandler.GetSprintInputHeld();
             {
-                if (isSprinting)
+                if (shouldSprint)
                 {
-                    isSprinting = SetCrouchingState(false, false);
+                    shouldSprint = SetCrouchingState(false, false);
                 }
 
-                float speedModifier = 1;
-
-                if (isSprinting)
-                {
-                    speedModifier = SprintSpeedModifier;
-                    _fovMlt.Value = _sprintFovMlt;
-                }
-                else
-                {
-                    _fovMlt.Value = 1;
-                }
+                float speedModifier = shouldSprint ? SprintSpeedModifier : 1;
+                // TODO: Magic constant
+                bool isSprinting = shouldSprint && CharacterVelocity.sqrMagnitude > .5f;
+                _fovMlt.Value =  isSprinting ? _sprintFovMlt : 1f;
 
                 // converts move input to a worldspace vector based on our character's transform orientation
                 Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
@@ -353,7 +345,7 @@ namespace Unity.FPS.Gameplay
 
                     // footsteps sound
                     float chosenFootstepSfxFrequency =
-                        (isSprinting ? FootstepSfxFrequencyWhileSprinting : FootstepSfxFrequency);
+                        (shouldSprint ? FootstepSfxFrequencyWhileSprinting : FootstepSfxFrequency);
                     if (m_FootstepDistanceCounter >= 1f / chosenFootstepSfxFrequency)
                     {
                         m_FootstepDistanceCounter = 0f;
