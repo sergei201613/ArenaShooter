@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7692336672675980230}
   - component: {fileID: 7951582856014658560}
   m_Layer: 0
-  m_Name: VFX_MuzzleFlashRed
+  m_Name: VFX_MuzzleFlash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1364,15 +1364,15 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 0.75462615, b: 0.0990566, a: 0.6862745}
-        key1: {r: 1, g: 0.5489782, b: 0, a: 0.6862745}
-        key2: {r: 1, g: 0.28579903, b: 0, a: 0}
-        key3: {r: 1, g: 0, b: 0, a: 0}
+        key1: {r: 1, g: 0.6897315, b: 0, a: 0.6862745}
+        key2: {r: 1, g: 0.57489336, b: 0, a: 0}
+        key3: {r: 1, g: 0.36695006, b: 0, a: 0}
         key4: {r: 1, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 6361
-        ctime1: 14071
+        ctime1: 14264
         ctime2: 38936
         ctime3: 59174
         ctime4: 59174
@@ -4832,7 +4832,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: eb52fb0b8eb988248aac01ce3d48f122, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
