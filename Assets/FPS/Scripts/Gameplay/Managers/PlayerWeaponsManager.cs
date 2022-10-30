@@ -1,4 +1,5 @@
 ﻿using Sgorey.Unity.Utils.Runtime;
+using System;
 using System.Collections.Generic;
 using Unity.FPS.Game;
 using UnityEngine;
@@ -130,8 +131,13 @@ namespace Unity.FPS.Gameplay
             // shoot handling
             WeaponController activeWeapon = GetActiveWeapon();
 
-            if (activeWeapon != null && activeWeapon.IsReloading)
+            if (!activeWeapon)
                 return;
+
+            if (activeWeapon.IsReloading)
+                return;
+
+            UpdateWeaponThrowing();
 
             if (activeWeapon != null && m_WeaponSwitchState == WeaponSwitchState.Up)
             {
@@ -188,11 +194,26 @@ namespace Unity.FPS.Gameplay
                 if (Physics.Raycast(WeaponCamera.transform.position, WeaponCamera.transform.forward, out RaycastHit hit,
                     1000, -1, QueryTriggerInteraction.Ignore))
                 {
-                    if (hit.collider.GetComponentInParent<Health>() != null)
+                    var health = hit.collider.GetComponentInParent<Health>();
+                    if (health && health.gameObject != gameObject)
                     {
                         IsPointingAtEnemy = true;
                     }
                 }
+            }
+        }
+
+        private void UpdateWeaponThrowing()
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                var weapon = GetActiveWeapon();
+
+                var pos = transform.position + transform.forward * 2f;
+                var prefab = weapon.WeaponPickupPrefab;
+                Instantiate(prefab, pos, Quaternion.identity);
+
+                RemoveWeapon(weapon);
             }
         }
 
@@ -460,7 +481,8 @@ namespace Unity.FPS.Gameplay
                     // Set owner to this gameObject so the weapon can alter projectile/damage logic accordingly
                     weaponInstance.Owner = gameObject;
                     weaponInstance.SourcePrefab = weaponPrefab.gameObject;
-                    weaponInstance.ShowWeapon(false);
+
+                    //weaponInstance.ShowWeapon(false);
 
                     // Assign the first person layer to the weapon
                     int layerIndex =
@@ -477,6 +499,8 @@ namespace Unity.FPS.Gameplay
                     {
                         OnAddedWeapon.Invoke(weaponInstance, i);
                     }
+
+                    SwitchToWeaponIndex(i);
 
                     return true;
                 }

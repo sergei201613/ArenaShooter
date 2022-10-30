@@ -260,6 +260,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
         type: 3}
+      propertyPath: WeaponPickupPrefab
+      value: 
+      objectReference: {fileID: 6987704255067724990, guid: 3f480333fd9467348b3b55611ca4059c,
+        type: 3}
+    - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
+        type: 3}
       propertyPath: AimingBulletSpreadAngle
       value: 4
       objectReference: {fileID: 0}

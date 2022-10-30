@@ -35,6 +35,8 @@ namespace Unity.FPS.Game
         [Tooltip("The image that will be displayed in the UI for this weapon")]
         public Sprite WeaponIcon;
 
+        public GameObject WeaponPickupPrefab;
+
         [Tooltip("Default data for the crosshair")]
         public CrosshairData CrosshairDataDefault;
 
