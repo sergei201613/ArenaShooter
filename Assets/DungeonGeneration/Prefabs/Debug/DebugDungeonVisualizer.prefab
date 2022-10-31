@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorPrefabRoom: {fileID: 6615395943962630717, guid: 232fbb621228ba74c8dc0906220a831a,
     type: 3}
+  ceilingPrefab: {fileID: 7526535212117748116, guid: c3452f93057729343bd530882ae61f6f,
+    type: 3}
   floorPrefabCorridor: {fileID: 6615395943962630717, guid: 58df9a6f3532daf41bd19b44a2f2887c,
     type: 3}
   doorPrefab: {fileID: 7526535212117748116, guid: 558be0c669d9a7f4c914d92a2fb38039,
@@ -53,7 +55,6 @@ MonoBehaviour:
   wallPrefab: {fileID: 7526535212117748116, guid: 6be881efba36b2f4d86e051626faff10,
     type: 3}
   _enemyPrefabs:
-  - {fileID: 2015434656898269652, guid: 25a1b0efadb966e44889fce712c8ff8d, type: 3}
   - {fileID: 4293056417137627033, guid: db1cfcafd0d6def4582beb725ead9bf0, type: 3}
   _bossPrefabs:
   - {fileID: 2015434656898269652, guid: e29d43f43cc5d82499dd9926e01847d3, type: 3}
@@ -71,3 +72,4 @@ MonoBehaviour:
     type: 3}
   _optimizer: {fileID: 0}
   _navMeshSurface: {fileID: 0}
+  _ceilingYOffset: 5

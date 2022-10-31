@@ -12,9 +12,11 @@ namespace Sgorey.DungeonGeneration
 
         [Tooltip("Dungeon Elements")]
         [SerializeField] protected GameObject floorPrefabRoom;
+        [SerializeField] protected GameObject ceilingPrefab;
         [SerializeField] protected GameObject floorPrefabCorridor;
         [SerializeField] protected GameObject doorPrefab;
         [SerializeField] protected GameObject wallPrefab;
+        [SerializeField] protected GameObject roomCenterPropPrefab;
         [Tooltip("Dungeon Enemies")]
         [SerializeField] private GameObject[] _enemyPrefabs;
         [SerializeField] private GameObject[] _bossPrefabs;
@@ -27,6 +29,7 @@ namespace Sgorey.DungeonGeneration
         [SerializeField] private GameObject _finishThingPrefab;
         [SerializeField] private DistanceBasedOptimizer _optimizer;
         [SerializeField] private NavMeshSurface _navMeshSurface;
+        [SerializeField] private float _ceilingYOffset = 2f;
 
         protected int scale;
         protected float height;
@@ -41,6 +44,7 @@ namespace Sgorey.DungeonGeneration
 
             SpawnRoomFloor(dungeon);
             SpawnCorridorFloor(dungeon);
+            DecorateRooms(dungeon.Rooms);
 
             HashSet<Vector2Int> wallPositions = SpawnWalls(dungeon);
             SpawnDoors(dungeon, wallPositions);
@@ -149,7 +153,7 @@ namespace Sgorey.DungeonGeneration
                 foreach (var pos in corridor.FloorPositions)
                 {
                     if (IsDoorPosition(pos, wallPositions))
-                        SpawnElement(doorPrefab, pos, true);
+                        SpawnElement(doorPrefab, pos, true, height);
                 }
             }
         }
@@ -159,20 +163,30 @@ namespace Sgorey.DungeonGeneration
             var floor = GetFloorPositions(dungeon);
             var directions = Vector2IntHelper.Directions;
             var wallPositions = GetWallPositions(floor, directions);
-            SpawnElements(wallPositions, wallPrefab, true);
+            SpawnElements(wallPositions, wallPrefab, true, height);
             return wallPositions;
         }
 
         private void SpawnCorridorFloor(Dungeon dungeon)
         {
             foreach (var corridor in dungeon.Corridors)
-                SpawnElements(corridor.FloorPositions, floorPrefabCorridor, true);
+                SpawnElements(corridor.FloorPositions, floorPrefabCorridor, 
+                    true, height);
+
+            foreach (var corridor in dungeon.Corridors)
+                SpawnElements(corridor.FloorPositions, ceilingPrefab, 
+                    true, height + _ceilingYOffset);
         }
 
         private void SpawnRoomFloor(Dungeon dungeon)
         {
             foreach (var room in dungeon.Rooms)
-                SpawnElements(room.FloorPositions, floorPrefabRoom, true);
+                SpawnElements(room.FloorPositions, floorPrefabRoom, 
+                    true, height);
+
+            foreach (var room in dungeon.Rooms)
+                SpawnElements(room.FloorPositions, ceilingPrefab, true, 
+                    height + _ceilingYOffset);
         }
 
         private static bool IsDoorPosition(Vector2Int pos, 
@@ -217,13 +231,14 @@ namespace Sgorey.DungeonGeneration
         }
 
         private void SpawnElements(IReadOnlyCollection<Vector2Int> positions, 
-            GameObject prefab, bool optimize)
+            GameObject prefab, bool optimize, float height)
         {
             foreach (var rawPos in positions)
-                SpawnElement(prefab, rawPos, optimize);
+                SpawnElement(prefab, rawPos, optimize, height);
         }
 
-        private void SpawnElement(GameObject prefab, Vector2Int rawPos, bool optimize)
+        private void SpawnElement(GameObject prefab, Vector2Int rawPos, 
+            bool optimize, float height)
         {
             var pos = Vector2IntHelper.DungeonToWorldPosition(rawPos, height, scale);
             var obj = Instantiate(prefab, pos, Quaternion.identity, transform);
@@ -257,6 +272,21 @@ namespace Sgorey.DungeonGeneration
         private Vector3 DungeonToWorldPosition(Vector2Int position)
         {
             return Vector2IntHelper.DungeonToWorldPosition(position, height, scale);
+        }
+
+        private void DecorateRooms(IReadOnlyCollection<Room> rooms)
+        {
+            foreach (var room in rooms)
+            {
+                if (room.Type == RoomType.Initial)
+                    continue;
+
+                if (room.Type == RoomType.Finish)
+                    continue;
+
+                SpawnElement(roomCenterPropPrefab, room.Position,
+                    true, height);
+            }
         }
     }
 }
