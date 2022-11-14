@@ -134,7 +134,8 @@ namespace Unity.FPS.AI
         {
             if (Animator)
             {
-                Animator.SetTrigger(k_AnimAttackParameter);
+                // WTF !??
+                //Animator.SetTrigger(k_AnimAttackParameter);
             }
         }
     }

@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.45490196, g: 0.6862745, b: 0.74509805, a: 1}
+  m_AmbientSkyColor: {r: 0.39607844, g: 0.42745098, b: 0.4627451, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -1025,10 +1025,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 501258227437446268, guid: c06ddcdadb1c9b244aaca8d2af94b0a9,
         type: 3}
+    - target: {fileID: 3661715823651985283, guid: eaba618a749f31145aae8596d0611755,
+        type: 3}
+      propertyPath: _enemyPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4293056417137627033, guid: 503f0514d9b952947b026c122f68c426,
+        type: 3}
     - target: {fileID: 3661715823651985292, guid: eaba618a749f31145aae8596d0611755,
         type: 3}
       propertyPath: m_Name
-      value: DebugDungeonVisualizer
+      value: DungeonVisualizer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaba618a749f31145aae8596d0611755, type: 3}

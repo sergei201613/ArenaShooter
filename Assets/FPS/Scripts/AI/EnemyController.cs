@@ -440,6 +440,31 @@ namespace Unity.FPS.AI
             return didFire;
         }
 
+        public void MeleeAtack(Vector3 enemyPosition)
+        {
+            if (m_GameFlowManager.GameIsEnding)
+                return;
+
+            OrientWeaponsTowards(enemyPosition);
+
+            if ((m_LastTimeWeaponSwapped + DelayAfterWeaponSwap) >= Time.time)
+                return;
+
+            // Shoot the weapon
+            GetCurrentWeapon().MeleeShoot();
+
+            if (onAttack != null)
+            {
+                onAttack.Invoke();
+
+                if (SwapToNextWeapon && m_Weapons.Length > 1)
+                {
+                    int nextWeaponIndex = (m_CurrentWeaponIndex + 1) % m_Weapons.Length;
+                    SetCurrentWeapon(nextWeaponIndex);
+                }
+            }
+        }
+
         public bool TryDropItem()
         {
             if (DropRate == 0 || LootPrefab == null)

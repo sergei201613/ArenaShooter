@@ -401,6 +401,11 @@ namespace Unity.FPS.Game
             }
         }
 
+        public void MeleeShoot()
+        {
+            HandleShoot();
+        }
+
         bool TryShoot()
         {
             if (m_CurrentAmmo >= 1f

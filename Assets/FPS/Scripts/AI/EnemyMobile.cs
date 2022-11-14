@@ -1,4 +1,5 @@
-﻿using Unity.FPS.Game;
+﻿using System.Collections;
+using Unity.FPS.Game;
 using UnityEngine;
 
 namespace Unity.FPS.AI
@@ -6,6 +7,12 @@ namespace Unity.FPS.AI
     [RequireComponent(typeof(EnemyController))]
     public class EnemyMobile : MonoBehaviour
     {
+        [SerializeField]
+        private float _attackDelay = 1.2f;
+
+        [SerializeField]
+        private float _meleeCooldown = .6f;
+
         public enum AIState
         {
             Patrol,
@@ -14,6 +21,7 @@ namespace Unity.FPS.AI
         }
 
         public Animator Animator;
+        public bool IsMelee = true;
 
         public float HuntingStoppingDist = 2f;
 
@@ -37,6 +45,9 @@ namespace Unity.FPS.AI
         const string k_AnimAttackParameter = "Attack";
         const string k_AnimAlertedParameter = "Alerted";
         const string k_AnimOnDamagedParameter = "OnDamaged";
+
+        private float _lastTimeMeleeAttackBegin = float.NegativeInfinity;
+        private bool _attacking;
 
         void Start()
         {
@@ -90,10 +101,12 @@ namespace Unity.FPS.AI
 
                     break;
                 case AIState.Attack:
+
                     // Transition to follow when no longer a target in attack range
                     if (!m_EnemyController.IsTargetInAttackRange)
                     {
-                        AiState = AIState.Follow;
+                        if (!_attacking)
+                            AiState = AIState.Follow;
                     }
 
                     break;
@@ -115,25 +128,76 @@ namespace Unity.FPS.AI
                     m_EnemyController.OrientWeaponsTowards(m_EnemyController.KnownDetectedTarget.transform.position);
                     break;
                 case AIState.Attack:
-                    if (Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
-                            m_EnemyController.DetectionModule.DetectionSourcePoint.position)
-                        >= (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange))
+                    //float dist = Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
+                    //        m_EnemyController.DetectionModule.DetectionSourcePoint.position);
+
+                    //float range = (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange);
+                    //if (dist >= range)
+                    //{
+                    //    m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
+                    //}
+                    //else
+                    //{
+                    //    m_EnemyController.SetNavDestination(transform.position);
+                    //}
+
+                    m_EnemyController.SetNavDestination(transform.position);
+                    m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
+
+                    if (IsMelee)
                     {
-                        m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
+                        if (Time.time > _lastTimeMeleeAttackBegin + _meleeCooldown)
+                        {
+                            BeginMeleeAttack();
+                            _lastTimeMeleeAttackBegin = Time.time;
+                        }
                     }
                     else
                     {
-                        m_EnemyController.SetNavDestination(transform.position);
+                        m_EnemyController.TryAtack(m_EnemyController.KnownDetectedTarget.transform.position);
                     }
-
-                    m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
-                    m_EnemyController.TryAtack(m_EnemyController.KnownDetectedTarget.transform.position);
                     break;
             }
         }
 
+        void BeginMeleeAttack()
+        {
+            print("BEGIN MELEE ATTACK");
+
+            _attacking = true;
+
+            Animator.SetTrigger(k_AnimAttackParameter);
+            StartCoroutine(Coroutine());
+
+            IEnumerator Coroutine()
+            {
+                yield return new WaitForSeconds(_attackDelay);
+
+                //if (AiState != AIState.Attack)
+                //    yield break;
+
+                //if (Time.time <= _lastTimeMeleeAttack + _meleeCooldown)
+                //    yield break;
+
+                _attacking = false;
+
+                if (!m_EnemyController.IsTargetInAttackRange)
+                    yield break;
+
+                MeleeAttack();
+            }
+        }
+
+        void MeleeAttack()
+        {
+            m_EnemyController.MeleeAtack(m_EnemyController.KnownDetectedTarget.transform.position);
+        }
+
         void OnAttack()
         {
+            if (IsMelee)
+                return;
+
             Animator.SetTrigger(k_AnimAttackParameter);
         }
 
