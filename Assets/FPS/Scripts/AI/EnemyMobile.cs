@@ -8,9 +8,6 @@ namespace Unity.FPS.AI
     public class EnemyMobile : MonoBehaviour
     {
         [SerializeField]
-        private float _attackDelay = 1.2f;
-
-        [SerializeField]
         private float _meleeCooldown = .6f;
 
         public enum AIState
@@ -93,7 +90,8 @@ namespace Unity.FPS.AI
             {
                 case AIState.Follow:
                     // Transition to attack when there is a line of sight to the target
-                    if (m_EnemyController.IsSeeingTarget && m_EnemyController.IsTargetInAttackRange)
+                    if (m_EnemyController.IsSeeingTarget 
+                        && m_EnemyController.IsTargetInAttackRange)
                     {
                         AiState = AIState.Attack;
                         m_EnemyController.SetNavDestination(transform.position);
@@ -113,6 +111,22 @@ namespace Unity.FPS.AI
             }
         }
 
+        void AnimEvent_MeleeAttack()
+        {
+            //if (AiState != AIState.Attack)
+            //    yield break;
+
+            //if (Time.time <= _lastTimeMeleeAttack + _meleeCooldown)
+            //    yield break;
+
+            _attacking = false;
+
+            if (!m_EnemyController.IsTargetInAttackRange)
+                return;
+
+            MeleeAttack();
+        }
+
         void UpdateCurrentAiState()
         {
             // Handle logic 
@@ -128,20 +142,21 @@ namespace Unity.FPS.AI
                     m_EnemyController.OrientWeaponsTowards(m_EnemyController.KnownDetectedTarget.transform.position);
                     break;
                 case AIState.Attack:
-                    //float dist = Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
-                    //        m_EnemyController.DetectionModule.DetectionSourcePoint.position);
+                    float dist = Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
+                            m_EnemyController.DetectionModule.DetectionSourcePoint.position);
 
-                    //float range = (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange);
-                    //if (dist >= range)
-                    //{
-                    //    m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
-                    //}
-                    //else
-                    //{
-                    //    m_EnemyController.SetNavDestination(transform.position);
-                    //}
+                    float range = (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange);
+                    if (dist >= range)
+                    {
+                        m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
+                    }
+                    else
+                    {
+                        m_EnemyController.SetNavDestination(transform.position);
+                    }
 
-                    m_EnemyController.SetNavDestination(transform.position);
+                    //m_EnemyController.SetNavDestination(transform.position);
+
                     m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
 
                     if (IsMelee)
@@ -162,30 +177,8 @@ namespace Unity.FPS.AI
 
         void BeginMeleeAttack()
         {
-            print("BEGIN MELEE ATTACK");
-
             _attacking = true;
-
             Animator.SetTrigger(k_AnimAttackParameter);
-            StartCoroutine(Coroutine());
-
-            IEnumerator Coroutine()
-            {
-                yield return new WaitForSeconds(_attackDelay);
-
-                //if (AiState != AIState.Attack)
-                //    yield break;
-
-                //if (Time.time <= _lastTimeMeleeAttack + _meleeCooldown)
-                //    yield break;
-
-                _attacking = false;
-
-                if (!m_EnemyController.IsTargetInAttackRange)
-                    yield break;
-
-                MeleeAttack();
-            }
         }
 
         void MeleeAttack()

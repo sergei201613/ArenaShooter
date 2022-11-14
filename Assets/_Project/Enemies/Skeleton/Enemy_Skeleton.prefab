@@ -353,7 +353,7 @@ PrefabInstance:
     - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
       propertyPath: AttackStopDistanceRatio
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
@@ -383,7 +383,7 @@ PrefabInstance:
     - target: {fileID: 6809973363424661249, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
       propertyPath: AttackRange
-      value: 2.5
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 7406548990343174644, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
