@@ -191,6 +191,7 @@ namespace Unity.FPS.Gameplay
                     }
 
                     OnHit(closestHit.point, closestHit.normal, closestHit.collider);
+                    Debug.Log($"HIT: {closestHit.collider.gameObject.name}");
                 }
             }
 
