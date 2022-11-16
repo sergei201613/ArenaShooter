@@ -73,8 +73,9 @@ namespace Sgorey.ArenaShooter
 
         private void ProcessEnemy(GameObject enemy)
         {
-            var health = enemy.GetComp<Health>();
-            health.MaxHealth *= Level * (3f/2) / 3f;
+            // Encrease health of enemies over the level
+            //var health = enemy.GetComp<Health>();
+            //health.MaxHealth *= Level * (3f/2) / 3f;
         }
 
         private void ToNextLevel() => Level++;

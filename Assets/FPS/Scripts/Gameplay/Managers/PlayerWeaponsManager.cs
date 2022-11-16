@@ -1,5 +1,4 @@
 ﻿using Sgorey.Unity.Utils.Runtime;
-using System;
 using System.Collections.Generic;
 using Unity.FPS.Game;
 using UnityEngine;
@@ -56,8 +55,13 @@ namespace Unity.FPS.Gameplay
         [Tooltip("Maximum distance the recoil can affect the weapon")]
         public float MaxRecoilDistance = 0.5f;
 
+        public float MaxRecoilAngleX = 20f;
+        public int RecoilAngleForceMlt = 10;
+
         [Tooltip("How fast the weapon goes back to it's original position after the recoil is finished")]
         public float RecoilRestitutionSharpness = 10f;
+
+        public float RecoilAngleRestitutionSharpness = 10f;
 
         [Header("Misc")] [Tooltip("Speed at which the aiming animatoin is played")]
         public float AimingAnimationSpeed = 10f;
@@ -91,6 +95,7 @@ namespace Unity.FPS.Gameplay
         Vector3 m_WeaponBobLocalPosition;
         Vector3 m_WeaponRecoilLocalPosition;
         Vector3 m_AccumulatedRecoil;
+        float m_AccumulatedRecoilAngle;
         float m_TimeStartedWeaponSwitch;
         WeaponSwitchState m_WeaponSwitchState;
         int m_WeaponSwitchNewWeaponIndex;
@@ -162,6 +167,13 @@ namespace Unity.FPS.Gameplay
                 {
                     m_AccumulatedRecoil += Vector3.back * activeWeapon.RecoilForce;
                     m_AccumulatedRecoil = Vector3.ClampMagnitude(m_AccumulatedRecoil, MaxRecoilDistance);
+
+                    m_AccumulatedRecoilAngle += activeWeapon.RecoilForce * RecoilAngleForceMlt;
+                    m_AccumulatedRecoilAngle = Mathf.Clamp(
+                        m_AccumulatedRecoilAngle, 0, MaxRecoilAngleX);
+
+                    // TODO: Magic const
+                    m_PlayerCharacterController.CameraVertialOffset -= activeWeapon.ShakePower;
                 }
             }
 
@@ -229,6 +241,9 @@ namespace Unity.FPS.Gameplay
             // Set final weapon socket position based on all the combined animation influences
             WeaponParentSocket.localPosition =
                 m_WeaponMainLocalPosition + m_WeaponBobLocalPosition + m_WeaponRecoilLocalPosition;
+
+            WeaponParentSocket.localRotation = Quaternion.AngleAxis(
+                -m_AccumulatedRecoilAngle, Vector3.right);
         }
 
         // Sets the FOV of the main camera and the weapon camera simultaneously
@@ -377,7 +392,8 @@ namespace Unity.FPS.Gameplay
         // Updates the weapon recoil animation
         void UpdateWeaponRecoil()
         {
-            // if the accumulated recoil is further away from the current position, make the current position move towards the recoil target
+            // if the accumulated recoil is further away from the current position,
+            // make the current position move towards the recoil target
             if (m_WeaponRecoilLocalPosition.z >= m_AccumulatedRecoil.z * 0.99f)
             {
                 m_WeaponRecoilLocalPosition = Vector3.Lerp(m_WeaponRecoilLocalPosition, m_AccumulatedRecoil,
@@ -390,6 +406,9 @@ namespace Unity.FPS.Gameplay
                     RecoilRestitutionSharpness * Time.deltaTime);
                 m_AccumulatedRecoil = m_WeaponRecoilLocalPosition;
             }
+
+            m_AccumulatedRecoilAngle = Mathf.Lerp(m_AccumulatedRecoilAngle,
+                0f, Time.deltaTime * RecoilAngleRestitutionSharpness);
         }
 
         // Updates the animated transition of switching weapons

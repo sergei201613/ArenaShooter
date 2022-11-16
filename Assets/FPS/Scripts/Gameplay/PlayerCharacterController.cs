@@ -58,6 +58,8 @@ namespace Unity.FPS.Gameplay
         [Header("Stance")] [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
         public float CameraHeightRatio = 0.9f;
 
+        public float CameraShakeRestitiution = 5f;
+
         [Tooltip("Height of character when standing")]
         public float CapsuleHeightStanding = 1.8f;
 
@@ -103,6 +105,7 @@ namespace Unity.FPS.Gameplay
 
         public UnityAction<bool> OnStanceChanged;
 
+        public float CameraVertialOffset { get; set; }
         public Vector3 CharacterVelocity { get; set; }
         public bool IsGrounded { get; private set; }
         public bool HasJumpedThisFrame { get; private set; }
@@ -267,25 +270,8 @@ namespace Unity.FPS.Gameplay
 
         void HandleCharacterMovement()
         {
-            // horizontal character rotation
-            {
-                // rotate the transform with the input speed around its local Y axis
-                transform.Rotate(
-                    new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * RotationSpeed * RotationMultiplier),
-                        0f), Space.Self);
-            }
-
-            // vertical camera rotation
-            {
-                // add vertical inputs to the camera's vertical angle
-                m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * RotationSpeed * RotationMultiplier;
-
-                // limit the camera's vertical angle to min/max
-                m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
-
-                // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-                PlayerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
-            }
+            HorizontalCharacterRotation();
+            VertialCameraRotation();
 
             // character movement handling
             bool shouldSprint = m_InputHandler.GetSprintInputHeld();
@@ -298,7 +284,7 @@ namespace Unity.FPS.Gameplay
                 float speedModifier = shouldSprint ? SprintSpeedModifier : 1;
                 // TODO: Magic constant
                 bool isSprinting = shouldSprint && CharacterVelocity.sqrMagnitude > .5f;
-                _fovMlt.Value =  isSprinting ? _sprintFovMlt : 1f;
+                _fovMlt.Value = isSprinting ? _sprintFovMlt : 1f;
 
                 // converts move input to a worldspace vector based on our character's transform orientation
                 Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
@@ -388,6 +374,31 @@ namespace Unity.FPS.Gameplay
 
                 CharacterVelocity = Vector3.ProjectOnPlane(CharacterVelocity, hit.normal);
             }
+        }
+
+        private void HorizontalCharacterRotation()
+        {
+            // rotate the transform with the input speed around its local Y axis
+            transform.Rotate(
+                new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * RotationSpeed * RotationMultiplier),
+                    0f), Space.Self);
+        }
+
+        private void VertialCameraRotation()
+        {
+            // add vertical inputs to the camera's vertical angle
+            m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical()
+                * RotationSpeed * RotationMultiplier;
+
+            CameraVertialOffset = Mathf.Lerp(CameraVertialOffset, 0f, 
+                Time.deltaTime * CameraShakeRestitiution);
+
+            // limit the camera's vertical angle to min/max
+            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
+
+            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
+            PlayerCamera.transform.localEulerAngles = 
+                new Vector3(m_CameraVerticalAngle + CameraVertialOffset, 0, 0);
         }
 
         // Returns true if the slope angle represented by the given normal is under the slope angle limit of the character controller

@@ -240,6 +240,8 @@ namespace Sgorey.DungeonGeneration
         private void SpawnElement(GameObject prefab, Vector2Int rawPos, 
             bool optimize, float height)
         {
+            // TODO: Vector2IntHelper knows about dungeon, maybe rename it to
+            // DungeonHelper
             var pos = Vector2IntHelper.DungeonToWorldPosition(rawPos, height, scale);
             var obj = Instantiate(prefab, pos, Quaternion.identity, transform);
 

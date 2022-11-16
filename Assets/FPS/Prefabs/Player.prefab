@@ -392,6 +392,7 @@ MonoBehaviour:
   AimingRotationMultiplier: 0.4
   JumpForce: 9
   CameraHeightRatio: 0.8
+  CameraShakeRestitiution: 10
   CapsuleHeightStanding: 1.8
   CapsuleHeightCrouching: 0.9
   CrouchingSharpness: 15
@@ -406,6 +407,7 @@ MonoBehaviour:
   MaxSpeedForFallDamage: 40
   FallDamageAtMinSpeed: 10
   FallDamageAtMaxSpeed: 30
+  _sprintFovMlt: 1.2
 --- !u!114 &1360575517897679518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +448,10 @@ MonoBehaviour:
   AimingBobAmount: 0.02
   RecoilSharpness: 50
   MaxRecoilDistance: 0.2
+  MaxRecoilAngleX: 45
+  RecoilAngleForceMlt: 10
   RecoilRestitutionSharpness: 10
+  RecoilAngleRestitutionSharpness: 10
   AimingAnimationSpeed: 14
   DefaultFov: 60
   WeaponFovMultiplier: 1

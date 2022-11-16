@@ -229,6 +229,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
         type: 3}
+      propertyPath: ShakePower
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
+        type: 3}
+      propertyPath: RecoilForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
+        type: 3}
       propertyPath: ShellCasing
       value: 
       objectReference: {fileID: 6157537235093584210, guid: 3614f89e195ec504a8e74759415b83a7,
