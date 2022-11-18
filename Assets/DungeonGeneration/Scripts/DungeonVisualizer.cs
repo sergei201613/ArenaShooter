@@ -81,6 +81,9 @@ namespace Sgorey.DungeonGeneration
                 // TODO: Code duplication
                 if (room.Type == RoomType.Boss)
                 {
+                    if (_bossPrefabs.Count() == 0)
+                        continue;
+
                     Vector3 pos = DungeonToWorldPosition(room.RandomPosition);
                     index = Random.Range(0, _bossPrefabs.Length);
                     prefab = _bossPrefabs[index];

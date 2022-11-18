@@ -14,8 +14,8 @@ namespace Sgorey.ArenaShooter
 
         private void LateUpdate()
         {
-            float targetX = Input.GetAxisRaw("Mouse X");
-            float targetY = Input.GetAxisRaw("Mouse Y");
+            float targetX = Input.GetAxis("Mouse X");
+            float targetY = Input.GetAxis("Mouse Y");
 
             float dt = Time.deltaTime;
 

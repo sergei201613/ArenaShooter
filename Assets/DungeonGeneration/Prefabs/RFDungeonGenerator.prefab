@@ -47,6 +47,6 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0}
   _minRoomWidth: 15
   _minRoomHeight: 15
-  _dungeonWidth: 50
-  _dungeonHeight: 50
+  _dungeonWidth: 100
+  _dungeonHeight: 100
   _offset: 3

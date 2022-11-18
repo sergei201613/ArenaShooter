@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 6449686686394465367}
   - component: {fileID: 797398738606809810}
   - component: {fileID: 1614318205656627459}
+  - component: {fileID: 8404542583024118744}
   m_Layer: 0
   m_Name: Enemy_Base
   m_TagString: Untagged
@@ -107,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelfDestructYHeight: -20
-  PathReachingRadius: 2
+  PathReachingRadius: 0.5
   OrientationSpeed: 10
   DeathDuration: 0
   SwapToNextWeapon: 0
@@ -168,20 +169,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1857b2df8de24b24190ce9e067d2e1e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _meleeCooldown: 0.6
-  Animator: {fileID: 0}
+  _meleeCooldown: 1.4
+  Animator: {fileID: 8404542583024118744}
   IsMelee: 1
   HuntingStoppingDist: 0
-  AttackStopDistanceRatio: 0.08
-  RandomHitSparks:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  OnDetectVfx:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  AttackStopDistanceRatio: 0.5
+  RandomHitSparks: []
+  OnDetectVfx: []
   OnDetectSfx: {fileID: 8300000, guid: 25722734eeccba042a18e26e376ca542, type: 3}
   MovementSound: {fileID: 0}
   PitchDistortionMovementSpeed:
@@ -226,12 +220,12 @@ NavMeshAgent:
   m_GameObject: {fileID: 2015434656898269652}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.25
+  m_Speed: 8
   m_Acceleration: 32
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0.2
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -365,6 +359,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &8404542583024118744
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015434656898269652}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: df496d9673dc8f04589ec999797411a5, type: 3}
+  m_Controller: {fileID: 9100000, guid: 72ae6790e69a6e741b23fa862fe01d62, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2201913640410082181
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,9 +488,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DetectionSourcePoint: {fileID: 6571005840976436832}
   DetectionRange: 20
-  AttackRange: 10
+  AttackRange: 2.4
   KnownTargetTimeout: 12
-  Animator: {fileID: 0}
+  Animator: {fileID: 8404542583024118744}
 --- !u!1 &7448957880145452174
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,9 +730,10 @@ MonoBehaviour:
   WeaponRoot: {fileID: 8815063736924141185}
   WeaponMuzzle: {fileID: 2096565386399891227}
   ShootType: 1
-  ProjectilePrefab: {fileID: 8924682559891268397, guid: ec753d54f333bb944b8b04884ad63828,
+  ProjectilePrefab: {fileID: 8924682559891268397, guid: 32a2cdcc3c095c247a7570ee82a69e3d,
     type: 3}
-  DelayBetweenShots: 0.8
+  DelayBetweenShots: 1.2
+  ShakePower: 5
   BulletSpreadAngle: 0
   AimingBulletSpreadAngle: 0
   BulletsPerShot: 1

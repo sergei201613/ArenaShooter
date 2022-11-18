@@ -37,7 +37,7 @@ namespace Sgorey.ArenaShooter
             _gameFlow.LevelChanged += Initialize;
             _visualizer.EnemySpawned += ProcessEnemy;
 
-            _generator.DungeonSize = GetDungeonSizeByLevel(Level);
+            //_generator.DungeonSize = GetDungeonSizeByLevel(Level);
 
             var dungeon = _generator.Generate();
             _visualizer.Visualize(dungeon, 2, 10);

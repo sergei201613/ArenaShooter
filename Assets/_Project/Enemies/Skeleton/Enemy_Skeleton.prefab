@@ -156,46 +156,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2104015986810675393, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2104015986810675393, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: ProjectilePrefab
-      value: 
-      objectReference: {fileID: 8924682559891268397, guid: 32a2cdcc3c095c247a7570ee82a69e3d,
-        type: 3}
-    - target: {fileID: 2104015986810675393, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: DelayBetweenShots
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2231955200838058728, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: Animator
-      value: 
-      objectReference: {fileID: 7814636254432103860}
-    - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
       propertyPath: _attackDelay
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: _meleeCooldown
-      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
@@ -204,68 +168,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
-      propertyPath: OnDetectVfx.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: AttackStopDistanceRatio
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
       propertyPath: _delayBeforeMeleeAttack
       value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4752156053906186385, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: RandomHitSparks.Array.size
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6421371450313891992, guid: 7568ed94e01fb454a8c84f8115552d96,
         type: 3}
       propertyPath: m_Name
       value: HitBox_Head
-      objectReference: {fileID: 0}
-    - target: {fileID: 6809973363424661249, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: Animator
-      value: 
-      objectReference: {fileID: 7814636254432103860}
-    - target: {fileID: 6809973363424661249, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: AttackRange
-      value: 2.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7406548990343174644, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_Speed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7406548990343174644, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7406548990343174644, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_StoppingDistance
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8093968053717355753, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9087143436424816424, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: PathReachingRadius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9200139261743394960, guid: 7568ed94e01fb454a8c84f8115552d96,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7568ed94e01fb454a8c84f8115552d96, type: 3}
@@ -275,29 +184,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2336316200274742861}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4293056417137627033 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2015434656898269652, guid: 7568ed94e01fb454a8c84f8115552d96,
-    type: 3}
-  m_PrefabInstance: {fileID: 2336316200274742861}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &7814636254432103860
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4293056417137627033}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: df496d9673dc8f04589ec999797411a5, type: 3}
-  m_Controller: {fileID: 9100000, guid: 72ae6790e69a6e741b23fa862fe01d62, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
