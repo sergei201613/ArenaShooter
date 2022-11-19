@@ -16,7 +16,6 @@ namespace Sgorey.ArenaShooter
         private void Awake()
         {
             _targetPositionYClose = transform.position.y;
-            _targetPositionYOpen += _targetPositionYClose;
             _targetPositionY = _targetPositionYClose;
         }
 

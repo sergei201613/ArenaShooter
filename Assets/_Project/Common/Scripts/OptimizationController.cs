@@ -11,6 +11,12 @@ namespace Sgorey.ArenaShooter
             var optimizer = gameObject.GetComp<DistanceBasedOptimizer>();
             var playerObj = this.FindComp<PlayerCharacter>();
             optimizer.Init(playerObj.transform);
+
+            Optimizable[] optimizables = FindObjectsOfType<Optimizable>();
+            foreach (var opt in optimizables)
+            {
+                optimizer.Register(opt);
+            }
         }
     }
 }

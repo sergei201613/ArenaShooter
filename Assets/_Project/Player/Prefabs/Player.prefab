@@ -195,9 +195,24 @@ PrefabInstance:
       propertyPath: MovementSharpnessOnGround
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 2758827746426004724, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
+      propertyPath: m_Antialiasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758827746426004724, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3122855503829242450, guid: 761cdc9e4e883334cbdcea062d0befa7,
         type: 3}
       propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6145509692674227223, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
+      propertyPath: LookSensitivity
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7253983127304857660, guid: 761cdc9e4e883334cbdcea062d0befa7,
@@ -285,7 +300,8 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7316344013651781548, guid: 761cdc9e4e883334cbdcea062d0befa7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 761cdc9e4e883334cbdcea062d0befa7, type: 3}
 --- !u!1 &1277773357632306228 stripped
 GameObject:
@@ -305,6 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe635abd9f782b418f7d9bd0634174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _offsetSpeed: 7.5
+  _offsetMlt: -1.5
 --- !u!4 &5574857088399664310 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8746678193447392789, guid: 761cdc9e4e883334cbdcea062d0befa7,

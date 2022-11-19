@@ -176,6 +176,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitBox_Head
       objectReference: {fileID: 0}
+    - target: {fileID: 7406548990343174644, guid: 7568ed94e01fb454a8c84f8115552d96,
+        type: 3}
+      propertyPath: m_Speed
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7568ed94e01fb454a8c84f8115552d96, type: 3}
 --- !u!4 &4293056417137627029 stripped
