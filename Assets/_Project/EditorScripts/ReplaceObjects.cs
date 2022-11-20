@@ -10,13 +10,15 @@ namespace Sgorey.ArenaShooter.Editor
         [ContextMenu("Replace")]
         public void Replace()
         {
-            foreach (GameObject obj in Parent)
+            while (Parent.childCount != 0)
             {
-                Vector3 pos = obj.transform.position;
-                Quaternion rot = obj.transform.rotation;
+                Transform obj = Parent.GetChild(0);
+
+                Vector3 pos = obj.position;
+                Quaternion rot = obj.rotation;
 
                 Instantiate(Prefab, pos, rot);
-                Destroy(obj);
+                DestroyImmediate(obj.gameObject);
             }
         }
     }
