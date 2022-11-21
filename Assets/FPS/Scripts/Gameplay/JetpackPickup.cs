@@ -1,18 +1,15 @@
-﻿namespace Unity.FPS.Gameplay
+﻿public class JetpackPickup : Pickup
 {
-    public class JetpackPickup : Pickup
+    protected override void OnPicked(PlayerCharacterController byPlayer)
     {
-        protected override void OnPicked(PlayerCharacterController byPlayer)
-        {
-            var jetpack = byPlayer.GetComponent<Jetpack>();
-            if (!jetpack)
-                return;
+        var jetpack = byPlayer.GetComponent<Jetpack>();
+        if (!jetpack)
+            return;
 
-            if (jetpack.TryUnlock())
-            {
-                PlayPickupFeedback();
-                Destroy(gameObject);
-            }
+        if (jetpack.TryUnlock())
+        {
+            PlayPickupFeedback();
+            Destroy(gameObject);
         }
     }
 }

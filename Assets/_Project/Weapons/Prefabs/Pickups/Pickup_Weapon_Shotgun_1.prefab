@@ -88,6 +88,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8902030322663607326}
     m_Modifications:
+    - target: {fileID: 146711097588868403, guid: ab33e947545c55b43aac9d2cf8e7e09b,
+        type: 3}
+      propertyPath: WeaponPickupPrefab
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 282528917855701185, guid: ab33e947545c55b43aac9d2cf8e7e09b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7709205770303192031, guid: ab33e947545c55b43aac9d2cf8e7e09b,
         type: 3}
       propertyPath: m_IsActive

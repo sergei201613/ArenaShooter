@@ -1,243 +1,238 @@
-﻿using System.Collections;
-using Unity.FPS.Game;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Unity.FPS.AI
+[RequireComponent(typeof(EnemyController))]
+public class EnemyMobile : MonoBehaviour
 {
-    [RequireComponent(typeof(EnemyController))]
-    public class EnemyMobile : MonoBehaviour
+    [SerializeField]
+    private float _meleeCooldown = .6f;
+
+    public enum AIState
     {
-        [SerializeField]
-        private float _meleeCooldown = .6f;
+        Patrol,
+        Follow,
+        Attack,
+    }
 
-        public enum AIState
+    public Animator Animator;
+    public bool IsMelee = true;
+
+    public float HuntingStoppingDist = 2f;
+
+    [Tooltip("Fraction of the enemy's attack range at which it will stop moving towards target while attacking")]
+    [Range(0f, 1f)]
+    public float AttackStopDistanceRatio = 0.5f;
+
+    [Tooltip("The random hit damage effects")]
+    public ParticleSystem[] RandomHitSparks;
+
+    public ParticleSystem[] OnDetectVfx;
+    public AudioClip OnDetectSfx;
+
+    [Header("Sound")] public AudioClip MovementSound;
+    public MinMaxFloat PitchDistortionMovementSpeed;
+
+    public AIState AiState { get; private set; }
+    EnemyController m_EnemyController;
+    AudioSource m_AudioSource;
+    const string k_AnimMoveSpeedParameter = "MoveSpeed";
+    const string k_AnimAttackParameter = "Attack";
+    const string k_AnimAlertedParameter = "Alerted";
+    const string k_AnimOnDamagedParameter = "OnDamaged";
+
+    private float _lastTimeMeleeAttackBegin = float.NegativeInfinity;
+    private bool _attacking;
+
+    void Start()
+    {
+        m_EnemyController = GetComponent<EnemyController>();
+        DebugUtility.HandleErrorIfNullGetComponent<EnemyController, EnemyMobile>(m_EnemyController, this,
+            gameObject);
+
+        m_EnemyController.onAttack += OnAttack;
+        m_EnemyController.onDetectedTarget += OnDetectedTarget;
+        m_EnemyController.onLostTarget += OnLostTarget;
+        m_EnemyController.SetPathDestinationToClosestNode();
+        m_EnemyController.onDamaged += OnDamaged;
+
+        // Start patrolling
+        AiState = AIState.Patrol;
+
+        // adding a audio source to play the movement sound on it
+        m_AudioSource = GetComponent<AudioSource>();
+        DebugUtility.HandleErrorIfNullGetComponent<AudioSource, EnemyMobile>(m_AudioSource, this, gameObject);
+        m_AudioSource.clip = MovementSound;
+        m_AudioSource.Play();
+    }
+
+    void Update()
+    {
+        UpdateAiStateTransitions();
+        UpdateCurrentAiState();
+
+        float moveSpeed = m_EnemyController.NavMeshAgent.velocity.magnitude;
+
+        // Update animator speed parameter
+        Animator.SetFloat(k_AnimMoveSpeedParameter, moveSpeed);
+
+        // changing the pitch of the movement sound depending on the movement speed
+        m_AudioSource.pitch = Mathf.Lerp(PitchDistortionMovementSpeed.Min, PitchDistortionMovementSpeed.Max,
+            moveSpeed / m_EnemyController.NavMeshAgent.speed);
+    }
+
+    void UpdateAiStateTransitions()
+    {
+        // Handle transitions 
+        switch (AiState)
         {
-            Patrol,
-            Follow,
-            Attack,
+            case AIState.Follow:
+                // Transition to attack when there is a line of sight to the target
+                if (m_EnemyController.IsSeeingTarget 
+                    && m_EnemyController.IsTargetInAttackRange)
+                {
+                    AiState = AIState.Attack;
+                    m_EnemyController.SetNavDestination(transform.position);
+                }
+
+                break;
+            case AIState.Attack:
+
+                // Transition to follow when no longer a target in attack range
+                if (!m_EnemyController.IsTargetInAttackRange)
+                {
+                    if (!_attacking)
+                        AiState = AIState.Follow;
+                }
+
+                break;
         }
+    }
 
-        public Animator Animator;
-        public bool IsMelee = true;
+    void AnimEvent_MeleeAttack()
+    {
+        //if (AiState != AIState.Attack)
+        //    yield break;
 
-        public float HuntingStoppingDist = 2f;
+        //if (Time.time <= _lastTimeMeleeAttack + _meleeCooldown)
+        //    yield break;
 
-        [Tooltip("Fraction of the enemy's attack range at which it will stop moving towards target while attacking")]
-        [Range(0f, 1f)]
-        public float AttackStopDistanceRatio = 0.5f;
+        _attacking = false;
 
-        [Tooltip("The random hit damage effects")]
-        public ParticleSystem[] RandomHitSparks;
+        if (!m_EnemyController.IsTargetInAttackRange)
+            return;
 
-        public ParticleSystem[] OnDetectVfx;
-        public AudioClip OnDetectSfx;
+        MeleeAttack();
+    }
 
-        [Header("Sound")] public AudioClip MovementSound;
-        public MinMaxFloat PitchDistortionMovementSpeed;
-
-        public AIState AiState { get; private set; }
-        EnemyController m_EnemyController;
-        AudioSource m_AudioSource;
-        const string k_AnimMoveSpeedParameter = "MoveSpeed";
-        const string k_AnimAttackParameter = "Attack";
-        const string k_AnimAlertedParameter = "Alerted";
-        const string k_AnimOnDamagedParameter = "OnDamaged";
-
-        private float _lastTimeMeleeAttackBegin = float.NegativeInfinity;
-        private bool _attacking;
-
-        void Start()
+    void UpdateCurrentAiState()
+    {
+        // Handle logic 
+        switch (AiState)
         {
-            m_EnemyController = GetComponent<EnemyController>();
-            DebugUtility.HandleErrorIfNullGetComponent<EnemyController, EnemyMobile>(m_EnemyController, this,
-                gameObject);
+            case AIState.Patrol:
+                m_EnemyController.UpdatePathDestination();
+                m_EnemyController.SetNavDestination(m_EnemyController.GetDestinationOnPath());
+                break;
+            case AIState.Follow:
+                m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
+                m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
+                m_EnemyController.OrientWeaponsTowards(m_EnemyController.KnownDetectedTarget.transform.position);
+                break;
+            case AIState.Attack:
+                float dist = Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
+                        m_EnemyController.DetectionModule.DetectionSourcePoint.position);
 
-            m_EnemyController.onAttack += OnAttack;
-            m_EnemyController.onDetectedTarget += OnDetectedTarget;
-            m_EnemyController.onLostTarget += OnLostTarget;
-            m_EnemyController.SetPathDestinationToClosestNode();
-            m_EnemyController.onDamaged += OnDamaged;
-
-            // Start patrolling
-            AiState = AIState.Patrol;
-
-            // adding a audio source to play the movement sound on it
-            m_AudioSource = GetComponent<AudioSource>();
-            DebugUtility.HandleErrorIfNullGetComponent<AudioSource, EnemyMobile>(m_AudioSource, this, gameObject);
-            m_AudioSource.clip = MovementSound;
-            m_AudioSource.Play();
-        }
-
-        void Update()
-        {
-            UpdateAiStateTransitions();
-            UpdateCurrentAiState();
-
-            float moveSpeed = m_EnemyController.NavMeshAgent.velocity.magnitude;
-
-            // Update animator speed parameter
-            Animator.SetFloat(k_AnimMoveSpeedParameter, moveSpeed);
-
-            // changing the pitch of the movement sound depending on the movement speed
-            m_AudioSource.pitch = Mathf.Lerp(PitchDistortionMovementSpeed.Min, PitchDistortionMovementSpeed.Max,
-                moveSpeed / m_EnemyController.NavMeshAgent.speed);
-        }
-
-        void UpdateAiStateTransitions()
-        {
-            // Handle transitions 
-            switch (AiState)
-            {
-                case AIState.Follow:
-                    // Transition to attack when there is a line of sight to the target
-                    if (m_EnemyController.IsSeeingTarget 
-                        && m_EnemyController.IsTargetInAttackRange)
-                    {
-                        AiState = AIState.Attack;
-                        m_EnemyController.SetNavDestination(transform.position);
-                    }
-
-                    break;
-                case AIState.Attack:
-
-                    // Transition to follow when no longer a target in attack range
-                    if (!m_EnemyController.IsTargetInAttackRange)
-                    {
-                        if (!_attacking)
-                            AiState = AIState.Follow;
-                    }
-
-                    break;
-            }
-        }
-
-        void AnimEvent_MeleeAttack()
-        {
-            //if (AiState != AIState.Attack)
-            //    yield break;
-
-            //if (Time.time <= _lastTimeMeleeAttack + _meleeCooldown)
-            //    yield break;
-
-            _attacking = false;
-
-            if (!m_EnemyController.IsTargetInAttackRange)
-                return;
-
-            MeleeAttack();
-        }
-
-        void UpdateCurrentAiState()
-        {
-            // Handle logic 
-            switch (AiState)
-            {
-                case AIState.Patrol:
-                    m_EnemyController.UpdatePathDestination();
-                    m_EnemyController.SetNavDestination(m_EnemyController.GetDestinationOnPath());
-                    break;
-                case AIState.Follow:
+                float range = (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange);
+                if (dist >= range)
+                {
                     m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
-                    m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
-                    m_EnemyController.OrientWeaponsTowards(m_EnemyController.KnownDetectedTarget.transform.position);
-                    break;
-                case AIState.Attack:
-                    float dist = Vector3.Distance(m_EnemyController.KnownDetectedTarget.transform.position,
-                            m_EnemyController.DetectionModule.DetectionSourcePoint.position);
+                }
+                else
+                {
+                    m_EnemyController.SetNavDestination(transform.position);
+                }
 
-                    float range = (AttackStopDistanceRatio * m_EnemyController.DetectionModule.AttackRange);
-                    if (dist >= range)
+                //m_EnemyController.SetNavDestination(transform.position);
+
+                m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
+
+                if (IsMelee)
+                {
+                    if (Time.time > _lastTimeMeleeAttackBegin + _meleeCooldown)
                     {
-                        m_EnemyController.SetNavDestination(m_EnemyController.KnownDetectedTarget.transform.position, HuntingStoppingDist);
+                        BeginMeleeAttack();
+                        _lastTimeMeleeAttackBegin = Time.time;
                     }
-                    else
-                    {
-                        m_EnemyController.SetNavDestination(transform.position);
-                    }
-
-                    //m_EnemyController.SetNavDestination(transform.position);
-
-                    m_EnemyController.OrientTowards(m_EnemyController.KnownDetectedTarget.transform.position);
-
-                    if (IsMelee)
-                    {
-                        if (Time.time > _lastTimeMeleeAttackBegin + _meleeCooldown)
-                        {
-                            BeginMeleeAttack();
-                            _lastTimeMeleeAttackBegin = Time.time;
-                        }
-                    }
-                    else
-                    {
-                        m_EnemyController.TryAtack(m_EnemyController.KnownDetectedTarget.transform.position);
-                    }
-                    break;
-            }
+                }
+                else
+                {
+                    m_EnemyController.TryAtack(m_EnemyController.KnownDetectedTarget.transform.position);
+                }
+                break;
         }
+    }
 
-        void BeginMeleeAttack()
+    void BeginMeleeAttack()
+    {
+        _attacking = true;
+        Animator.SetTrigger(k_AnimAttackParameter);
+    }
+
+    void MeleeAttack()
+    {
+        m_EnemyController.MeleeAtack(m_EnemyController.KnownDetectedTarget.transform.position);
+    }
+
+    void OnAttack()
+    {
+        if (IsMelee)
+            return;
+
+        Animator.SetTrigger(k_AnimAttackParameter);
+    }
+
+    void OnDetectedTarget()
+    {
+        if (AiState == AIState.Patrol)
         {
-            _attacking = true;
-            Animator.SetTrigger(k_AnimAttackParameter);
+            AiState = AIState.Follow;
         }
 
-        void MeleeAttack()
+        for (int i = 0; i < OnDetectVfx.Length; i++)
         {
-            m_EnemyController.MeleeAtack(m_EnemyController.KnownDetectedTarget.transform.position);
+            OnDetectVfx[i].Play();
         }
 
-        void OnAttack()
+        if (OnDetectSfx)
         {
-            if (IsMelee)
-                return;
-
-            Animator.SetTrigger(k_AnimAttackParameter);
+            AudioUtility.CreateSFX(OnDetectSfx, transform.position, AudioUtility.AudioGroups.EnemyDetection, 1f);
         }
 
-        void OnDetectedTarget()
+        Animator.SetBool(k_AnimAlertedParameter, true);
+    }
+
+    void OnLostTarget()
+    {
+        if (AiState == AIState.Follow || AiState == AIState.Attack)
         {
-            if (AiState == AIState.Patrol)
-            {
-                AiState = AIState.Follow;
-            }
-
-            for (int i = 0; i < OnDetectVfx.Length; i++)
-            {
-                OnDetectVfx[i].Play();
-            }
-
-            if (OnDetectSfx)
-            {
-                AudioUtility.CreateSFX(OnDetectSfx, transform.position, AudioUtility.AudioGroups.EnemyDetection, 1f);
-            }
-
-            Animator.SetBool(k_AnimAlertedParameter, true);
+            AiState = AIState.Patrol;
         }
 
-        void OnLostTarget()
+        for (int i = 0; i < OnDetectVfx.Length; i++)
         {
-            if (AiState == AIState.Follow || AiState == AIState.Attack)
-            {
-                AiState = AIState.Patrol;
-            }
-
-            for (int i = 0; i < OnDetectVfx.Length; i++)
-            {
-                OnDetectVfx[i].Stop();
-            }
-
-            Animator.SetBool(k_AnimAlertedParameter, false);
+            OnDetectVfx[i].Stop();
         }
 
-        void OnDamaged()
+        Animator.SetBool(k_AnimAlertedParameter, false);
+    }
+
+    void OnDamaged()
+    {
+        if (RandomHitSparks.Length > 0)
         {
-            if (RandomHitSparks.Length > 0)
-            {
-                int n = Random.Range(0, RandomHitSparks.Length - 1);
-                RandomHitSparks[n].Play();
-            }
-
-            Animator.SetTrigger(k_AnimOnDamagedParameter);
+            int n = Random.Range(0, RandomHitSparks.Length - 1);
+            RandomHitSparks[n].Play();
         }
+
+        Animator.SetTrigger(k_AnimOnDamagedParameter);
     }
 }

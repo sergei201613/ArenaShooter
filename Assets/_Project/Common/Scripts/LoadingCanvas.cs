@@ -1,5 +1,4 @@
 using Sgorey.Unity.Utils.Runtime;
-using Unity.FPS.Game;
 using UnityEngine;
 
 namespace Sgorey.ArenaShooter

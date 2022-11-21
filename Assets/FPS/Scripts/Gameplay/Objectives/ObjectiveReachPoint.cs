@@ -1,34 +1,30 @@
-﻿using Unity.FPS.Game;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Unity.FPS.Gameplay
+[RequireComponent(typeof(Collider))]
+public class ObjectiveReachPoint : Objective
 {
-    [RequireComponent(typeof(Collider))]
-    public class ObjectiveReachPoint : Objective
+    [Tooltip("Visible transform that will be destroyed once the objective is completed")]
+    public Transform DestroyRoot;
+
+    void Awake()
     {
-        [Tooltip("Visible transform that will be destroyed once the objective is completed")]
-        public Transform DestroyRoot;
+        if (DestroyRoot == null)
+            DestroyRoot = transform;
+    }
 
-        void Awake()
+    void OnTriggerEnter(Collider other)
+    {
+        if (IsCompleted)
+            return;
+
+        var player = other.GetComponent<PlayerCharacterController>();
+        // test if the other collider contains a PlayerCharacterController, then complete
+        if (player != null)
         {
-            if (DestroyRoot == null)
-                DestroyRoot = transform;
-        }
+            CompleteObjective(string.Empty, string.Empty, "Objective complete : " + Title);
 
-        void OnTriggerEnter(Collider other)
-        {
-            if (IsCompleted)
-                return;
-
-            var player = other.GetComponent<PlayerCharacterController>();
-            // test if the other collider contains a PlayerCharacterController, then complete
-            if (player != null)
-            {
-                CompleteObjective(string.Empty, string.Empty, "Objective complete : " + Title);
-
-                // destroy the transform, will remove the compass marker if it has one
-                Destroy(DestroyRoot.gameObject);
-            }
+            // destroy the transform, will remove the compass marker if it has one
+            Destroy(DestroyRoot.gameObject);
         }
     }
 }

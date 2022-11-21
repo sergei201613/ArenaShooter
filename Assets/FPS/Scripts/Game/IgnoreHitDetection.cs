@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 
-namespace Unity.FPS.Game
+public class IgnoreHitDetection : MonoBehaviour
 {
-    public class IgnoreHitDetection : MonoBehaviour
-    {
-    }
 }
