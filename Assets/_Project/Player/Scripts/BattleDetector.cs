@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sgorey.ArenaShooter
@@ -7,9 +6,6 @@ namespace Sgorey.ArenaShooter
     {
         public event System.Action BattleBegin;
         public event System.Action BattleOver;
-
-        private const int EnemyListCapacity = 8;
-        private readonly List<GameObject> _enemies = new(EnemyListCapacity);
 
         [SerializeField]
         private DetectionModule _detectionModule;
@@ -40,13 +36,11 @@ namespace Sgorey.ArenaShooter
         private void OnTargetDetected()
         {
             BattleBegin?.Invoke();
-            print("TARGET DETECTED");
         }
 
         private void OnTargetLost()
         {
             BattleOver?.Invoke();
-            print("TARGET LOST");
         }
     }
 }

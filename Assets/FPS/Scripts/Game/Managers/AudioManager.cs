@@ -78,14 +78,14 @@ public class AudioManager : MonoBehaviour
     private void OnBattleBegin()
     {
         _ambientSource.clip = _battleAmbient;
-        _ambientSource.volume = .5f;
+        _ambientSource.volume = 1f;
         _ambientSource.Play();
     }
 
     private void OnBattleOver()
     {
         _ambientSource.clip = _normalAmbient;
-        _ambientSource.volume = .25f;
+        _ambientSource.volume = .5f;
         _ambientSource.Play();
     }
 }

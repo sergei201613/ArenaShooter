@@ -302,6 +302,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AudioMixers:
   - {fileID: 24100000, guid: fcc71635aab95ff4fbdf1880bf2afa2f, type: 2}
+  _normalAmbient: {fileID: 8300000, guid: 99432a664fb4d524e88a99e09ab82229, type: 3}
+  _battleAmbient: {fileID: 8300000, guid: 1ba026d7f8e9816419126358901b00a6, type: 3}
+  _ambientSource: {fileID: 4160549848294572208}
 --- !u!82 &4160549848294572208
 AudioSource:
   m_ObjectHideFlags: 0
