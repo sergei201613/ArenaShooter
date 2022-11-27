@@ -330,7 +330,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ShootSfx
       value: 
-      objectReference: {fileID: 8300000, guid: 8402969df874d3a4ea05a8a6a8f7fa2a, type: 3}
+      objectReference: {fileID: 8300000, guid: 3b848abe0b2ef8340a274712dedd72b5, type: 3}
     - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
         type: 3}
       propertyPath: RecoilForce
