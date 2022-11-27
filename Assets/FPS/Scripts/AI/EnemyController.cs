@@ -26,6 +26,11 @@ public class EnemyController : MonoBehaviour
     [Tooltip("The distance at which the enemy considers that it has reached its current path destination point")]
     public float PathReachingRadius = 2f;
 
+    internal void SetTarget(GameObject target)
+    {
+        DetectionModule.SetTarget(target);
+    }
+
     [Tooltip("The speed at which the enemy rotates")]
     public float OrientationSpeed = 10f;
 

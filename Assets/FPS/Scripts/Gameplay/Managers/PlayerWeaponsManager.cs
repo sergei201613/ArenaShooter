@@ -69,6 +69,8 @@ public class PlayerWeaponsManager : MonoBehaviour
     [Tooltip("Portion of the regular FOV to apply to the weapon camera")]
     public float WeaponFovMultiplier = 1f;
 
+    public float MovementSpeedMultiplierWhenReloading = .75f;
+
     [Tooltip("Delay before switching weapon a second time, to avoid recieving multiple inputs from mouse wheel")]
     public float WeaponSwitchDelay = 1f;
 
@@ -98,10 +100,12 @@ public class PlayerWeaponsManager : MonoBehaviour
     int m_WeaponSwitchNewWeaponIndex;
     PlayerCameraManager _playerCamera;
     Float _fovMlt;
+    Float _speedMlt;
 
     void Start()
     {
         _playerCamera = this.FindComp<PlayerCameraManager>();
+
         _fovMlt = _playerCamera.AddFovMultiplier();
 
         ActiveWeaponIndex = -1;
@@ -114,6 +118,8 @@ public class PlayerWeaponsManager : MonoBehaviour
         m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
         DebugUtility.HandleErrorIfNullGetComponent<PlayerCharacterController, PlayerWeaponsManager>(
             m_PlayerCharacterController, this, gameObject);
+
+        _speedMlt = m_PlayerCharacterController.AddSpeedMultiplier();
 
         SetFov(DefaultFov);
 
@@ -137,7 +143,14 @@ public class PlayerWeaponsManager : MonoBehaviour
             return;
 
         if (activeWeapon.IsReloading)
+        {
+            _speedMlt.Value = MovementSpeedMultiplierWhenReloading;
             return;
+        }
+        else
+        {
+            _speedMlt.Value = 1f;
+        }
 
         UpdateWeaponThrowing();
 

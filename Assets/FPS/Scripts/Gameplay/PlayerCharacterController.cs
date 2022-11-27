@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using Sgorey.Unity.Utils.Runtime;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler), typeof(AudioSource))]
 [DefaultExecutionOrder(-10)]
@@ -138,6 +139,8 @@ public class PlayerCharacterController : MonoBehaviour
     private PlayerCameraManager _playerCameraManager;
     private Float _fovMlt;
 
+    private readonly List<Float> _movementSpeedMultipliers = new();
+
     void Start()
     {
         _playerCameraManager = this.FindComp<PlayerCameraManager>();
@@ -217,6 +220,13 @@ public class PlayerCharacterController : MonoBehaviour
         HandleCharacterMovement();
     }
 
+    public Float AddSpeedMultiplier()
+    {
+        Float mlt = new(1f);
+        _movementSpeedMultipliers.Add(mlt);
+        return mlt;
+    }
+
     void OnDie()
     {
         IsDead = true;
@@ -286,14 +296,18 @@ public class PlayerCharacterController : MonoBehaviour
             // converts move input to a worldspace vector based on our character's transform orientation
             Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
 
+            float mlt = GetSpeedMultiplier();
+
             // handle grounded movement
             if (IsGrounded)
             {
                 // calculate the desired velocity from inputs, max speed, and current slope
-                Vector3 targetVelocity = worldspaceMoveInput * MaxSpeedOnGround * speedModifier;
+                Vector3 targetVelocity = worldspaceMoveInput * MaxSpeedOnGround * speedModifier * mlt;
+
                 // reduce speed if crouching by crouch speed ratio
                 if (IsCrouching)
                     targetVelocity *= MaxSpeedCrouchedRatio;
+
                 targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) *
                                  targetVelocity.magnitude;
 
@@ -347,7 +361,8 @@ public class PlayerCharacterController : MonoBehaviour
                 // limit air speed to a maximum, but only horizontally
                 float verticalVelocity = CharacterVelocity.y;
                 Vector3 horizontalVelocity = Vector3.ProjectOnPlane(CharacterVelocity, Vector3.up);
-                horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, MaxSpeedInAir * speedModifier);
+                horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, MaxSpeedInAir * speedModifier * mlt);
+
                 CharacterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
 
                 // apply the gravity to the velocity
@@ -371,6 +386,16 @@ public class PlayerCharacterController : MonoBehaviour
 
             CharacterVelocity = Vector3.ProjectOnPlane(CharacterVelocity, hit.normal);
         }
+    }
+
+    private float GetSpeedMultiplier()
+    {
+        float speedMlt = 1;
+        foreach (Float mlt in _movementSpeedMultipliers)
+        {
+            speedMlt *= mlt.Value;
+        }
+        return speedMlt;
     }
 
     private void HorizontalCharacterRotation()

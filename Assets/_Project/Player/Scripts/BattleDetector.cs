@@ -33,7 +33,7 @@ namespace Sgorey.ArenaShooter
             _detectionModule.HandleTargetDetection(_actor, _selfColliders);
         }
 
-        private void OnTargetDetected()
+        private void OnTargetDetected(GameObject target)
         {
             BattleBegin?.Invoke();
         }

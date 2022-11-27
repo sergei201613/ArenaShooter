@@ -22,7 +22,7 @@ public class DetectionModule : MonoBehaviour
     public UnityAction onDetectedTarget;
     public UnityAction onLostTarget;
 
-    public event System.Action TargetDetected;
+    public event System.Action<GameObject> TargetDetected;
     public event System.Action TargetLost;
 
     public GameObject KnownDetectedTarget { get; private set; }
@@ -115,6 +115,14 @@ public class DetectionModule : MonoBehaviour
         HadKnownTarget = KnownDetectedTarget != null;
     }
 
+    public void SetTarget(GameObject target)
+    {
+        IsSeeingTarget = true;
+
+        TimeLastSeenTarget = Time.time;
+        KnownDetectedTarget = target;
+    }
+
     public virtual void OnLostTarget()
     {
         onLostTarget?.Invoke();
@@ -124,7 +132,7 @@ public class DetectionModule : MonoBehaviour
     public virtual void OnDetect()
     {
         onDetectedTarget?.Invoke();
-        TargetDetected?.Invoke();
+        TargetDetected?.Invoke(KnownDetectedTarget);
     }
 
     public virtual void OnDamaged(GameObject damageSource)

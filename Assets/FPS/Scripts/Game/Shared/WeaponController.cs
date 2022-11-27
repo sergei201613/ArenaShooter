@@ -79,6 +79,7 @@ public class WeaponController : MonoBehaviour
     [Header("Ammo Parameters")]
     [Tooltip("Should the player manually reload")]
     public bool AutomaticReload = true;
+    public AudioClip ReloadClip;
     [Tooltip("Has physical clip on the weapon and ammo shells are ejected when firing")]
     public bool HasPhysicalBullets = false;
     [Tooltip("Number of bullets in a clip")]
@@ -241,6 +242,10 @@ public class WeaponController : MonoBehaviour
         if (m_CurrentAmmo < m_CarriedPhysicalBullets)
         {
             GetComponent<Animator>().SetTrigger("Reload");
+            if (ReloadClip)
+            {
+                PlaySFX(ReloadClip);
+            }
             IsReloading = true;
         }
     }

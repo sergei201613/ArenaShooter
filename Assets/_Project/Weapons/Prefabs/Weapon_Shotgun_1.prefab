@@ -29,7 +29,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8027739576101325080}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!1001 &1092922650526594448
 PrefabInstance:
@@ -1339,6 +1339,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
         type: 3}
+      propertyPath: ReloadClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c0bcd24345653e84c917fdffc899a8c7, type: 3}
+    - target: {fileID: 5438177147617266406, guid: 02af42015567f2b4087d1dc15d9c74d8,
+        type: 3}
       propertyPath: ShakePower
       value: 15
       objectReference: {fileID: 0}
@@ -1400,6 +1405,12 @@ PrefabInstance:
       propertyPath: ShellCasingEjectionForce
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8213572132758995109, guid: 02af42015567f2b4087d1dc15d9c74d8,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: db353df1b9fc1eb46abbb0440b38c902,
+        type: 2}
     - target: {fileID: 8990538098262727909, guid: 02af42015567f2b4087d1dc15d9c74d8,
         type: 3}
       propertyPath: m_LocalPosition.y

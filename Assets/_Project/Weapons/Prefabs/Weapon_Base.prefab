@@ -74,6 +74,7 @@ MonoBehaviour:
   AimZoomRatio: 0.5
   AimOffset: {x: 0, y: 0.075, z: 0}
   AutomaticReload: 0
+  ReloadClip: {fileID: 0}
   HasPhysicalBullets: 1
   ClipSize: 30
   ShellCasing: {fileID: 0}
@@ -81,7 +82,7 @@ MonoBehaviour:
   ShellCasingEjectionForce: 2
   ShellPoolSize: 1
   AmmoReloadRate: 12
-  AmmoReloadDelay: 0.2
+  AmmoReloadDelay: 1
   MaxAmmo: 12
   AutomaticReleaseOnCharged: 0
   MaxChargeDuration: 2
