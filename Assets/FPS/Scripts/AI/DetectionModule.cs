@@ -57,6 +57,9 @@ public class DetectionModule : MonoBehaviour
         float closestSqrDistance = Mathf.Infinity;
         foreach (Actor otherActor in m_ActorsManager.Actors)
         {
+            if (!otherActor || !actor)
+                continue;
+
             if (otherActor.Affiliation != actor.Affiliation)
             {
                 float sqrDistance = (otherActor.transform.position - DetectionSourcePoint.position).sqrMagnitude;

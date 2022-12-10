@@ -22,9 +22,22 @@ namespace Sgorey.ArenaShooter
 
         private void Initialize()
         {
-            _gameFlow = this.FindComp<GameFlowManager>();
-            _gameFlow.LevelChanged += Initialize;
+            if (_gameFlow)
+            {
+                _gameFlow.LevelChanged -= Initialize;
+                _gameFlow.LevelChanging -= MovePlayerToSpawnPoint;
+            }
 
+            _gameFlow = this.FindComp<GameFlowManager>();
+
+            _gameFlow.LevelChanged += Initialize;
+            _gameFlow.LevelChanging += MovePlayerToSpawnPoint;
+
+            MovePlayerToSpawnPoint();
+        }
+
+        private void MovePlayerToSpawnPoint()
+        {
             Transform spawnPoint = GameObject
                 .FindWithTag(PlayerSpawnPointTag).transform;
 
