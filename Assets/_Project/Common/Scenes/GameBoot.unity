@@ -720,6 +720,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4571939981746732957, guid: a130616c5cba9b9468f8b8178e07af43,
+        type: 3}
+      propertyPath: FallDamageAtMaxSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4571939981746732957, guid: a130616c5cba9b9468f8b8178e07af43,
+        type: 3}
+      propertyPath: FallDamageAtMinSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4571939981746732957, guid: a130616c5cba9b9468f8b8178e07af43,
+        type: 3}
+      propertyPath: MinSpeedForFallDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117545666457818526, guid: a130616c5cba9b9468f8b8178e07af43,
+        type: 3}
+      propertyPath: far clip plane
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 5574857088399664310, guid: a130616c5cba9b9468f8b8178e07af43,
         type: 3}
       propertyPath: m_RootOrder

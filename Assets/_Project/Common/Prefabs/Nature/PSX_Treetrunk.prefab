@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1376458640593417993}
   - component: {fileID: 2426705232568957471}
   - component: {fileID: 754848160591944581}
+  - component: {fileID: 4306664252355059537}
+  - component: {fileID: 7941897593366073407}
   m_Layer: 0
   m_Name: PSX_Treetrunk
   m_TagString: Untagged
@@ -25,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4659262161369857060}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
@@ -84,3 +86,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &4306664252355059537
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4659262161369857060}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0012283586, y: 0.003686624, z: 0.0042859167}
+  m_Size: 0.027385194
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.10154387
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 754848160591944581}
+  m_Enabled: 1
+--- !u!64 &7941897593366073407
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4659262161369857060}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2513631008896336982, guid: c2ed5796a3ee58e40bdc92d37cc1a180, type: 3}
