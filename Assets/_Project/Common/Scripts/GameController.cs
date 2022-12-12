@@ -1,4 +1,5 @@
 using Sgorey.Unity.Utils.Runtime;
+using System.Collections;
 using UnityEngine;
 
 namespace Sgorey.ArenaShooter
@@ -25,13 +26,11 @@ namespace Sgorey.ArenaShooter
             if (_gameFlow)
             {
                 _gameFlow.LevelChanged -= Initialize;
-                _gameFlow.LevelChanging -= MovePlayerToSpawnPoint;
             }
 
             _gameFlow = this.FindComp<GameFlowManager>();
 
             _gameFlow.LevelChanged += Initialize;
-            _gameFlow.LevelChanging += MovePlayerToSpawnPoint;
 
             MovePlayerToSpawnPoint();
         }
@@ -41,8 +40,18 @@ namespace Sgorey.ArenaShooter
             Transform spawnPoint = GameObject
                 .FindWithTag(PlayerSpawnPointTag).transform;
 
-            _player.transform.SetPositionAndRotation(
-                spawnPoint.position, spawnPoint.rotation);
+            StartCoroutine(Coroutine());
+
+            IEnumerator Coroutine()
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    _player.transform.SetPositionAndRotation(
+                        spawnPoint.position, spawnPoint.rotation);
+
+                    yield return null;
+                }
+            }
         }
 
         private void OnDestroy()

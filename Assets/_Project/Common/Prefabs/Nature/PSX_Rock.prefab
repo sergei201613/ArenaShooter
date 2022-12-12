@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1129408287656037145}
   - component: {fileID: 3903793592438976262}
   - component: {fileID: 7492459435815654633}
-  - component: {fileID: 6667221288396263368}
   - component: {fileID: 7067521388114445326}
+  - component: {fileID: 8593375969790779388}
   m_Layer: 0
   m_Name: PSX_Rock
   m_TagString: Untagged
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6667221288396263368
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8499402058261330091}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 7835327133077404167, guid: c2ed5796a3ee58e40bdc92d37cc1a180, type: 3}
 --- !u!205 &7067521388114445326
 LODGroup:
   m_ObjectHideFlags: 0
@@ -113,8 +99,21 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.09563481
+  - screenRelativeHeight: 0.049498677
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7492459435815654633}
   m_Enabled: 1
+--- !u!65 &8593375969790779388
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8499402058261330091}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.031047406, y: 0.022575308, z: 0.030539861}
+  m_Center: {x: -0.0018448858, y: -0.0023100558, z: -0.00025953766}

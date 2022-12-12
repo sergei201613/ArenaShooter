@@ -11,6 +11,12 @@ namespace Sgorey.ArenaShooter
 
         private float _offsetX = 0;
         private float _offsetY = 0;
+        private PlayerInputHandler _input;
+
+        private void Awake()
+        {
+            _input = FindObjectOfType<PlayerInputHandler>();
+        }
 
         private void LateUpdate()
         {
@@ -23,7 +29,7 @@ namespace Sgorey.ArenaShooter
             _offsetY = Mathf.Lerp(_offsetY, targetY, dt * _offsetSpeed);
 
             var offset = new Vector3(_offsetY, _offsetX, 0f) * _offsetMlt;
-            transform.localEulerAngles = offset;
+            transform.localEulerAngles = offset * _input.LookSensitivity;
         }
     }
 }

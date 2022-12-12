@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ public class InGameMenuManager : MonoBehaviour
 
     [Tooltip("Slider component for look sensitivity")]
     public Slider LookSensitivitySlider;
+
+    public Slider DrawingDistSlider;
 
     [Tooltip("Toggle component for shadows")]
     public Toggle ShadowsToggle;
@@ -28,9 +31,12 @@ public class InGameMenuManager : MonoBehaviour
     PlayerInputHandler m_PlayerInputsHandler;
     Health m_PlayerHealth;
     FramerateCounter m_FramerateCounter;
+    Camera _camera;
 
     void Start()
     {
+        _camera = Camera.main;
+
         m_PlayerInputsHandler = FindObjectOfType<PlayerInputHandler>();
         DebugUtility.HandleErrorIfNullFindObject<PlayerInputHandler, InGameMenuManager>(m_PlayerInputsHandler,
             this);
@@ -46,6 +52,9 @@ public class InGameMenuManager : MonoBehaviour
         LookSensitivitySlider.value = m_PlayerInputsHandler.LookSensitivity;
         LookSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChanged);
 
+        DrawingDistSlider.value = _camera.farClipPlane;
+        DrawingDistSlider.onValueChanged.AddListener(OnDrawingDistChanged);
+
         ShadowsToggle.isOn = QualitySettings.shadows != ShadowQuality.Disable;
         ShadowsToggle.onValueChanged.AddListener(OnShadowsChanged);
 
@@ -54,6 +63,11 @@ public class InGameMenuManager : MonoBehaviour
 
         FramerateToggle.isOn = m_FramerateCounter.UIText.gameObject.activeSelf;
         FramerateToggle.onValueChanged.AddListener(OnFramerateCounterChanged);
+    }
+
+    private void OnDrawingDistChanged(float value)
+    {
+        _camera.farClipPlane = value;
     }
 
     void Update()
