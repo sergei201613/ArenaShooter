@@ -40,6 +40,11 @@ public class CrosshairManager : MonoBehaviour
         if (m_CrosshairDataDefault.CrosshairSprite == null)
             return;
 
+        CrosshairImage.gameObject.SetActive(!m_WeaponsManager.IsAiming);
+
+        if (m_WeaponsManager.IsAiming)
+            return;
+
         if ((force || !m_WasPointingAtEnemy) && m_WeaponsManager.IsPointingAtEnemy)
         {
             m_CurrentCrosshair = m_CrosshairDataTarget;
