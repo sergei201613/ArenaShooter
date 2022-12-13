@@ -388,7 +388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2096565386399891227}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: GunMuzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetectionSourcePoint: {fileID: 6571005840976436832}
-  DetectionRange: 20
+  DetectionRange: 30
   AttackRange: 2.4
   KnownTargetTimeout: 12
   Animator: {fileID: 8404542583024118744}
@@ -502,7 +502,7 @@ GameObject:
   - component: {fileID: 3253201880669482562}
   - component: {fileID: 2915308685551445665}
   - component: {fileID: 3804506681843464078}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ImageBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 118020985647647040}
   - component: {fileID: 6023316067820363403}
   - component: {fileID: 1997026530960526579}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,7 +680,7 @@ GameObject:
   - component: {fileID: 8093968053717355754}
   - component: {fileID: 2104015986810675393}
   - component: {fileID: 2231955200838058728}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Weapon_EyeLazers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -741,6 +741,7 @@ MonoBehaviour:
   AimZoomRatio: 1
   AimOffset: {x: 0, y: 0, z: 0}
   AutomaticReload: 1
+  ReloadClip: {fileID: 0}
   HasPhysicalBullets: 0
   ClipSize: 30
   ShellCasing: {fileID: 0}
@@ -871,7 +872,7 @@ GameObject:
   - component: {fileID: 8078929863353424972}
   - component: {fileID: 8865950977894298914}
   - component: {fileID: 5299349968446827641}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ImageFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -945,7 +946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7332647584199454861}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: GunRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
