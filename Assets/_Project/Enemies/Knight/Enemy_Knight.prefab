@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4084879307398936183}
   - component: {fileID: 8760046996366855386}
   - component: {fileID: 1851055753394832274}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TestHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

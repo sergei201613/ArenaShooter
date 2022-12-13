@@ -171,6 +171,9 @@ public class ProjectileStandard : ProjectileBase
                 k_TriggerInteraction);
             foreach (var hit in hits)
             {
+                print(hit.collider.gameObject.name);
+                print(hit.collider.gameObject.layer);
+
                 if (IsHitValid(hit) && hit.distance < closestHit.distance)
                 {
                     foundHit = true;
