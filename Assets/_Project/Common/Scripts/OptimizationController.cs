@@ -6,17 +6,26 @@ namespace Sgorey.ArenaShooter
     [RequireComponent(typeof(DistanceBasedOptimizer))]
     public class OptimizationController : MonoBehaviour
     {
+        private DistanceBasedOptimizer _optimizer;
+        private Camera _camera;
+
         private void Start()
         {
-            var optimizer = gameObject.GetComp<DistanceBasedOptimizer>();
+            _camera = Camera.main;
+            _optimizer = gameObject.GetComp<DistanceBasedOptimizer>();
             var playerObj = this.FindComp<PlayerCharacter>();
-            optimizer.Init(playerObj.transform);
+            _optimizer.Init(playerObj.transform);
 
             Optimizable[] optimizables = FindObjectsOfType<Optimizable>();
             foreach (var opt in optimizables)
             {
-                optimizer.Register(opt);
+                _optimizer.Register(opt);
             }
+        }
+
+        private void Update()
+        {
+            _optimizer.SetDistance(_camera.farClipPlane);
         }
     }
 }

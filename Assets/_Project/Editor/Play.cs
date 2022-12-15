@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Sgorey.ArenaShooter
+namespace Sgorey.ArenaShooter.Editor
 {
-    public class EditorScripts : MonoBehaviour
+    public class Play
     {
         private const string BOOT_SCENE = "Assets/_Project/Common/Scenes/GameBoot.unity";
 
@@ -38,12 +38,12 @@ namespace Sgorey.ArenaShooter
 
             EditorSceneManager.OpenScene(BOOT_SCENE);
 
+            EditorApplication.EnterPlaymode();
+
             if (!string.IsNullOrEmpty(nextScene))
             {
-                FindObjectOfType<Boot>().SetScene(nextScene);
+                Object.FindObjectOfType<Boot>().SetScene(nextScene);
             }
-
-            EditorApplication.EnterPlaymode();
         }
 
         private static void OnPlayModeStateChanged(PlayModeStateChange state)
