@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sgorey.Unity.Utils.Runtime;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +18,6 @@ public class LoadSceneButton : MonoBehaviour
 
     public void LoadTargetScene()
     {
-        SceneManager.LoadScene(SceneName);
+        Boot.Load(SceneName);
     }
 }

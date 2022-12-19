@@ -1,13 +1,11 @@
 using Sgorey.Unity.Utils.Runtime;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 
 namespace Sgorey.ArenaShooter.Editor
 {
     public class Play
     {
-        private const string BOOT_SCENE = "Assets/_Project/Common/Scenes/GameBoot.unity";
         private const string DUNGEON_SCENE = "Assets/_Project/Common/Scenes/Dungeon.unity";
         private const string CASTLE_SCENE = "Assets/_Project/Common/Scenes/Castle.unity";
 
@@ -28,7 +26,7 @@ namespace Sgorey.ArenaShooter.Editor
         [MenuItem("Open Scene/GameBoot")]
         public static void OpenGameBootScene()
         {
-            EditorSceneManager.OpenScene(BOOT_SCENE);
+            EditorSceneManager.OpenScene(Boot.BOOT_SCENE_PATH);
         }
 
         [MenuItem("Play/Play")]
@@ -57,14 +55,14 @@ namespace Sgorey.ArenaShooter.Editor
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 
-            EditorSceneManager.OpenScene(BOOT_SCENE);
+            EditorSceneManager.OpenScene(Boot.BOOT_SCENE_PATH);
 
             EditorApplication.EnterPlaymode();
 
             string sceneToPlay = string.IsNullOrEmpty(nextScene) ? 
                 editScene : nextScene;
 
-            Object.FindObjectOfType<Boot>().SetScene(sceneToPlay);
+            Boot.SceneToLoad = sceneToPlay;
         }
 
         private static void OnPlayModeStateChanged(PlayModeStateChange state)

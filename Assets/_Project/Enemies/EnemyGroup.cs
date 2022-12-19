@@ -6,13 +6,22 @@ namespace Sgorey.ArenaShooter
 {
     public class EnemyGroup : MonoBehaviour
     {
-        [SerializeField]
-        private List<EnemyController> _enemies = new();
+        private readonly List<EnemyController> _enemies = new();
 
         private void Awake()
         {
+            foreach (Transform t in transform)
+            {
+                if (t.TryGetComponent<EnemyController>(out var e))
+                {
+                    _enemies.Add(e);
+                }
+            }
+
             if (_enemies.Count == 0)
-                throw new Exception("There is no enemies in enemy group!");
+            {
+                Debug.LogError("There is no enemies in enemy group!", this);
+            }
 
             foreach (EnemyController enemy in _enemies)
             {

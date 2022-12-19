@@ -179,8 +179,8 @@ MonoBehaviour:
     Min: 30
     Max: 50
   GravityDownAcceleration:
-    Min: 2
-    Max: 3
+    Min: 4
+    Max: 6
   AreaOfEffectDistance:
     Min: 5
     Max: 5

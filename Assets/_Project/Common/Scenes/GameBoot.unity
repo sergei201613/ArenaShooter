@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fb5113dfe7b77a4a8548673ee7bfeed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToLoad: Dungeon
+  _defaultScene: Dungeon
 --- !u!4 &111830485
 Transform:
   m_ObjectHideFlags: 0
