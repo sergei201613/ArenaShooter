@@ -1,5 +1,6 @@
 ﻿using Sgorey.Unity.Utils.Runtime;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -152,7 +153,7 @@ public class PlayerWeaponsManager : MonoBehaviour
             _speedMlt.Value = 1f;
         }
 
-        UpdateWeaponThrowing();
+        // UpdateWeaponThrowing();
 
         if (activeWeapon != null && m_WeaponSwitchState == WeaponSwitchState.Up)
         {

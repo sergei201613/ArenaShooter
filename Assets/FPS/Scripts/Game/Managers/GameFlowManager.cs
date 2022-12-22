@@ -18,6 +18,8 @@ public class GameFlowManager : MonoBehaviour
     [Header("Win")] [Tooltip("This string has to be the name of the scene you want to load when winning")]
     public string WinSceneName = "WinScene";
 
+    public bool IsLastScene = false;
+
     [Tooltip("Duration of delay before the fade-to-black, if winning")]
     public float DelayBeforeFadeToBlack = 4f;
 
@@ -63,14 +65,22 @@ public class GameFlowManager : MonoBehaviour
                 if (m_SceneToLoad == WinSceneName)
                 {
                     LevelChanging?.Invoke();
-                    SceneHelper.ChangeSceneAsync(m_SceneToLoad, () =>
+
+                    if (IsLastScene)
                     {
-                        LevelChanged?.Invoke();
-                    });
+                        SceneManager.LoadScene(m_SceneToLoad);
+                    }
+                    else
+                    {
+                        SceneHelper.ChangeSceneAsync(m_SceneToLoad, () =>
+                        {
+                            LevelChanged?.Invoke();
+                        });
+                    }
                 }
                 else if (m_SceneToLoad == LoseSceneName)
                 {
-                    SceneManager.LoadScene(LoseSceneName);
+                    Boot.Load(SceneManager.GetActiveScene().name);
                 }
                 GameIsEnding = false;
             }
