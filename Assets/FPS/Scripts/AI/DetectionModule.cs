@@ -37,7 +37,7 @@ public class DetectionModule : MonoBehaviour
     const string k_AnimAttackParameter = "Attack";
     const string k_AnimOnDamagedParameter = "OnDamaged";
 
-    protected virtual void Start()
+    private void Start()
     {
         m_ActorsManager = FindObjectOfType<ActorsManager>();
         DebugUtility.HandleErrorIfNullFindObject<ActorsManager, DetectionModule>(m_ActorsManager, this);

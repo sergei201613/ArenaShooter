@@ -12,6 +12,9 @@ public class Health : MonoBehaviour
     public UnityAction<float> OnHealed;
     public UnityAction OnDie;
 
+    public AudioSource _audioSource;
+    public AudioClip[] _damageClips;
+
     public float CurrentHealth { get; set; }
     public bool Invincible { get; set; }
     public bool CanPickup() => CurrentHealth < MaxHealth;
@@ -54,6 +57,7 @@ public class Health : MonoBehaviour
         if (trueDamageAmount > 0f)
         {
             OnDamaged?.Invoke(trueDamageAmount, damageSource);
+            PlayDamageSFX();
         }
 
         HandleDeath();
@@ -67,6 +71,20 @@ public class Health : MonoBehaviour
         OnDamaged?.Invoke(MaxHealth, null);
 
         HandleDeath();
+    }
+
+    void PlayDamageSFX()
+    {
+        if (_audioSource == null)
+            return;
+
+        if (_damageClips.Length == 0)
+            return;
+
+        int clipIdx = Random.Range(0, _damageClips.Length);
+
+        _audioSource.clip = _damageClips[clipIdx];
+        _audioSource.Play();
     }
 
     void HandleDeath()

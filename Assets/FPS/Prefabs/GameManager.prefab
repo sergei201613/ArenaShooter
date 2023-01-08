@@ -201,7 +201,6 @@ GameObject:
   - component: {fileID: 1315839542190839937}
   - component: {fileID: 1315839542190839936}
   - component: {fileID: 1315839542190839938}
-  - component: {fileID: 556685733}
   - component: {fileID: 3244674540524639750}
   - component: {fileID: 1065074375515001679}
   - component: {fileID: 4160549848294572208}
@@ -247,6 +246,7 @@ MonoBehaviour:
   EndSceneLoadDelay: 3
   EndGameFadeCanvasGroup: {fileID: 6089522275397732777}
   WinSceneName: Game
+  IsLastScene: 0
   DelayBeforeFadeToBlack: 4
   WinGameMessage: All objectives completed
   DelayBeforeWinMessage: 2
@@ -262,18 +262,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 888c7d8f8f69c6b42a086589b6f01bb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &556685733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315839542190839943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf10145f6bd13744c8fd10972a92ac61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3244674540524639750
@@ -303,6 +291,8 @@ MonoBehaviour:
   AudioMixers:
   - {fileID: 24100000, guid: fcc71635aab95ff4fbdf1880bf2afa2f, type: 2}
   _normalAmbient: {fileID: 8300000, guid: 99432a664fb4d524e88a99e09ab82229, type: 3}
+  _normalAmbientVolume: 1
+  _battleAmbientVolume: 1
   _battleAmbient: {fileID: 8300000, guid: 1ba026d7f8e9816419126358901b00a6, type: 3}
   _ambientSource: {fileID: 4160549848294572208}
 --- !u!82 &4160549848294572208

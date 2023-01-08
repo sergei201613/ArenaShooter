@@ -10,6 +10,14 @@ public class AudioManager : MonoBehaviour
     private AudioClip _normalAmbient;
 
     [SerializeField]
+    [Range(0f, 1f)]
+    private float _normalAmbientVolume = 1f;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float _battleAmbientVolume = 1f;
+
+    [SerializeField]
     private AudioClip _battleAmbient;
 
     [SerializeField]
@@ -20,6 +28,8 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         _ambientSource.clip = _normalAmbient;
+        _ambientSource.volume = _normalAmbientVolume;
+        _ambientSource.Play();
 
         _playerBattleDetector = FindObjectOfType<PlayerCharacterController>()
             .GetComponent<BattleDetector>();
@@ -78,14 +88,14 @@ public class AudioManager : MonoBehaviour
     private void OnBattleBegin()
     {
         _ambientSource.clip = _battleAmbient;
-        _ambientSource.volume = 1f;
+        _ambientSource.volume = _battleAmbientVolume;
         _ambientSource.Play();
     }
 
     private void OnBattleOver()
     {
         _ambientSource.clip = _normalAmbient;
-        _ambientSource.volume = .5f;
+        _ambientSource.volume = _normalAmbientVolume;
         _ambientSource.Play();
     }
 }
