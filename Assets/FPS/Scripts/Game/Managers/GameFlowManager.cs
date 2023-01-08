@@ -57,7 +57,8 @@ public class GameFlowManager : MonoBehaviour
             float timeRatio = 1 - (m_TimeLoadEndGameScene - Time.time) / EndSceneLoadDelay;
             EndGameFadeCanvasGroup.alpha = timeRatio;
 
-            AudioUtility.SetMasterVolume(1 - timeRatio);
+            print(1 - timeRatio);
+            AudioUtility.SetMasterVolume(Mathf.Clamp(1 - timeRatio, 0f, 1f));
 
             // See if it's time to load the end scene (after the delay)
             if (Time.time >= m_TimeLoadEndGameScene)

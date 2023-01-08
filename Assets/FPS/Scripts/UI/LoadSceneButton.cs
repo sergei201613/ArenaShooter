@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class LoadSceneButton : MonoBehaviour
 {
     public string SceneName = "";
+    public bool LoadFromBoot = true;
 
     void Update()
     {
@@ -18,6 +19,9 @@ public class LoadSceneButton : MonoBehaviour
 
     public void LoadTargetScene()
     {
-        Boot.Load(SceneName);
+        if (LoadFromBoot)
+            Boot.Load(SceneName);
+        else
+            SceneManager.LoadScene(SceneName);
     }
 }

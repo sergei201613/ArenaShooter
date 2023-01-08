@@ -12,12 +12,12 @@ EditorBuildSettings:
     path: Assets/_Project/Common/Scenes/GameBoot.unity
     guid: 40c29e4eebdde7349aa4de2a91b3627d
   - enabled: 1
-    path: Assets/_Project/Common/Scenes/LoseScene.unity
-    guid: 5f6927aa82d03134eb65bce3f3771bf8
-  - enabled: 1
     path: Assets/_Project/Common/Scenes/Dungeon.unity
     guid: cb6a417b29de9514fbe11f8306ad8f14
   - enabled: 1
     path: Assets/_Project/Common/Scenes/Castle.unity
     guid: 7b4a16c2d37025b4ea540f4898a4046f
+  - enabled: 1
+    path: Assets/_Project/Common/Scenes/GameEnd.unity
+    guid: 3291a67bc627f1844a9787ad5c0ae469
   m_configObjects: {}

@@ -27,22 +27,32 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        AudioUtility.SetMasterVolume(1f);
+
         _ambientSource.clip = _normalAmbient;
         _ambientSource.volume = _normalAmbientVolume;
         _ambientSource.Play();
 
-        _playerBattleDetector = FindObjectOfType<PlayerCharacterController>()
-            .GetComponent<BattleDetector>();
+        var pcc = FindObjectOfType<PlayerCharacterController>();
+
+        if (pcc != null)
+            _playerBattleDetector = pcc.GetComponent<BattleDetector>();
     }
 
     private void OnEnable()
     {
+        if (_playerBattleDetector == null)
+            return;
+
         _playerBattleDetector.BattleBegin += OnBattleBegin;
         _playerBattleDetector.BattleOver += OnBattleOver;
     }
 
     private void OnDisable()
     {
+        if (_playerBattleDetector == null)
+            return;
+
         _playerBattleDetector.BattleBegin -= OnBattleBegin;
         _playerBattleDetector.BattleOver -= OnBattleOver;
     }

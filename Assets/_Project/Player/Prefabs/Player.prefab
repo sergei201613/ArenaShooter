@@ -14,7 +14,7 @@ PrefabInstance:
     - target: {fileID: 298744117520805562, guid: 761cdc9e4e883334cbdcea062d0befa7,
         type: 3}
       propertyPath: BobFrequency
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 298744117520805562, guid: 761cdc9e4e883334cbdcea062d0befa7,
         type: 3}
@@ -91,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 814417836257332542, guid: 761cdc9e4e883334cbdcea062d0befa7,
         type: 3}
+      propertyPath: FootstepSfxFrequency
+      value: 0.175
+      objectReference: {fileID: 0}
+    - target: {fileID: 814417836257332542, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
       propertyPath: CapsuleHeightStanding
       value: 2
       objectReference: {fileID: 0}
@@ -114,6 +119,26 @@ PrefabInstance:
       propertyPath: MovementSharpnessOnGround
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 1360575517897679518, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
+      propertyPath: _audioSource
+      value: 
+      objectReference: {fileID: 2708871852221981718}
+    - target: {fileID: 1360575517897679518, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
+      propertyPath: _damageClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1360575517897679518, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
+      propertyPath: _damageClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: ef436ece1521270408b1c5a6303f6cb9, type: 3}
+    - target: {fileID: 1360575517897679518, guid: 761cdc9e4e883334cbdcea062d0befa7,
+        type: 3}
+      propertyPath: _damageClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2fd817dfa2320bd408922eb13897c913, type: 3}
     - target: {fileID: 2758827746426004724, guid: 761cdc9e4e883334cbdcea062d0befa7,
         type: 3}
       propertyPath: m_Antialiasing
@@ -303,10 +328,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _offsetSpeed: 7.5
-  _offsetMlt: -1.5
+  _offsetMlt: 2
 --- !u!143 &2263396419868729585 stripped
 CharacterController:
   m_CorrespondingSourceObject: {fileID: 3122855503829242450, guid: 761cdc9e4e883334cbdcea062d0befa7,
+    type: 3}
+  m_PrefabInstance: {fileID: 3764920802335994531}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2708871852221981718 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1272397862697293493, guid: 761cdc9e4e883334cbdcea062d0befa7,
     type: 3}
   m_PrefabInstance: {fileID: 3764920802335994531}
   m_PrefabAsset: {fileID: 0}
@@ -334,7 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69abaad6dec8e242a06c3f3c8f4ec94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6654541465908741863
+--- !u!114 &3677300936839950115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -363,7 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DetectionSourcePoint: {fileID: 5574857088399664310}
-  DetectionRange: 20
+  DetectionRange: 100
   AttackRange: 10
   KnownTargetTimeout: 4
   Animator: {fileID: 0}
