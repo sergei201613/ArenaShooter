@@ -1,4 +1,5 @@
 ﻿using Sgorey.Unity.Utils.Runtime;
+using TeaGames.ArenaShooter;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -38,9 +39,12 @@ public class GameFlowManager : MonoBehaviour
 
     float m_TimeLoadEndGameScene;
     string m_SceneToLoad;
+    YandexGamesInteraction m_Yandex;
 
     void Awake()
     {
+        m_Yandex = FindObjectOfType<YandexGamesInteraction>();
+
         EventManager.AddListener<AllObjectivesCompletedEvent>(OnAllObjectivesCompleted);
         EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
     }
@@ -48,6 +52,7 @@ public class GameFlowManager : MonoBehaviour
     void Start()
     {
         AudioUtility.SetMasterVolume(1);
+        m_Yandex.ShowInterstitial();
     }
 
     void Update()
@@ -56,8 +61,7 @@ public class GameFlowManager : MonoBehaviour
         {
             float timeRatio = 1 - (m_TimeLoadEndGameScene - Time.time) / EndSceneLoadDelay;
             EndGameFadeCanvasGroup.alpha = timeRatio;
-
-            print(1 - timeRatio);
+            
             AudioUtility.SetMasterVolume(Mathf.Clamp(1 - timeRatio, 0f, 1f));
 
             // See if it's time to load the end scene (after the delay)

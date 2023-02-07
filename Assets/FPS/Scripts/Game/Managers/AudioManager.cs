@@ -1,4 +1,6 @@
-﻿using Sgorey.ArenaShooter;
+﻿using System;
+using Sgorey.ArenaShooter;
+using TeaGames.ArenaShooter;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -24,6 +26,9 @@ public class AudioManager : MonoBehaviour
     private AudioSource _ambientSource;
 
     private BattleDetector _playerBattleDetector;
+    private YandexGamesInteraction _yandex;
+    private bool _focused = true;
+    private bool _paused = false;
 
     private void Awake()
     {
@@ -34,9 +39,16 @@ public class AudioManager : MonoBehaviour
         _ambientSource.Play();
 
         var pcc = FindObjectOfType<PlayerCharacterController>();
+        _yandex = FindObjectOfType<YandexGamesInteraction>();
 
         if (pcc != null)
             _playerBattleDetector = pcc.GetComponent<BattleDetector>();
+    }
+
+    private void Update()
+    {
+        bool isAd = _yandex.IsAdd;
+        AudioListener.volume = GetVolumeEnabled(isAd) ? 1 : 0;
     }
 
     private void OnEnable()
@@ -107,5 +119,20 @@ public class AudioManager : MonoBehaviour
         _ambientSource.clip = _normalAmbient;
         _ambientSource.volume = _normalAmbientVolume;
         _ambientSource.Play();
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        _focused = focus;
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        _paused = pause;
+    }
+
+    private bool GetVolumeEnabled(bool isAd)
+    {
+        return _focused && !_paused && !isAd;
     }
 }

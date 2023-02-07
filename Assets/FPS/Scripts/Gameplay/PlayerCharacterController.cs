@@ -281,7 +281,9 @@ public class PlayerCharacterController : MonoBehaviour
         VertialCameraRotation();
 
         // character movement handling
-        bool shouldSprint = m_InputHandler.GetSprintInputHeld();
+        // bool shouldSprint = m_InputHandler.GetSprintInputHeld();
+        // Can't sprint
+        bool shouldSprint = false;
         {
             if (shouldSprint)
             {
