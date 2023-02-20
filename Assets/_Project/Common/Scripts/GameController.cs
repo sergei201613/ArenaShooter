@@ -40,6 +40,8 @@ namespace Sgorey.ArenaShooter
             Transform spawnPoint = GameObject
                 .FindWithTag(PlayerSpawnPointTag).transform;
 
+            _player.GetComponent<CharacterController>().enabled = false;
+
             StartCoroutine(Coroutine());
 
             IEnumerator Coroutine()
@@ -52,6 +54,8 @@ namespace Sgorey.ArenaShooter
                     yield return null;
                 }
             }
+            
+            _player.GetComponent<CharacterController>().enabled = true;
         }
 
         private void OnDestroy()
