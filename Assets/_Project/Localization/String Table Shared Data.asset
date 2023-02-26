@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: String Table Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: String Table
+  m_TableCollectionNameGuidString: f637ff0945c02c64a95631fcef3caa1d
+  m_Entries:
+  - m_Id: 1104428433408
+    m_Key: IntroMenu/Canvas/StartButton/PlayText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1309341155328
+    m_Key: IntroMenu/Canvas/StartButton/PlayText 1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3018301931520
+    m_Key: IntroMenu/Canvas/StartButton/PlayText 2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3278856290304
+    m_Key: IntroMenu/Canvas/TitleText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4242363416576
+    m_Key: GameEnd/Canvas/TitleText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4645507334144
+    m_Key: GameEnd/Canvas/StartButton/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1210337304018944
+    m_Key: AmmoCounter/Canvas (Environment)/AmmoCounter/Reload/Reload
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1214697840869376
+    m_Key: InGameMenu/InGameMenu/Canvas/MenuPanel/Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1215558608519168
+    m_Key: InGameMenu/InGameMenu/Canvas/MenuPanel/InnerPanel/SensitivityPanel/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1216594563858432
+    m_Key: InGameMenu/InGameMenu/Canvas/MenuPanel/InnerPanel/DrawingDistancePanel/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1217645094404096
+    m_Key: InGameMenu/InGameMenu/Canvas/MenuPanel/InnerPanel/InvincibilityPanel/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1218064763879424
+    m_Key: InGameMenu/InGameMenu/Canvas/MenuPanel/InnerPanel/FrameratePanel/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1227634714378240
+    m_Key: GameBoot/LoadingCanvas/Root/Loading Text (TMP)
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 8647534087112228888
+  references:
+    version: 2
+    RefIds:
+    - rid: 8647534087112228888
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1676950762954

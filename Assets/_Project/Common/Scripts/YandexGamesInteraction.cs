@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -8,7 +7,10 @@ namespace TeaGames.ArenaShooter
     {
         public bool IsWebGL => Application.platform == RuntimePlatform.WebGLPlayer;
 
-        public bool IsAdd;
+        public bool IsAdd = false;
+        public bool IsMobile = false;
+
+        [SerializeField] private GameObject _mobileControlPanel;
 
         private void Awake()
         {
@@ -17,7 +19,6 @@ namespace TeaGames.ArenaShooter
 
         private void Update()
         {
-            print(IsAdd);
         }
 
         public void Loaded()
@@ -32,8 +33,16 @@ namespace TeaGames.ArenaShooter
         {
             if (IsWebGL)
             {
-                showInterstitial();
+                //showInterstitial();
             }
+        }
+
+        [ContextMenu(nameof(OnMobile))]
+        public void OnMobile()
+        {
+            print("OnMobile (Unity)");
+            IsMobile = true;
+            _mobileControlPanel.SetActive(true);
         }
 
         [ContextMenu(nameof(OnInterstitialOpened))]

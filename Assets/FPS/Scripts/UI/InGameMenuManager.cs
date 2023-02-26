@@ -1,4 +1,5 @@
 ﻿using System;
+using TeaGames.ArenaShooter;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -32,11 +33,14 @@ public class InGameMenuManager : MonoBehaviour
     Health m_PlayerHealth;
     FramerateCounter m_FramerateCounter;
     Camera _camera;
+    private YandexGamesInteraction _yandex;
 
     void Start()
     {
         _camera = Camera.main;
 
+        _yandex = FindObjectOfType<YandexGamesInteraction>();
+        
         m_PlayerInputsHandler = FindObjectOfType<PlayerInputHandler>();
         DebugUtility.HandleErrorIfNullFindObject<PlayerInputHandler, InGameMenuManager>(m_PlayerInputsHandler,
             this);
@@ -75,8 +79,11 @@ public class InGameMenuManager : MonoBehaviour
         // Lock cursor when clicking outside of menu
         if (!MenuRoot.activeSelf && Input.GetMouseButtonDown(0))
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            if (!_yandex.IsMobile)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -95,7 +102,6 @@ public class InGameMenuManager : MonoBehaviour
             }
 
             SetPauseMenuActivation(!MenuRoot.activeSelf);
-
         }
 
         if (Input.GetAxisRaw(GameConstants.k_AxisNameVertical) != 0)

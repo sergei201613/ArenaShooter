@@ -20,4 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Common/Scenes/GameEnd.unity
     guid: 3291a67bc627f1844a9787ad5c0ae469
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 9f95d01453e290048bef38b549eba9ae,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 827e284121cfc7c4dac2120840a303fa,
+      type: 2}

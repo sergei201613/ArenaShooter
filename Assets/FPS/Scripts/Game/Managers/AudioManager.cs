@@ -123,6 +123,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnApplicationFocus(bool focus)
     {
+        print($"Focus {focus}");
         _focused = focus;
     }
 

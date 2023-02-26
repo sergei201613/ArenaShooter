@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using TeaGames.ArenaShooter;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -16,21 +18,29 @@ public class PlayerInputHandler : MonoBehaviour
 
     [Tooltip("Used to flip the horizontal input axis")]
     public bool InvertXAxis = false;
+    
+    [FormerlySerializedAs("Joystick")] public FixedJoystick MovementJoystick;
+    public Joystick LookJoystick;
 
     GameFlowManager m_GameFlowManager;
     PlayerCharacterController m_PlayerCharacterController;
     bool m_FireInputWasHeld;
+    
+    private YandexGamesInteraction _yandex;
+    private float _lastJoystickVertical;
 
     void Start()
     {
+        _yandex = FindObjectOfType<YandexGamesInteraction>();
+        
         m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
         DebugUtility.HandleErrorIfNullGetComponent<PlayerCharacterController, PlayerInputHandler>(
             m_PlayerCharacterController, this, gameObject);
         m_GameFlowManager = FindObjectOfType<GameFlowManager>();
         DebugUtility.HandleErrorIfNullFindObject<GameFlowManager, PlayerInputHandler>(m_GameFlowManager, this);
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     void LateUpdate()
@@ -40,6 +50,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool CanProcessInput()
     {
+        if (_yandex.IsMobile)
+            return true;
+        
         return Cursor.lockState == CursorLockMode.Locked && !m_GameFlowManager.GameIsEnding;
     }
 
@@ -47,8 +60,17 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (CanProcessInput())
         {
-            Vector3 move = new Vector3(Input.GetAxisRaw(GameConstants.k_AxisNameHorizontal), 0f,
-                Input.GetAxisRaw(GameConstants.k_AxisNameVertical));
+            Vector3 move;
+            
+            if (_yandex.IsMobile)
+            {
+                move = new Vector3(MovementJoystick.Horizontal, 0f, MovementJoystick.Vertical);
+            }
+            else
+            {
+                move = new Vector3(Input.GetAxisRaw(GameConstants.k_AxisNameHorizontal), 0f,
+                    Input.GetAxisRaw(GameConstants.k_AxisNameVertical));
+            }
 
             // constrain move input to a maximum magnitude of 1, otherwise diagonal movement might exceed the max move speed defined
             move = Vector3.ClampMagnitude(move, 1);
